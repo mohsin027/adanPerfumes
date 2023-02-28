@@ -4,6 +4,8 @@ import userModel from "./model/userModel.js"
 import adminRouter from "./routes/adminRouter.js"
 import userRouter from "./routes/userRouter.js"
 import session from "express-session"
+import * as dotenv from 'dotenv' 
+dotenv.config()
 
 import {engine} from 'express-handlebars';
 import verifyUser from "./middlewares/verifyUser.js"
