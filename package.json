@@ -1,7 +1,6 @@
 {
   "name": "essenceperfumes",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "type": "module",
   "scripts": {
@@ -28,5 +27,6 @@
   },
   "devDependencies": {
     "@types/express-session": "^1.17.6"
-  }
+  },
+  "description": ""
 }
