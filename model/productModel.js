@@ -22,7 +22,8 @@ const productSchema = new mongoose.Schema({
         default:1
     },
     category:{
-        type:String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'category' ,
         required:true
     },
     MRP:{

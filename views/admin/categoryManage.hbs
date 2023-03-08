@@ -179,7 +179,8 @@
                                     class="mdi mdi-file-chart"></i><span class="hide-menu">Sales report</span></a></li>
                         
                     </ul>
-
+                    
+                                  
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -209,7 +210,7 @@
                         </div>
                     </div>
                     <div class="col-7">
-                        
+                     
 
                     </div>
                 </div>
@@ -239,6 +240,7 @@
 
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">View</th>
                                           
                                           <th class="border-top-0">Status</th>
                                            
@@ -258,7 +260,9 @@
                                                     </div>
                                                 </td>
                                             </td>
-                                            
+                                            <td>
+                                                <a href="/admin/getProductByCategory/{{this._id}}" class="btn btn-info">View Products</a>
+                                            </td>
                                            
                                             <td>
                                                 {{#if list}}
@@ -310,7 +314,7 @@
                     <label style="color: red;" for="">&nbsp{{categoryExistError}}</label>
                     <div class="form-group col-md-6">
                         <label for="text">Add Category</label>
-                        <input type="text" name="name" class="form-control">
+                        <input type="text" name="name" class="form-control" placeholder="Enter category name">
                     
                     </div>
                     

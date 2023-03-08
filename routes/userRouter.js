@@ -1,36 +1,53 @@
-import express from 'express'
-import { addToCart, deleteFromCart, emailCheckResetPassword, getOtpPage, getResetPage, getSignupOtp, homePage, resetPassword, signup, signupOtp, userForgetPassPage, userLogin, userLoginPage, userLogout, userSignupPage, verifyOTP } from '../controllers/userController.js'
-import verifyUser from '../middlewares/verifyUser.js'
-const router = express.Router()
+import express from "express";
+import {
+  addToCart,
+  deleteFromCart,
+  emailCheckResetPassword,
+  getCartPage,
+  getOtpPage,
+  getProductByCategory,
+  getProductPage,
+  getResetPage,
+  getSignupOtp,
+  getUserForgetPassPage,
+  getUserHomePage,
+  getUserLoginPage,
+  getUserLogout,
+  getUserSignupPage,
+  resetPassword,
+  signup,
+  signupOtp,
+  userLogin,
+  verifyOTP,
+} from "../controllers/userController.js";
+import verifyUser from "../middlewares/verifyUser.js";
+const router = express.Router();
+
+router.get("/login", getUserLoginPage);
+router.get("/signup", getUserSignupPage);
+router.get("/signupOtp", getSignupOtp);
+router.get("/", getUserHomePage);
+router.get("/logout", getUserLogout);
+router.get("/forgetPassword", getUserForgetPassPage);
+router.get("/getOtpPage", getOtpPage);
+router.get("/getResetPage", getResetPage);
+router.get("/productPage/:id", getProductPage);
+router.get("/cart",verifyUser, getCartPage);
+router.get("/getProductByCategory/:id", getProductByCategory);
+
+
+router.post("/login", userLogin);
+router.post("/signup", signup);
+router.post("/otpSubmitSignup", signupOtp);
+
+router.post("/emailSubmit", emailCheckResetPassword);
+router.post("/otpSubmit", verifyOTP);
+router.post("/passwordSubmit", resetPassword);
 
 
 
 
-router.get('/login', userLoginPage)
-router.post('/login', userLogin)
-router.get('/signup', userSignupPage)
-router.post('/signup', signup)
-router.get('/signupOtp',getSignupOtp )
-router.post('/otpSubmitSignup',signupOtp )
-router.get('/',homePage)
-router.get('/logout', userLogout)
+router.get("/addToCart/:id", verifyUser, addToCart);
+router.get("/deleteFromCart/:id", verifyUser, deleteFromCart);
 
-
-router.get('/forgetPassword', userForgetPassPage)
-router.post('/emailSubmit', emailCheckResetPassword)
-router.get('/getOtpPage', getOtpPage)
-router.post('/otpSubmit', verifyOTP)
-router.get('/getResetPage', getResetPage)
-router.post('/passwordSubmit', resetPassword)
-// router.post('/resetPassword', resetPassword)
-
-
-
-router.get('/addToCart/:id',verifyUser, addToCart)
-router.get('/deleteFromCart/:id',verifyUser, deleteFromCart)
-
-
-
-
-
-export default router
+export default router;

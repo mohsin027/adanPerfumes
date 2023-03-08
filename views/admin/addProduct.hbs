@@ -210,17 +210,21 @@
     <input type="text" id="stock" name="stock" required>
   </div>
   <div>
-    <label class="col-sm-2"  for="category">category</label>
-    <input type="text" id="category" name="category" required>
     {{!-- <label class="col-sm-2"  for="category">category</label>
+    <input type="text" id="category" name="category" required> --}}
+    <label class="col-sm-2"  for="category">category</label>
    
     <select name="category" id="" required>
-        <option value="" ></option>
+        <option value="" >Choose Category</option>
          {{#each categoryData}}
          
-        <option value="">{{this.name}}</option>
+        <option value="{{this._id}}">{{this.name}}</option>
         {{/each}}
-    </select> --}}
+    </select>
+  </div>
+  <div>
+    <label class="col-sm-2"  for="price">MRP:</label>
+    <input type="text" id="MRP" name="MRP">
   </div>
   <div>
     <label class="col-sm-2"  for="price">Price:</label>
@@ -236,7 +240,7 @@
   </div>
   <div>
     <label class="col-sm-2"  for="mainImage">Side Images:</label>
-    <input type="file"  name="sideImages" accept="image/*" multiple required>
+    <input type="file"  name="sideImages" accept="image/*" multiple >
   </div>
   {{!-- <div>
     <label for="sideImages">Side Image:</label>

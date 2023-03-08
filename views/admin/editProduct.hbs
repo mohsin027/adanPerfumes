@@ -202,7 +202,7 @@
     <div class="row mt-4">
         <div class="col-md-6">
             <h2 class="text-center">Edit Products</h2>
-            <form action="/admin/editProduct/{{product._id}}" method="post" >
+            <form action="/admin/editProduct/{{product._id}}" method="post" enctype="multipart/form-data" >
                 <label for="">Title</label>
                 <input name="title" class="form-control" type="text" value="{{product.title}}">
 
@@ -210,20 +210,32 @@
                 <input name="desc" class="form-control" type="text" value="{{product.desc}}">
 
                 <label for="">Category</label>
-                <input name="category" class="form-control" type="text" value="{{product.category}}">
+                {{!-- <input name="" class="form-control" type="text" value="{{product.category.name}}"> --}}
+
+                <select name="category">
+                <option value="{{product.category._id}}" selected  disabled hidden>{{product.category.name}}</option>
+                {{#each categoryData}}
+                
+                <option value="{{this._id}}">{{this.name}}</option>
+                {{/each}}
+                </select>
+<br>
+
+                <label for="">MRP</label>
+                <input name="MRP" class="form-control" type="number" value="{{product.MRP}}">
 
                 <label for="">Price</label>
-                <input name="price" class="form-control" type="text" value="{{product.price}}">
+                <input name="price" class="form-control" type="number" value="{{product.price}}">
 
                 <label for="">Stock</label>
-                <input name="stock" class="form-control" type="text" value="{{product.stock}}">
+                <input name="stock" class="form-control" type="number" value="{{product.stock}}">
                 <div>
                 <label class="col-sm-2"  for="mainImage">Main Image:</label>
                 <input type="file" onchange="viewImage(event)" id="mainImage" name="mainImage" accept="image/*"  >
                 </div>
                 <div>
                 <label class="col-sm-2"  for="mainImage">Side Images:</label>
-                <input type="file" id="allImageview"  name="sideImages" accept="image/*" multiple >
+                <input type="file" id="allImageview" onchange="viewImage(event)" name="sideImages" accept="image/*" multiple >
                 </div>
 
                 {{!-- <label for="">Image</label>
@@ -232,15 +244,21 @@
                 <button type="submit" class="btn btn-primary mt-4">Update</button>
             </form>
         </div>
-        <div class="mt-4 col-md-2">
-            <img style="width:100px" id="viewImage" src="/images/{{product.mainImage.filename}}" alt="">
-            <label class="mb-5" for="">Extra Images</label>
-            <div class="d-flex">
+        <div class="mt-4 col-md-4">
+            <div>
+            <img style="width:100px" id="imageview" src="/images/{{product.mainImage.filename}}" alt="">
+            </div>
+            <div class="d-flex mt-5">
+            <div class="col-2">
+            <label class="mb-5  " for="">Extra Images</label>
+            </div>
+            <div>
             {{#each product.sideImages}}
-            <img style="width:100px; padding: 10px;" src="/images/{{this.filename}}" alt="" >
+            <img style="width:100px; padding: 10px;" id="allImageview" src="/images/{{this.filename}}" alt="" >
             {{/each}}
             </div>
             </div>
+        </div>
     </div>
     
         
@@ -290,7 +308,7 @@ $(document).ready( function () {
      <script>
     function viewImage(event){
       document.getElementById("imageview").src=URL.createObjectURL(event.target.files[0])
-      document.getElementById("allImageview").src=URL.createObjectURL(event.target.files[0,1,2])
+      document.getElementById("allImageview").src=URL.createObjectURL(event.target.files[0,1])
     }
   </script>
     <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>

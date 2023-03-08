@@ -4,8 +4,10 @@ import userModel from "./model/userModel.js"
 import adminRouter from "./routes/adminRouter.js"
 import userRouter from "./routes/userRouter.js"
 import session from "express-session"
-import * as dotenv from 'dotenv' 
+import MongoStore from 'connect-mongo'
+import dotenv from 'dotenv'
 dotenv.config()
+import pageNotFound from "./middlewares/pageNotFound.js"
 
 import {engine} from 'express-handlebars';
 import verifyUser from "./middlewares/verifyUser.js"
@@ -31,13 +33,18 @@ app.use(logger('dev'))
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
-
+app.use((req,res,next)=>{
+    res.header('Cache-Control', 'no-cache,  no-store, must-revalidate, ');
+    next()
+    })
 
 app.use(session({
     secret: 'super secret key',
-    resave: true,
-    cookie: { maxAge: 8*60*60*1000 },  // 8 hours
-    saveUninitialized: true
+     resave: true,
+    cookie: { maxAge: 8*60*60*1000 },
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL })
+    
 }));
 
 dbConnect();
@@ -45,52 +52,16 @@ dbConnect();
 app.use('/admin',adminRouter)
 app.use('/', userRouter)
 
+app.use(pageNotFound)
+
 hbs.registerHelper("inc",function(value,options){
     return parseInt(value)+1;
 })
 
-// app.get("/add",async (req, res)=>{
-//     try{
-//         let user=await userModel.create({name:"mohsin", email:"ab", password:"jhekj"});
-//         res.json(user)
-//     }catch(err){
-//         console.log(err)
-//         res.json(err)
-//     } 
-// })
-// app.get("/read",async (req, res)=>{
-//     try{
-//         let user=await userModel.find().lean()
-//         res.json(user)
-//     }catch(err){
-//         console.log(err)
-//         res.json(err)
-//     }
-// })
-// app.get("/update",async (req, res)=>{
-//     try{
-//         let user=await userModel.updateOne({email:"ab"},{$set:{name:"fasil"}})
-//         res.json(user)
-//     }catch(err){
-//         console.log(err)
-//         res.json(err)
-//     }
-// })
-// app.get("/delete",async (req, res)=>{
-//     try{
-//         let user=await userModel.deleteMany({email:"jhcekjhkje"})
-//         res.json(user)
-//     }catch(err){
-//         console.log(err)
-//         res.json(err)
-//     }
-// })
-// app.use((req, res) => {
-//     res.status(404).send('Page not found!');
-//   });
+const port=process.env.PORT
 
-app.listen(5000,()=>{
-    console.log(`server started on 5000`)
+app.listen(port,()=>{
+    console.log(`server started on ${port}`)
 })
 
 

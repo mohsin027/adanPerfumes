@@ -4,9 +4,9 @@ export default function dbConnect() {
   mongoose.set("strictQuery", true);
   mongoose
     .connect(
-      "mongodb+srv://essesnceperfume:essence123@cluster0.ez7a7pv.mongodb.net/?retryWrites=true&w=majority"
+      process.env.DB_URL
     )
-    .then(() => console.log("Connected!"))
+    .then(() => console.log("DB Connected!"))
     .catch((err) => {
       console.log(err);
     });
