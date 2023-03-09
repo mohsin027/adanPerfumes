@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addQuantity,
   addToCart,
   deleteFromCart,
   emailCheckResetPassword,
@@ -19,6 +20,7 @@ import {
   signupOtp,
   userLogin,
   verifyOTP,
+  minusQuantity
 } from "../controllers/userController.js";
 import verifyUser from "../middlewares/verifyUser.js";
 const router = express.Router();
@@ -49,5 +51,7 @@ router.post("/passwordSubmit", resetPassword);
 
 router.get("/addToCart/:id", verifyUser, addToCart);
 router.get("/deleteFromCart/:id", verifyUser, deleteFromCart);
+router.get("/addQuantity/:id", addQuantity);
+router.get("/minusQuantity/:id",minusQuantity);
 
 export default router;

@@ -149,7 +149,7 @@ export async function getAllUser(req, res) {
 //product management
 
 export async function getProductManage(req, res) {
-  let productData = await productModel.find().populate('category','name').lean()
+  let productData = await productModel.find().populate('category').lean()
   // const categoryData=await categoryModel.find().lean()
   res.render("admin/productManage", { productData });
 }

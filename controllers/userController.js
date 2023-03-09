@@ -2,6 +2,7 @@ import productModel from "../model/productModel.js";
 import userModel from "../model/userModel.js";
 import sendOTP from "../actions/sendOTP.js";
 import bcrypt from "bcryptjs"; 
+import couponModel from "../model/couponModel.js";
 var salt = bcrypt.genSaltSync(10);
 
 let isLoggedIn;
@@ -297,21 +298,27 @@ export async function getCartPage(req, res) {
     return item.id;
   });
 console.log('cartQuantity', cartQuantity);
+console.log('cartItems', cartItems);
   // Get product details for cart items
   const products = await productModel.find({ _id: { $in: cartItems } }).lean();
+ 
+
 console.log('ppppp',products);
 //Calculate total amount and discount
 let totalAmount = 0;
 let itemprize;
+let quantity
+let productsTotal
 products.forEach((item, index) => {
-  const quantity = cartQuantity[item._id];
+  quantity = cartQuantity[item._id];
   console.log('qqqq',quantity);
   products[index].quantity = quantity;
   totalAmount = totalAmount + item.price * cartQuantity[item._id];
   console.log('totAMou',totalAmount);
-    item.itemprize = item.price * item.quantity
-  });
- 
+  item.itemprize = item.price * item.quantity
+});
+
+console.log(quantity,"all qua");
   console.log('ttttttt',totalAmount);
   res.render('user/cart',{products,totalAmount,isLoggedIn})
  }
@@ -334,9 +341,9 @@ export async function addToCart(req, res) {
       },
     }
   );
-  // res.json({ message: "added " + proId + " to " + id });
-  console.log({ message: "added " + proId + " to " + id });
-  res.redirect('/')
+  res.json({addedToCart:true});
+  // console.log({ message: "added " + proId + " to " + id });
+  // res.redirect('/')
 }
 
 export async function deleteFromCart(req, res) {
@@ -352,4 +359,47 @@ export async function deleteFromCart(req, res) {
   );
   // res.json({ message: "deleted " + proId + " from " + id });
   res.redirect('/cart')
+}
+export async function addQuantity(req, res) {
+  const user = await userModel.updateOne(
+    { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
+    {
+      $inc: {
+        "cart.$.quantity": 1,
+      },
+    }
+  );
+  // res.json({ user });
+  res.redirect('/cart')
+}
+
+export async function minusQuantity(req, res) {
+  let { cart } = await userModel.findOne(
+    { "cart.id": req.params.id },
+    { _id: 0, cart: { $elemMatch: { id: req.params.id } } }
+  );
+  if (cart[0].quantity <= 1) {
+    let user = await userModel.updateOne(
+      { _id: req.session.user.id },
+      {
+        $pull: {
+          cart: { id: req.params.id },
+        },
+      }
+    );
+    res.redirect('/cart')
+    // return res.json({ user: { acknowledged: false } });
+
+  }else{
+  let user = await userModel.updateOne(
+    { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
+    {
+      $inc: {
+        "cart.$.quantity": -1,
+      },
+    }
+  );
+  // return res.json({ user });
+  res.redirect('/cart')
+  }
 }
