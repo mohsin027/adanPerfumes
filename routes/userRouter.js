@@ -20,7 +20,10 @@ import {
   signupOtp,
   userLogin,
   verifyOTP,
-  minusQuantity
+  minusQuantity,
+  checkout,
+  addToAddress,
+  proceedToPayment
 } from "../controllers/userController.js";
 import verifyUser from "../middlewares/verifyUser.js";
 const router = express.Router();
@@ -53,5 +56,8 @@ router.get("/addToCart/:id", verifyUser, addToCart);
 router.get("/deleteFromCart/:id", verifyUser, deleteFromCart);
 router.get("/addQuantity/:id", addQuantity);
 router.get("/minusQuantity/:id",minusQuantity);
+router.post("/checkout", verifyUser, checkout);
+router.post("/addAddress", verifyUser, addToAddress);
+router.post("/proceedToPayment", verifyUser, proceedToPayment);
 
 export default router;

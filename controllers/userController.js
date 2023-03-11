@@ -3,6 +3,7 @@ import userModel from "../model/userModel.js";
 import sendOTP from "../actions/sendOTP.js";
 import bcrypt from "bcryptjs"; 
 import couponModel from "../model/couponModel.js";
+import orderModel from "../model/orderModel.js";
 var salt = bcrypt.genSaltSync(10);
 
 let isLoggedIn;
@@ -33,12 +34,14 @@ export async function getSignupOtp(req, res) {
   otpError = null;
 }
 export async function getUserHomePage(req, res) {
+  let totalQty=0;
   try {
     if (req.session.user) {
       isLoggedIn = true;
     } else {
       isLoggedIn = false;
     }
+
     let productData = await productModel.find({list:true}).lean().limit(9);
     res.render("user/index", { productData, isLoggedIn });
   } catch (error) {
@@ -291,12 +294,15 @@ export async function getCartPage(req, res) {
   console.log(userId);
   const cartDetails = await userModel.findOne({ _id: userId }, { cart: 1 });
   console.log(cartDetails);
+  let totalQty=0
 
   //Get cart items and quantity
   const cartItems = cartDetails.cart.map((item) => {
     cartQuantity[item.id] = item.quantity;
+    totalQty=totalQty+item.quantity
     return item.id;
   });
+  console.log(totalQty,'tQ');
 console.log('cartQuantity', cartQuantity);
 console.log('cartItems', cartItems);
   // Get product details for cart items
@@ -307,20 +313,27 @@ console.log('ppppp',products);
 //Calculate total amount and discount
 let totalAmount = 0;
 let itemprize;
+let itemMRP;
 let quantity
 let productsTotal
+let totalMRP=0;
 products.forEach((item, index) => {
   quantity = cartQuantity[item._id];
   console.log('qqqq',quantity);
   products[index].quantity = quantity;
   totalAmount = totalAmount + item.price * cartQuantity[item._id];
   console.log('totAMou',totalAmount);
-  item.itemprize = item.price * item.quantity
+  item.itemprice = item.price * item.quantity
+  item.itemMRP=item.MRP*item.quantity
+  console.log('itemMRP',item.MRP,item.itemprize);
+  totalMRP = totalMRP+(item.MRP*cartQuantity[item._id])
+  console.log(totalMRP,"totalMRP");
 });
-
+let discount=totalMRP-totalAmount
 console.log(quantity,"all qua");
   console.log('ttttttt',totalAmount);
-  res.render('user/cart',{products,totalAmount,isLoggedIn})
+  req.session.cartProducts={products,totalAmount,totalMRP,discount}
+  res.render('user/cart',{products,totalAmount,totalMRP,discount,isLoggedIn})
  }
 }
 
@@ -401,5 +414,79 @@ export async function minusQuantity(req, res) {
   );
   // return res.json({ user });
   res.redirect('/cart')
+  }
+}
+
+// export async function couponValidation(req,res){
+//   let couponCode=await couponModel.findOne({code:req.params.code})
+//   if(!couponCode){
+//     res.json({success:true})
+//   }
+//   else{
+//     res.json({success:false})
+//   }
+// }
+export async function checkout(req, res) {
+//
+const addDetails = await userModel.findOne({ _id: req.session.user.id }).select('address');
+console.log('addDetails',addDetails);
+let totalQty=0
+
+let addresses;
+  
+  let {totalMRP,discount,totalAmount}=req.body
+  try {
+    if (req.session.user) {
+      isLoggedIn = true;
+    } else {
+      isLoggedIn = false;
+    }
+    res.render("user/checkout", { isLoggedIn, totalMRP,discount,totalAmount,addressess:addDetails.address});
+    console.log("user/checkout", { isLoggedIn, totalMRP,discount,totalAmount,addressess:addDetails.address });
+  } catch (error) {
+    console.error("Error checkout:", error);
+    res.status(500).send("Internal server error");
+  }
+}
+
+export async function addToAddress(req, res) {
+  console.log("addToAddress", req.body);
+  const id = req.session.user.id;
+let addresses=[{house:"palazhi"},{house:'jjjjj'}]
+  const {state,pincode,district,place,street,house} = req.body;
+  
+  await userModel.updateOne(
+    { _id: id },
+    {
+      $push: {
+        address: {
+          house,
+          street,
+          place,
+          district,
+          state,
+          pincode
+
+        },
+      },
+    }
+  );
+  res.render('user/checkout',{addresses})
+  // console.log({ message: "added " + proId + " to " + id });
+  // res.redirect('/')
+}
+
+export async function proceedToPayment (req,res){
+  let userId=req.session.user.id
+  let products=req.session.cartProducts.products
+  console.log("proceedToPayment",req.body);
+  const {address,totalAmount,payment}=req.body;
+  if(payment=='cod'){
+    const order=await orderModel({userId,address,paymentType:payment,total:totalAmount,products})
+    order.save()
+    console.log('cartPrSession',products);
+    res.send(payment)
+  }else{
+    res.send(address)
   }
 }

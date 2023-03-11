@@ -14,7 +14,7 @@ export default function sendOTP(email, otp){
             var mailOptions={
               from: process.env.EMAIL,
               to: email,
-              subject: "E-cart Email verification",
+              subject: "Adan Perfumes Email verification",
               html: `
               <h1>Verify Your Email For Adan Perfumes</h1>
                 <h3>use this code in Adan Perfumes to verify your email</h3>
