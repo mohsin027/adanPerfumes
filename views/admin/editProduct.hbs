@@ -20,6 +20,8 @@
     <!-- Custom CSS -->
     <link href="../../dist/css/style.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -52,7 +54,7 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="index">
+                    <a class="navbar-brand" href="/admin">
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -101,11 +103,12 @@
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-end">
-                       <button class="btn btn-secondary"> <a href="/admin/logout" style="color: aliceblue;">logout</a></button>
+                        <button class="btn btn-secondary"> <a href="/admin/logout"
+                                style="color: aliceblue;">logout</a></button>
                     </ul>
                     <ul class="navbar-nav float-end">
-                    
-                    
+
+
                     </ul>
                 </div>
             </nav>
@@ -129,10 +132,10 @@
                                 <div class="user-pic"><img src="../../assets/images/users/1.jpg" alt="users"
                                         class="rounded-circle" width="40" /></div>
                                 <div class="user-content hide-menu m-l-10">
-                                    <a href="#" class="" id="Userdd" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <h5 class="m-b-0 user-name font-medium">Admin <i
-                                                class="fa fa-angle-down"></i></h5>
+                                    <a href="#" class="" id="Userdd" role="button" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <h5 class="m-b-0 user-name font-medium">Admin <i class="fa fa-angle-down"></i>
+                                        </h5>
                                         <span class="op-5 user-email">admin@gmail.com</span>
                                     </a>
                                     {{!-- <div class="dropdown-menu dropdown-menu-end" aria-labelledby="Userdd">
@@ -153,15 +156,15 @@
                             </div>
                             <!-- End User Profile-->
                         </li>
-                       
+
                         <!-- User Profile-->
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/index" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
-                       
+
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="/admin/productManage" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
-                                    class="hide-menu">Products</span></a></li>
+                                href="/admin/productManage" aria-expanded="false"><i
+                                    class="mdi mdi-border-all"></i><span class="hide-menu">Products</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/userManage" aria-expanded="false"><i class="mdi mdi-face"></i><span
                                     class="hide-menu">Users</span></a></li>
@@ -171,13 +174,13 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/categoryManage" aria-expanded="false"><i class="mdi mdi-folder"></i><span
                                     class="hide-menu">Category</span></a></li>
-                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/couponManage" aria-expanded="false"><i
                                     class="mdi mdi-ticket-percent"></i><span class="hide-menu">Coupons</span></a></li>
-                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="/admin/salesReport" aria-expanded="false"><i
-                                    class="mdi mdi-file-chart"></i><span class="hide-menu">Sales report</span></a></li>
-                        
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="/admin/salesReport" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span
+                                    class="hide-menu">Sales report</span></a></li>
+
                     </ul>
 
                 </nav>
@@ -197,73 +200,83 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-           
-<div class="container">
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <h2 class="text-center">Edit Products</h2>
-            <form action="/admin/editProduct/{{product._id}}" method="post" enctype="multipart/form-data" >
-                <label for="">Title</label>
-                <input name="title" class="form-control" type="text" value="{{product.title}}">
 
-                <label for="">Desc</label>
-                <input name="desc" class="form-control" type="text" value="{{product.desc}}">
+            <div class="container">
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h2 class="text-center">Edit Products</h2>
+                        <form action="/admin/editProduct/{{product._id}}" method="post" enctype="multipart/form-data">
+                            <label for="">Title</label>
+                            <input name="title" class="form-control" type="text" value="{{product.title}}">
 
-                <label for="">Category</label>
-                {{!-- <input name="" class="form-control" type="text" value="{{product.category.name}}"> --}}
+                            <label for="">Desc</label>
+                            <input name="desc" class="form-control" type="text" value="{{product.desc}}">
 
-                <select name="category">
-                <option value="{{product.category._id}}" selected  disabled hidden>{{product.category.name}}</option>
-                {{#each categoryData}}
-                
-                <option value="{{this._id}}">{{this.name}}</option>
-                {{/each}}
-                </select>
-<br>
+                            <label for="">Category</label>
+                            {{!-- <input name="" class="form-control" type="text" value="{{product.category.name}}">
+                            --}}
 
-                <label for="">MRP</label>
-                <input name="MRP" class="form-control" type="number" value="{{product.MRP}}">
+                            <select name="category">
+                                <option value="{{product.category._id}}" selected disabled hidden>
+                                    {{product.category.name}}</option>
+                                {{#each categoryData}}
 
-                <label for="">Price</label>
-                <input name="price" class="form-control" type="number" value="{{product.price}}">
+                                <option value="{{this._id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                            <br>
 
-                <label for="">Stock</label>
-                <input name="stock" class="form-control" type="number" value="{{product.stock}}">
-                <div>
-                <label class="col-sm-2"  for="mainImage">Main Image:</label>
-                <input type="file" onchange="viewImage(event)" id="mainImage" name="mainImage" accept="image/*"  >
+                            <label for="">MRP</label>
+                            <input name="MRP" class="form-control" type="number" value="{{product.MRP}}">
+
+                            <label for="">Price</label>
+                            <input name="price" class="form-control" type="number" value="{{product.price}}">
+
+                            <label for="">Stock</label>
+                            <input name="stock" class="form-control" type="number" value="{{product.stock}}">
+                            <div>
+                                <label class="col-sm-2" for="mainImage">Main Image:</label>
+                                <input type="file" onchange="viewImage(event)" id="mainImage" name="mainImage"
+                                    accept="image/*">
+                            </div>
+                            <div>
+                                <label class="col-sm-2" for="mainImage">Side Images:</label>
+                                <input type="file" id="allImageview" onchange="viewImage(event)" name="sideImages"
+                                    accept="image/*" multiple>
+                            </div>
+
+                            {{!-- <label for="">Image</label>
+                            <input name="image" class="form-control" type="file"> --}}
+
+                            <button type="submit" class="btn btn-primary mt-4">Update</button>
+                        </form>
+                    </div>
+                    <div class="mt-4 col-md-4">
+                        <div>
+                            <img style="width:100px" id="imageview" src="/images/{{product.mainImage.filename}}" alt="">
+                        </div>
+                        <div class="d-flex mt-5">
+                            <div class="col-2">
+                                <label class="mb-5  " for="">Extra Images</label>
+                            </div>
+                            
+                            <div>
+                                {{#each product.sideImages}}
+                                <button type="button" onclick="deleted('{{this.filename}}')" class="btn"
+                                    data-toggle="modal" data-target="#exampleModal"><img
+                                        style="width:100px; padding: 10px;" id="allImageview"
+                                        src="/images/{{this.filename}}" alt="">
+                                </button>
+                                {{/each}}
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <label class="col-sm-2"  for="mainImage">Side Images:</label>
-                <input type="file" id="allImageview" onchange="viewImage(event)" name="sideImages" accept="image/*" multiple >
-                </div>
 
-                {{!-- <label for="">Image</label>
-                <input name="image" class="form-control" type="file"> --}}
 
-                <button type="submit" class="btn btn-primary mt-4">Update</button>
-            </form>
-        </div>
-        <div class="mt-4 col-md-4">
-            <div>
-            <img style="width:100px" id="imageview" src="/images/{{product.mainImage.filename}}" alt="">
+
             </div>
-            <div class="d-flex mt-5">
-            <div class="col-2">
-            <label class="mb-5  " for="">Extra Images</label>
-            </div>
-            <div>
-            {{#each product.sideImages}}
-            <img style="width:100px; padding: 10px;" id="allImageview" src="/images/{{this.filename}}" alt="" >
-            {{/each}}
-            </div>
-            </div>
-        </div>
-    </div>
-    
-        
-            
-</div>
 
             <!-- ============================================================== -->
             <!-- footer -->
@@ -280,9 +293,61 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
+
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
+
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="cancel()" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                    <button onclick="confirmDel()" type="button" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script>
+let value;
+        function deleted(filename) {
+           value=filename;
+            
+    return false
+        }
+
+        function confirmDel() {
+            let filename=value
+            axios.get('/admin/sideImageDel/' + filename).then((result) => {
+
+            }).then((data)=>{
+                location.reload()
+            })
+            return false
+        }
+        function cancel() {
+            return false
+        }
+
+    </script>
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
@@ -296,25 +361,36 @@
     <script src="../../dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="../../dist/js/custom.js"></script>
+    {{!--
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <script>$(document).ready( function () {
-    $('#productTable').DataTable();
-} );
-$(document).ready( function () {
-    $('#userTable').DataTable();
-} );
-     </script>
-     <script>
-    function viewImage(event){
-      document.getElementById("imageview").src=URL.createObjectURL(event.target.files[0])
-      document.getElementById("allImageview").src=URL.createObjectURL(event.target.files[0,1])
-    }
-  </script>
+    <script>$(document).ready(function () {
+            $('#productTable').DataTable();
+        });
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+    </script>
+    <script>
+        function viewImage(event) {
+            document.getElementById("imageview").src = URL.createObjectURL(event.target.files[0])
+            document.getElementById("allImageview").src = URL.createObjectURL(event.target.files[0, 1])
+        }
+    </script>
+
     <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
-   <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

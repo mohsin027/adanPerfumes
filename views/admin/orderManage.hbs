@@ -158,7 +158,7 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/index" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
-                       
+                        
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/productManage" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
                                     class="hide-menu">Products</span></a></li>
@@ -171,16 +171,15 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/categoryManage" aria-expanded="false"><i class="mdi mdi-folder"></i><span
                                     class="hide-menu">Category</span></a></li>
-                          <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/couponManage" aria-expanded="false"><i
                                     class="mdi mdi-ticket-percent"></i><span class="hide-menu">Coupons</span></a></li>
-                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/salesReport" aria-expanded="false"><i
-                                    class="mdi mdi-file-chart"></i><span class="hide-menu">Sales report</span></a></li>
+                                    class="mdi mdi-file-chart"></i><span class="hide-menu">Sales report</span></a></li>            
                         
                     </ul>
-                    
-                                  
+
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -198,8 +197,8 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
-                    <div class="col-10">
-                        <h4 class="page-title">Products by Category</h4>
+                    <div class="col-5">
+                        <h4 class="page-title">Products</h4>
                         <div class="d-flex align-items-center">
                             {{!-- <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -209,13 +208,11 @@
                             </nav> --}}
                         </div>
                     </div>
-                    <div class="col-2">
-                          <a href="/admin/categoryManage" class="btn btn-outline-dark">Back to Categories</a> 
+                    <div class="col-7">
+                        
 
                     </div>
-                    
                 </div>
-                
             </div>
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
@@ -225,55 +222,91 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
            
-                <!-- ============================================================== -->
+    <!-- ============================================================== -->
                 <!-- Table -->
                 <!-- ============================================================== -->
+                
                 <div class="row">
                     <!-- column -->
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                            
+                              <div class="ms-auto"> <a href="/admin/addProduct" class="btn btn-primary">Add Product</a></div>
                             </div>
+                           
                             <div class="table-responsive">
-                                <table id="categoryTable" class="table v-middle">
-                                     <thead>
+                                <table id="productTable" class="table v-middle">
+                                    <thead>
                                         <tr class="bg-light">
+                                            <th class="border-top-0">Order ID</th>
                                             <th class="border-top-0">Title</th>
                                             <th class="border-top-0">Description</th>
                                             <th class="border-top-0">Image</th>
                                             <th class="border-top-0">Stock</th>
-                                            <th class="border-top-0">Category</th>
                                             <th class="border-top-0">Status</th>
                                             <th class="border-top-0">Price</th>
-                                            <th class="border-top-0">Edit</th>
+                                            <th class="border-top-0">Payment</th>
+                                            <th class="border-top-0">Update</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each productByCategory}}
+                                        {{#each orderData}}
                                         <tr>
+                                             <td>{{this.orderId}}</td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     {{!-- <div class="m-r-10"><a
                                                             class="btn btn-circle d-flex btn-info text-white">EA</a>
                                                     </div> --}}
                                                     <div class="">
-                                                        <h4 class="m-b-0 font-16">{{this.title}}</h4>
+                                                        <h4 class="m-b-0 font-16">{{this.product.0.title}}</h4>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{this.desc}}</td>
-                                            <td><img style="width:auto;height: 7em;" src="/images/{{this.mainImage.filename}}"alt=""></td>
+                                            <td>{{this.product.0.desc}}</td>
+                                            <td><img style="border-radius: 10px; width:auto;height: 7em;" src="/images/{{this.product.0.mainImage.filename}}"alt=""></td>
                                            
                                             <td>
-                                            {{this.stock}}
+                                            {{this.product.0.quantity}}
                                             </td>
-                                              <td>{{this.category.name}}</td>
-                                            <td>{{this.unlist}}</td>
+                                             
+                                            <td>{{this.orderStatus}}</td>
                                             <td>
-                                                <h5 class="m-b-0">{{this.price}}</h5>
+                                                <h5 class="m-b-0">{{this.total}}</h5>
                                             </td>
-                                            <td><a href="/admin/editProduct/{{this._id}}"  class="btn btn-primary">Edit</a></td>
+                                            <td>
+                                                {{this.paymentType}}
+                                            </td>
+                                            <td>
+                                                <form action="/admin/orders/{{this._id}}" method="post">
+                                                {{!-- <label for="orderStatus">Order status:</label> --}}
+                                                <select name="orderStatus" id="orderStatus" >
+                                                     {{!-- <option value={{this.orderStatus}}" selected  disabled hidden>{{this.orderStatus}}</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="shipped">Shipped</option>
+                                                    <option value="delivered">Delivered</option> --}}
+                                                      {{#ifEqual this.orderStatus "pending"}}
+      <option value="pending" selected>Pending</option>
+      <option value="shipped">Shipped</option>
+      <option value="delivered">Delivered</option>
+    {{/ifEqual}}
+    {{#ifEqual this.orderStatus "shipped"}}
+      <option value="pending" disabled>Pending</option>
+      <option value="shipped" selected>Shipped</option>
+      <option value="delivered">Delivered</option>
+    {{/ifEqual}}
+    {{#ifEqual this.orderStatus "delivered"}}
+      <option value="pending" disabled>Pending</option>
+      <option value="shipped" disabled>Shipped</option>
+      <option value="delivered" selected>Delivered</option>
+    {{/ifEqual}}
+                                                </select>
+                                                <button type="submit"  >Update</button>
+                                                </form>
+                                            </td>
+                                            {{!-- <td></td> --}}
+                                            {{!-- <td><a href="/admin/editProduct/{{this._id}}"  class="btn btn-primary">Edit</a></td> --}}
                                         </tr>
                                        {{/each}}
                                     </tbody>
@@ -282,14 +315,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- Table -->
-                <!-- ============================================================== -->
-
-                 <!-- ============================================================== -->
-                <!-- Table -->
-                <!-- ============================================================== -->
-              
                 <!-- ============================================================== -->
                 <!-- Table -->
                 <!-- ============================================================== -->
@@ -305,8 +330,8 @@
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center">
-                All Rights Reserved by Adan Perfumes. Designed and Developed by Mohsin<a
-                    href="#">Adan Perfumes</a>.
+                All Rights Reserved by Adan Store. Designed and Developed by Mohsin
+                    
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -334,59 +359,35 @@
     <script src="../../dist/js/custom.js"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <script>
+    <script>$(document).ready( function () {
+    $('#productTable').DataTable();
+} );
 $(document).ready( function () {
-    $('#categoryTable').DataTable();
+    $('#userTable').DataTable();
 } );
      </script>
-     {{!-- function for listing --}}
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
-     {{!-- <script>
-        update(id){
-            $.ajax{(
-                url:"/admin/unlistCategory",
-                method:"GET",
-                data:{
-                    categoryid:id
-                }
+     <script>
+    function updateOrderStatus(id) {
+        console.log(id)
+  const id = id; // replace with the actual order ID
+  const newStatus = document.getElementById('orderStatus').value;
 
-
-            )}
-
-
-        }
-     </script> --}}
-
-{{!-- <script>
-  $(document).ready(function() {
-    // Listen for button clicks
-    $("button[id^='listButton'], button[id^='unlistButton']").click(function() {
-      // Get the category ID from the data-id attribute
-      const categoryId = $(this).data('id');
-      
-      // Send an AJAX request to the server
-      $.ajax({
-        type: "GET",
-        url: `/admin/${$(this).attr('id').startsWith('list') ? 'list' : 'unlist'}Category/${categoryId}`,
-        success: function(data) {
-          // Update the button text and class based on the response
-          const button = $(`#listButton${categoryId}, #unlistButton${categoryId}`);
-          button.text(data.list ? 'Listed' : 'Unlisted');
-          button.removeClass('btn-success btn-danger');
-          button.addClass(data.list ? 'btn-success' : 'btn-danger');
-        },
-        error: function(xhr, status, error) {
-          // Handle the error
-          console.log(error);
-        }
-      });
+  axios.post(`/orders/${id}`, { orderStatus: newStatus })
+    .then(response => {
+      console.log(response.data);
+      // TODO: handle success case
+    })
+    .catch(error => {
+      console.error(error);
+      // TODO: handle error case
     });
-  });
-</script> --}}
+}
 
-
+     </script>
     <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></scrip>
+    <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
    <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
 </body>

@@ -4,6 +4,7 @@ import sendOTP from "../actions/sendOTP.js";
 import bcrypt from "bcryptjs"; 
 import couponModel from "../model/couponModel.js";
 import orderModel from "../model/orderModel.js";
+import categoryModel from "../model/categoryModel.js";
 var salt = bcrypt.genSaltSync(10);
 
 let isLoggedIn;
@@ -78,6 +79,7 @@ export async function userLogin(req, res, next) {
       if (bcrypt.compareSync(password, user.password)) {
         req.session.user = {
           id: user._id,
+          name:user.name
         };
 
         res.redirect("/");
@@ -441,6 +443,7 @@ let addresses;
     } else {
       isLoggedIn = false;
     }
+
     res.render("user/checkout", { isLoggedIn, totalMRP,discount,totalAmount,addressess:addDetails.address});
     console.log("user/checkout", { isLoggedIn, totalMRP,discount,totalAmount,addressess:addDetails.address });
   } catch (error) {
@@ -452,7 +455,7 @@ let addresses;
 export async function addToAddress(req, res) {
   console.log("addToAddress", req.body);
   const id = req.session.user.id;
-let addresses=[{house:"palazhi"},{house:'jjjjj'}]
+  let addresses=await userModel.findOne({_id:id},{address:1}).lean()
   const {state,pincode,district,place,street,house} = req.body;
   
   await userModel.updateOne(
@@ -471,22 +474,113 @@ let addresses=[{house:"palazhi"},{house:'jjjjj'}]
       },
     }
   );
-  res.render('user/checkout',{addresses})
+  const {products,totalAmount,totalMRP,discount}=req.session.cartProducts
+  res.render('user/checkout',{ isLoggedIn, totalMRP,discount,totalAmount,addressess:addresses.address,products})
   // console.log({ message: "added " + proId + " to " + id });
   // res.redirect('/')
 }
 
 export async function proceedToPayment (req,res){
   let userId=req.session.user.id
+  let userName=req.session.user.name
   let products=req.session.cartProducts.products
+  let totalMRP=req.session.cartProducts.totalMRP
+  let discount=req.session.cartProducts.discount
+  // let totalAmount=req.session.cartProducts.totalAmount
+  let orderCount=await orderModel.find().count()
+  let orderId=orderCount+1000
+  let orderDetails
   console.log("proceedToPayment",req.body);
   const {address,totalAmount,payment}=req.body;
   if(payment=='cod'){
-    const order=await orderModel({userId,address,paymentType:payment,total:totalAmount,products})
+    const order=await orderModel({userId,address,paymentType:payment,amountPayable:totalAmount,total:totalAmount,product:products,orderId})
     order.save()
-    console.log('cartPrSession',products);
-    res.send(payment)
+    let {_id,createdAt}=order
+
+    console.log('cartPrSession',order.id);
+    res.render('user/orderPlaced',{isLoggedIn,products,totalAmount,discount,totalMRP,payment,orderId,createdAt,address,userName})
   }else{
     res.send(address)
   }
+}
+
+export async function shop (req,res){
+  // let category={}
+  const categoryData = await categoryModel.find().lean();
+  const category = req.query.category ?? "";
+  const search = req.query.search ?? "";
+  const filter = req.query.filter ?? "";
+  const page = req.query.page ?? 0;
+  console.log(category, search)
+  let count = 0;
+  let productData = [];
+
+  if (filter == 0) {
+    if(category.length!=24){
+      productData = await productModel
+        .find({
+          title: new RegExp(search, "i")
+        })
+        .sort({ uploadedAt: -1 })
+        .skip(page * 9)
+        .limit(9)
+        .lean();
+      count = productData.length;
+    }else{
+   productData = await productModel
+      .find({
+        title: new RegExp(search, "i"),
+        category: category 
+      })
+      .sort({ uploadedAt: -1 })
+      .skip(page * 9)
+      .limit(9)
+      .lean();
+    count = productData.length;
+    }
+  } else {
+    if(category.length!=24){
+      productData = await productModel
+        .find({
+          title: new RegExp(search, "i")
+        })
+        .sort({ uploadedAt: -1 })
+        .skip(page * 9)
+        .limit(9)
+        .lean();
+      count = productData.length;
+    }else{
+    productData = await productModel
+      .find({
+        title: new RegExp(search, "i"),
+        category: category,
+      })
+      .sort({ price: filter })
+      .skip(page * 9)
+      .limit(9)
+      .lean();
+    count = productData.length;
+    }
+  }
+let pageCount = Math.floor(count / 9);
+return res.render("user/pagination", {
+  productData,
+  categoryData,
+  search,
+  category,
+  filter,
+  pageCount,
+  page,
+  isLoggedIn
+});
+
+  // res.render('user/pagination',{productData,categoryData})
+}
+
+export async function getOrderHistory(req, res) {
+  let userId=req.session.user.id
+  let orders=await orderModel.find({userId:userId}).sort({createdAt:-1}).lean()
+  let oo=orders.product
+  console.log(orders,"orders");
+  res.render("user/orderHistory",{isLoggedIn,orders});
 }

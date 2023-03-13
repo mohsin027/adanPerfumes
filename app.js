@@ -43,7 +43,7 @@ app.use(session({
      resave: true,
     cookie: { maxAge: 8*60*60*1000 },
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.DB_URL })
+    // store: MongoStore.create({ mongoUrl: process.env.DB_URL })
     
 }));
 
@@ -57,6 +57,21 @@ app.use(pageNotFound)
 hbs.registerHelper("inc",function(value,options){
     return parseInt(value)+1;
 })
+hbs.registerHelper('ifEqual', function (a, b, opts) {
+    if (a === b) {
+      return opts.fn(this);
+    } else {
+      return opts.inverse(this);
+    }
+  });
+  
+  hbs.registerHelper('unlessEqual', function (a, b, opts) {
+    if (a !== b) {
+      return opts.fn(this);
+    } else {
+      return opts.inverse(this);
+    }
+  });
 
 const port=process.env.PORT
 

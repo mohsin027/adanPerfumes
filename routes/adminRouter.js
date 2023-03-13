@@ -13,16 +13,19 @@ import {
   getDashboard,
   getEditCoupon,
   getHome,
+  getOrderManage,
   getProductByCategory,
   getProductManage,
   getUserManage,
   listCategory,
   listCoupon,
+  orderStatus,
   postAddCategory,
   postAddCoupon,
   postAddProduct,
   postAdminLogin,
   postEditCoupon,
+  sideImagesDel,
   unblockUser,
   unlistCategory,
   unlistCoupon,
@@ -38,44 +41,44 @@ router.post("/index", postAdminLogin);
 router.get("/logout", adminLogout);
 // router.get("/pages-profile", adminProfile);
 
-router.use(verifyAdmin);
+// router.use(verifyAdmin);
 // router.get('/addUser',getAddUser)
 // router.post('/addUser',postAddUser)
 // router.post('/editUser/:id',postEditUser)
 // router.delete('/deleteUser/:id',deleteUser)
 
-router.get("/getUsers", getAllUser);
+router.get("/getUsers", verifyAdmin,getAllUser);
 
-router.get("/productManage", getProductManage);
-router.get("/userManage", getUserManage);
-router.get("/blockUser/:id", blockUser);
-router.get("/unblockUser/:id", unblockUser);
+router.get("/productManage", verifyAdmin,getProductManage);
+router.get("/userManage", verifyAdmin,getUserManage);
+router.get("/blockUser/:id",verifyAdmin, blockUser);
+router.get("/unblockUser/:id", verifyAdmin,unblockUser);
 
-router.get("/categoryManage", getCategoryManage);
-router.get("/unlistCategory/:id", unlistCategory);
-router.get("/listCategory/:id", listCategory);
-router.get("/getProductByCategory/:id", getProductByCategory);
+router.get("/categoryManage", verifyAdmin,getCategoryManage);
+router.get("/unlistCategory/:id", verifyAdmin,unlistCategory);
+router.get("/listCategory/:id", verifyAdmin,listCategory);
+router.get("/getProductByCategory/:id", verifyAdmin,getProductByCategory);
 
 
 // router.get('/addCategory',getAddCategory)
 // router.get('/getCategory/:category',getCategory)
-router.post("/addCategory", postAddCategory);
+router.post("/addCategory",verifyAdmin, postAddCategory);
 
-router.post("/addCoupon", postAddCoupon);
-router.get("/couponManage", getCouponManage);
-router.get("/unlistCoupon/:id", unlistCoupon);
-router.get("/listCoupon/:id", listCoupon);
-router.get("/editCoupon/:id", getEditCoupon);
-router.post("/editCoupon/:id", postEditCoupon);
+router.post("/addCoupon", verifyAdmin,postAddCoupon);
+router.get("/couponManage",verifyAdmin, getCouponManage);
+router.get("/unlistCoupon/:id", verifyAdmin,unlistCoupon);
+router.get("/listCoupon/:id", verifyAdmin,listCoupon);
+router.get("/editCoupon/:id",verifyAdmin, getEditCoupon);
+router.post("/editCoupon/:id", verifyAdmin,postEditCoupon);
 
-router.get("/addProduct", getAddProduct);
+router.get("/addProduct", verifyAdmin,getAddProduct);
 router.post(
   "/addProduct",
   upload.fields([
     { name: "sideImages", maxCount: 12 },
     { name: "mainImage", maxCount: "1" },
   ]),
-  postAddProduct
+  verifyAdmin, postAddProduct
 );
 router.get("/editProduct/:id", editProductPage);
 router.post(
@@ -84,8 +87,12 @@ router.post(
     { name: "sideImages", maxCount: 12 },
     { name: "mainImage", maxCount: "1" },
   ]),
-  editProduct
-);
-router.delete("/deleteProduct/:id", deleteProduct);
-
-export default router;
+  verifyAdmin, editProduct
+  );
+  router.delete("/deleteProduct/:id", verifyAdmin,deleteProduct);
+  router.get("/orderManage", verifyAdmin,getOrderManage);
+  router.post('/orders/:id',verifyAdmin,orderStatus)
+  
+  router.get("/sideImageDel/:filename", verifyAdmin,sideImagesDel);
+  
+  export default router;

@@ -38,12 +38,16 @@
 
                     
                         {{#if isLoggedIn}}
+						<a href="/orderHistory"><button class="btn btn-outline-light">Orders</button></a>
                     <form class="d-flex">
-                        <button class="btn btn-outline-light" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
-                        </button>
+                        <a href="/cart">
+					<button class="btn btn-outline-light" type="submit">
+						<i class="bi-cart-fill me-1"></i>
+						Cart
+						{{!-- <span class="badge text-white ms-1 rounded-pill"
+							style="background-color: #313131;">0</span> --}}
+					</button>
+					</a>
                     </form>
                     {{/if}}
                         {{!-- <li class="nav-item"> --}}

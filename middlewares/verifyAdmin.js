@@ -1,6 +1,6 @@
 let isLoggedInAdmin=false
 export default function verifyAdmin(req, res, next) {
-  console.log("Admin = ",req.session.admin);
+  // console.log("Admin = ",req.session.admin);
   if (req.session.admin) {
     isLoggedInAdmin=true
     next();

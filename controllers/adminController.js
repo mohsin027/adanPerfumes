@@ -5,6 +5,7 @@ import couponModel from "../model/couponModel.js";
 import moment from "moment-timezone";
 import upload from "../middlewares/multer.js";
 import bcrypt from "bcryptjs";
+import orderModel from "../model/orderModel.js";
 
 
 let isLoggedInAdmin;
@@ -220,8 +221,9 @@ export async function editProduct(req, res) {
             desc,
             MRP,
             mainImage: req.files.mainImage[0],
-            sideImages: req.files.sideImages,
+            // sideImages: req.files.sideImages,
           },
+          $push: { sideImages: { $each: req.files.sideImages } }
         }
       );
     }
@@ -239,8 +241,9 @@ export async function editProduct(req, res) {
             desc,
             MRP,
 
-            sideImages: req.files.sideImages,
+            // sideImages: req.files.sideImages,
           },
+          $push: { sideImages: { $each: req.files.sideImages } }
         }
       );
     }
@@ -440,4 +443,35 @@ export async function postEditCoupon(req, res) {
     console.error("Error editing Coupon:", error);
     res.status(500).send("Internal server error");
   }
+}
+
+export async function getOrderManage(req, res) {
+  let orderData = await orderModel.find().lean()
+  // const categoryData=await categoryModel.find().lean()
+  res.render("admin/orderManage", { orderData });
+}
+
+export async function orderStatus (req, res) {
+  const id = req.params.id;
+  const orderStatus = req.body.orderStatus;
+  console.log('orderId',id);
+
+  try {
+    const order = await orderModel.findByIdAndUpdate(id, { orderStatus: orderStatus }, { new: true });
+    // res.json({ success: true, order });
+    res.redirect('/admin/orderManage')
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+export async function sideImagesDel(req, res) {
+  const { filename } = req.params;
+  console.log(filename);
+  
+  let imageSource=await productModel.updateOne({"sideImages.filename":filename},{$pull:{sideImages:{filename:filename}}})
+  // await couponModel.findByIdAndUpdate(id, { $set: { list: false } });
+   res.json({ data: true });
+  //
+  console.log(imageSource);
 }
