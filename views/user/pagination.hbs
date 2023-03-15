@@ -282,6 +282,22 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Core theme JS-->
   <script src="/js/scripts.js"></script>
+   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script>
+        function addToCart(id) {
+            axios.get('/addToCart/' + id).then((result) => {
+
+                if (result.data.addedToCart) {
+                    console.log(result.data.addedToCart)
+
+                    $("#exampleModal").modal('show');
+
+                }
+            })
+        }
+
+    </script>
 </body>
 
 </html>

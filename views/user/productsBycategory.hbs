@@ -68,30 +68,64 @@
                     <h2 class="section-heading text-uppercase">Perfume Products</h2>
                     <h3 class="section-subheading text-muted">Personalise your Perfumes</h3>
                 </div>
-                <div class="row d-flex" >
-                     {{#each productData}}
-                    <div class="col-lg-4 col-sm-6 mb-4 d-flex " style="justify-content:center;background-color: #fefefe;height: 20em;">
-                        <label for="" hidden>{{this._id}}</label>
-                        <!-- Portfolio item 1-->
-                        <div class="portfolio-item" >
-                            <a class="portfolio-link" href="/productPage/{{this._id}}">
-                                {{!-- <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div> --}}
-                               
-                                <img class="img-fluid mt-4 " style="width: 150px; height: 150px;" src="/images/{{this.mainImage.filename}}" alt="..." />
-                            </a>
-                            <div class="portfolio-caption mt-4 text-center">
-                                <div class="portfolio-caption-heading">{{this.title}}</div>
-                                <div class="portfolio-caption-subheading text-muted">{{this.desc}}</div>
-                                <div class="portfolio-caption-heading">{{#if this.MRP}}<del>₹{{this.MRP}}</del>&nbsp{{/if}}₹{{this.price}}</div>
+                <div class="row d-flex">
+                {{#each productData}}
+                <div class="col-lg-4 col-sm-6 mb-4 d-flex "
+                    style="justify-content:center;background-color: #fefefe;height: 20em;">
+                    <label for="" hidden>{{this._id}}</label>
+                    <!-- Portfolio item 1-->
+                    <div class="portfolio-item text-center ">
+                        <a class="portfolio-link" href="/productPage/{{this._id}}">
+                            {{!-- <div class="portfolio-hover">
+                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                            </div> --}}
+
+                            <img class="img-fluid mt-4 " style="width: auto; height: 150px; border-radius: 7px; "
+                                src="/images/{{this.mainImage.filename}}" alt="..." />
+                        </a>
+                        <div class="portfolio-caption mt-4 text-center">
+                            <div class="portfolio-caption-heading">{{this.title}}</div>
+                            <div class="portfolio-caption-subheading text-muted">{{this.desc}}</div>
+                            <div class="portfolio-caption-heading">{{#if
+                                this.MRP}}<del>₹{{this.MRP}}</del>&nbsp{{/if}}₹{{this.price}}</div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <div id="{{this._id}}">
+                                <button onclick="addToCart('{{this._id}}')" id="changeBtn" class="btn btn-success">Add
+                                    To Cart</button>
+
+
+                                <div class="modal fade" id="exampleModal" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Added To Cart</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                              Product added to cart successfully
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary"><a href="/cart">Go To Cart</a></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
-                           <div class="text-center mt-3"><a href="/addToCart/{{this._id}}" class="btn btn-outline-dark mt-auto" >Add To Cart</a></div>
+                            {{!-- <a href="/addToCart/{{this._id}}" class="btn btn-outline-dark mt-auto"
+                                onclick="addToCart({{this._id}})" id="cartBtnId">Add To Cart</a> --}}
                         </div>
                     </div>
-                     {{/each}}
-                   
                 </div>
+                {{/each}}
+
+            </div>
             </div>
         </section>
      
@@ -124,5 +158,21 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+         <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script>
+        function addToCart(id) {
+            axios.get('/addToCart/' + id).then((result) => {
+
+                if (result.data.addedToCart) {
+                    console.log(result.data.addedToCart)
+
+                    $("#exampleModal").modal('show');
+
+                }
+            })
+        }
+
+    </script>
     </body>
 </html>

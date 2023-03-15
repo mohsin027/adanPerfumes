@@ -80,7 +80,7 @@ router.post(
   ]),
   verifyAdmin, postAddProduct
 );
-router.get("/editProduct/:id", editProductPage);
+router.get("/editProduct/:id", verifyAdmin,editProductPage);
 router.post(
   "/editProduct/:id",
   upload.fields([

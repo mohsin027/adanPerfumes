@@ -579,8 +579,23 @@ return res.render("user/pagination", {
 
 export async function getOrderHistory(req, res) {
   let userId=req.session.user.id
+  let productQty=0
   let orders=await orderModel.find({userId:userId}).sort({createdAt:-1}).lean()
-  let oo=orders.product
-  console.log(orders,"orders");
+  let qqq=await orderModel.findOne({userId:userId},{product:1}).sort({createdAt:-1}).lean()
+  // const sumOfQuantity = orders.product.reduce((accumulator, product) => {
+  //   return accumulator + product.quantity;
+  // }, 0);
+  // qqq.product.map((item)=>{
+  //   tQty=tQty+item.quantity
+  // })
+  for (let order of orders) {
+    // let productQty = 0;
+    for (let product of order.product) {
+      productQty += product.quantity;
+    }
+    // console.log(`Order ${order._id} has ${productQty} products`);
+  }
+  // let oo=orders.product
+  console.log(orders,"orders",productQty);
   res.render("user/orderHistory",{isLoggedIn,orders});
 }
