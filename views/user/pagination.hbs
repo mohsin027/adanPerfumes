@@ -76,7 +76,7 @@
     </div>
   </header> --}}
 
-  <div class="primary">
+  <form class="primary">
     <div class="container-fluid">
       <div class="row">
 
@@ -86,7 +86,7 @@
         <div class="col-xs-3">
           <h2>Tablet/Mobile</h2>
           <div class="filter-menu mobile">
-            <form>
+            <div>
               <div class="panel panel-mobile">
                 <div class="panel-heading" role="tab" id="headingFiltersMobile">
                   <a class="panel-title accordion-toggle" role="button" data-toggle="collapse"
@@ -95,7 +95,7 @@
                   </a>
                   <div class="panel-body">
                     <hr />
-                    <button class="btn btn-primary" type="submit">Apply Filters</button>
+                    {{!-- <button class="btn btn-primary" type="submit">Apply Filters</button> --}}
                     <a class="btn btn-sm btn-link pull-right" href="#">Clear Selections</a>
                   </div><!-- /.panel-body -->
 
@@ -103,10 +103,10 @@
                 <div>
                   {{!-- <form id="search-form" action="" method="get" enctype="multipart/form-data"> --}}
                     <div class="form-group col-xs-9">
-                      <input class="form-control" value="{{search}}" type="text" name="search" placeholder="Search" />
+                      <input class="form-control" value="{{search}}" type="text" onchange="this.form.submit()" name="search" placeholder="Search" />
                     </div>
                     <div class="form-group col-xs-3">
-                      <button type="submit" class="btn btn-block btn-primary">Search</button>
+                      {{!-- <button type="submit" class="btn btn-block btn-primary">Search</button> --}}
                     </div>
                   {{!-- </form> --}}
                 </div>
@@ -115,26 +115,7 @@
                   <div class="panel-body">
                     <div class="panel-group" id="filter-menu-mobile" role="tablist" aria-multiselectable="true">
                     
-                      {{!-- <div class="panel panel-mobile">
-                        <div class="panel-heading" role="tab" id="headingOneMobile">
-                          <a class="panel-title accordion-toggle" role="button" data-toggle="collapse"
-                            data-parent="#filter-menu-mobile" href="#collapseOneMobile" aria-expanded="true"
-                            aria-controls="collapseOneMobile">
-                            Career Stage
-                          </a><!-- /.panel-title -->
-                        </div><!-- /.panel-heading -->
-                        <div id="collapseOneMobile" class="panel-collapse collapse in" role="tabpanel"
-                          aria-labelledby="headingOneMobile">
-                          <div class="panel-body">
-                            <div class="checkbox"><label><input type="checkbox" name="career_state[]"
-                                  value="recent_graduate">Recent Graduate</label></div>
-                            <div class="checkbox"><label><input type="checkbox" name="career_state[]"
-                                  value="imposter_syndrome">Imposter Syndrome</label></div>
-                            <div class="checkbox"><label><input type="checkbox" name="career_state[]"
-                                  value="wise_old_head">Wise Old Head</label></div>
-                          </div><!-- /.panel-body -->
-                        </div><!-- /.panel-collapse -->
-                      </div><!-- /.panel --> --}}
+               
 
                    
 
@@ -153,8 +134,8 @@
                           aria-labelledby="headingFiveMobile"> --}}
                           <div class="panel-body">
                             {{#each categoryData}}
-                            <div class="checkbox"><label><input type="radio"  onchange="this.form.submit()"  name="category"
-                                  value="{{this._id}}">{{this.name}}</label></div>
+                            <div class="checkbox" ><label><input type="radio" onchange="this.form.submit()"  name="category"
+                                  value="{{this._id}}" >{{this.name}}</label></div>
                             {{/each}}
                           </div><!-- /.panel-body -->
                         {{!-- </div><!-- /.panel-collapse --> --}}
@@ -170,7 +151,7 @@
                         {{!-- <div id="collapseFiveMobile" class="panel-collapse collapse" role="tabpanel"
                           aria-labelledby="headingFiveMobile"> --}}
                           <div class="panel-body">
-                            <div class="checkbox"><label><input type="radio"  onchange="this.form.submit()"  name="filter"
+                            <div class="checkbox"><label><input type="radio" checked onchange="this.form.submit()"  name="filter"
                                   value="0"  onchange="this.form.submit()">New Launches</label></div>
                             <div class="checkbox"><label><input type="radio"  onchange="this.form.submit()"  name="filter"
                                   value="1"  onchange="this.form.submit()">Low to High</label></div>
@@ -184,7 +165,20 @@
                   </div><!-- /.panel-body -->
                 </div><!-- /.panel-collapse -->
               </div><!-- /.panel -->
-            </form>
+            <div class="container">
+<ul class="pagination"  >
+              <li class="disabled"><a href="#">«</a></li>
+              {{!-- <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">4</a></li> --}}
+              {{#each pagesCount}}
+              <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()" style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{this}}</label></span></li>
+             {{/each}}
+
+              <li><a href="#">»</a></li>
+            </ul>
+</div>
+            </div>
           </div><!-- /.filter-menu -->
         </div>
         <div class="col-xs-9">
@@ -254,13 +248,14 @@
 
               </div>
             </div>
+            
           </section>
           {{!-- products --}}
         </div>
       </div>
 
     </div><!-- /.container -->
-  </div><!-- /.primary -->
+  </form><!-- /.primary -->
 
 
   <footer class="footer">
@@ -275,6 +270,8 @@
       <p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p>
     </div>
   </footer>
+
+
   <!-- Bootstrap core JS-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js"></script>
@@ -298,6 +295,11 @@
         }
 
     </script>
+
+
+
+
+  
 </body>
 
 </html>

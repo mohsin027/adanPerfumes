@@ -1,10 +1,18 @@
 import productModel from "../model/productModel.js";
 import userModel from "../model/userModel.js";
 import sendOTP from "../actions/sendOTP.js";
-import bcrypt from "bcryptjs"; 
+import bcrypt from "bcryptjs";
 import couponModel from "../model/couponModel.js";
 import orderModel from "../model/orderModel.js";
+import handlebars from "handlebars";
+import handlebarsHelpers from "handlebars-helpers";
+
+
+handlebarsHelpers({ handlebars });
+
 import categoryModel from "../model/categoryModel.js";
+import createId from "../actions/createId.js";
+import axios from "axios";
 var salt = bcrypt.genSaltSync(10);
 
 let isLoggedIn;
@@ -20,7 +28,7 @@ export async function getUserLoginPage(req, res) {
     res.render("user/login", { loginError });
     loginError = null;
   }
-  console.log(req.session.user,isLoggedIn);
+  console.log(req.session.user, isLoggedIn);
 }
 export async function getUserSignupPage(req, res) {
   if (req.session.user) {
@@ -35,7 +43,7 @@ export async function getSignupOtp(req, res) {
   otpError = null;
 }
 export async function getUserHomePage(req, res) {
-  let totalQty=0;
+  let totalQty = 0;
   try {
     if (req.session.user) {
       isLoggedIn = true;
@@ -43,35 +51,34 @@ export async function getUserHomePage(req, res) {
       isLoggedIn = false;
     }
 
-    let productData = await productModel.find({list:true}).lean().limit(9);
+    let productData = await productModel.find({ list: true }).lean().limit(9);
     res.render("user/index", { productData, isLoggedIn });
   } catch (error) {
     console.error("Error getting homepage:", error);
     res.status(500).send("Internal server error");
   }
-  console.log(req.session.user,isLoggedIn);
+  console.log(req.session.user, isLoggedIn);
 }
 export async function getUserLogout(req, res) {
   req.session.user = null;
   isLoggedIn = false;
   res.redirect("/");
-  console.log(req.session.user,isLoggedIn);
+  console.log(req.session.user, isLoggedIn);
 }
 export async function getUserForgetPassPage(req, res) {
   res.render("user/forgetPassword");
 }
 export async function getOtpPage(req, res) {
-  res.render("user/otpPage",{otpError});
+  res.render("user/otpPage", { otpError });
 }
 export async function getResetPage(req, res) {
   res.render("user/resetPassword");
 }
 
-
 export async function userLogin(req, res, next) {
   try {
     const { email, password } = req.body;
-    // var hashPassword = bcrypt.hashSync(password, salt); 
+    // var hashPassword = bcrypt.hashSync(password, salt);
     const user = await userModel.findOne({ email });
     isLoggedIn = true;
     console.log("user:" + user);
@@ -79,7 +86,7 @@ export async function userLogin(req, res, next) {
       if (bcrypt.compareSync(password, user.password)) {
         req.session.user = {
           id: user._id,
-          name:user.name
+          name: user.name,
         };
 
         res.redirect("/");
@@ -97,7 +104,7 @@ export async function userLogin(req, res, next) {
     console.error("Error while submiting Login:", error);
     res.status(500).send("Internal server error");
   }
-  console.log(req.session.user,isLoggedIn);
+  console.log(req.session.user, isLoggedIn);
 }
 
 export async function signup(req, res) {
@@ -110,10 +117,9 @@ export async function signup(req, res) {
       sendOTP(req.body.email, otp)
         .then(() => {
           req.session.otp = otp;
-          console.log(req.session.otp,'oootop');
+          console.log(req.session.otp, "oootop");
           return res.render("user/signupOtp");
           otpError = null;
-          
         })
         .catch((err) => {
           return res.render("user/signup", {
@@ -121,7 +127,6 @@ export async function signup(req, res) {
             // message: "Email sent Failed",
           });
         });
-      
     } else {
       signupError = "Email already exist. Please go to login";
       res.redirect("/signup");
@@ -157,14 +162,13 @@ export async function resendOTP(req, res) {
 export async function signupOtp(req, res) {
   try {
     let OTP = req.body.OTP;
-    const {name,email,password} = req.session.tempUser;
+    const { name, email, password } = req.session.tempUser;
 
     if (OTP == req.session.otp) {
       console.log("otp:" + OTP);
       var hashPassword = bcrypt.hashSync(password, salt);
-      const user = new userModel({ name, email, password: hashPassword});
-      user.save()
-
+      const user = new userModel({ name, email, password: hashPassword });
+      user.save();
 
       // let newUser = await userModel.create(user);
       console.log("signup:" + user);
@@ -188,16 +192,19 @@ export async function emailCheckResetPassword(req, res) {
       res.redirect("/forgetPassword");
     } else {
       const otp = Math.floor(Math.random() * 1000000);
-      sendOTP(req.body.email, otp)
-        .then(() => {
-          req.session.otp = otp;
-          console.log("otp",otp);
-          req.session.userId = user.id;
-          console.log('userid',req.session.userId,'session otp',req.session.otp);
-          res.render("user/otpPage",{ otpError });
-          otpError = null;
-        })
-    
+      sendOTP(req.body.email, otp).then(() => {
+        req.session.otp = otp;
+        console.log("otp", otp);
+        req.session.userId = user.id;
+        console.log(
+          "userid",
+          req.session.userId,
+          "session otp",
+          req.session.otp
+        );
+        res.render("user/otpPage", { otpError });
+        otpError = null;
+      });
     }
   } catch (error) {
     console.error("Error getting reset page", error);
@@ -214,7 +221,7 @@ export async function verifyOTP(req, res) {
       otpError = null;
     } else {
       console.log("no OTP");
-      otpError = "Enter valid OTP"
+      otpError = "Enter valid OTP";
       res.redirect("/getOtpPage");
     }
   } catch (error) {
@@ -227,16 +234,20 @@ export async function verifyOTP(req, res) {
 export async function resetPassword(req, res) {
   try {
     let userId = req.session.userId;
-    console.log("reset pass userId",userId);
+    console.log("reset pass userId", userId);
     const { password, confirmPassword } = req.body;
     // const user = await userModel.findOne({userId });
     if (password == confirmPassword) {
       console.log("Password Match");
       var hashPassword = bcrypt.hashSync(password, salt);
-      let editedPassword = await userModel.findByIdAndUpdate(userId, {password:hashPassword}, {
-        new: true,
-      });
-      console.log(editedPassword,'ep');
+      let editedPassword = await userModel.findByIdAndUpdate(
+        userId,
+        { password: hashPassword },
+        {
+          new: true,
+        }
+      );
+      console.log(editedPassword, "ep");
       res.redirect("/login");
     } else {
       console.log("Password not match");
@@ -266,15 +277,18 @@ export async function getProductPage(req, res) {
   }
 }
 
-export async function getProductByCategory(req,res){
-  const id=req.params.id
+export async function getProductByCategory(req, res) {
+  const id = req.params.id;
   try {
     if (req.session.user) {
       isLoggedIn = true;
     } else {
       isLoggedIn = false;
     }
-    let productData = await productModel.find({category:id,list:true}).lean().limit(12);
+    let productData = await productModel
+      .find({ category: id, list: true })
+      .lean()
+      .limit(12);
     res.render("user/productsBycategory", { productData, isLoggedIn });
   } catch (error) {
     console.error("Error getting Category wise products page:", error);
@@ -282,69 +296,57 @@ export async function getProductByCategory(req,res){
   }
 }
 
-
 export async function getCartPage(req, res) {
   if (!req.session.user) {
     return res.redirect("/login");
-  }else{
+  } else {
+    // Get user and cart details
+    const user = req.session.user;
+    const cartQuantity = {};
+    const userId = user.id;
+    const cartDetails = await userModel.findOne({ _id: userId }, { cart: 1 });
+    let totalQty = 0;
+    
+    //Get cart items and quantity
+    const cartItems = cartDetails.cart.map((item) => {
+      cartQuantity[item.id] = item.quantity;
+      totalQty = totalQty + item.quantity;
+      return item.id;
+    });
+    // Get product details for cart items
+    const products = await productModel
+      .find({ _id: { $in: cartItems } })
+      .lean();
 
-  // Get user and cart details
-  const user = req.session.user;
-  console.log(user);
-  const cartQuantity = {};
-  const userId = user.id;
-  console.log(userId);
-  const cartDetails = await userModel.findOne({ _id: userId }, { cart: 1 });
-  console.log(cartDetails);
-  let totalQty=0
-
-  //Get cart items and quantity
-  const cartItems = cartDetails.cart.map((item) => {
-    cartQuantity[item.id] = item.quantity;
-    totalQty=totalQty+item.quantity
-    return item.id;
-  });
-  console.log(totalQty,'tQ');
-console.log('cartQuantity', cartQuantity);
-console.log('cartItems', cartItems);
-  // Get product details for cart items
-  const products = await productModel.find({ _id: { $in: cartItems } }).lean();
- 
-
-console.log('ppppp',products);
-//Calculate total amount and discount
-let totalAmount = 0;
-let itemprize;
-let itemMRP;
-let quantity
-let productsTotal
-let totalMRP=0;
-products.forEach((item, index) => {
-  quantity = cartQuantity[item._id];
-  console.log('qqqq',quantity);
-  products[index].quantity = quantity;
-  totalAmount = totalAmount + item.price * cartQuantity[item._id];
-  console.log('totAMou',totalAmount);
-  item.itemprice = item.price * item.quantity
-  item.itemMRP=item.MRP*item.quantity
-  console.log('itemMRP',item.MRP,item.itemprize);
-  totalMRP = totalMRP+(item.MRP*cartQuantity[item._id])
-  console.log(totalMRP,"totalMRP");
-});
-let discount=totalMRP-totalAmount
-console.log(quantity,"all qua");
-  console.log('ttttttt',totalAmount);
-  req.session.cartProducts={products,totalAmount,totalMRP,discount}
-  res.render('user/cart',{products,totalAmount,totalMRP,discount,isLoggedIn})
- }
+    //Calculate total amount and discount
+    let totalAmount = 0;
+    let quantity;
+    let totalMRP = 0;
+    products.forEach((item, index) => {
+      quantity = cartQuantity[item._id];
+      products[index].quantity = quantity;
+      totalAmount = totalAmount + item.price * cartQuantity[item._id];
+      item.itemprice = item.price * item.quantity;
+      item.itemMRP = item.MRP * item.quantity;
+      totalMRP = totalMRP + item.MRP * cartQuantity[item._id];
+    });
+    let discount = totalMRP - totalAmount;
+    req.session.cartProducts = { products, totalAmount, totalMRP, discount };
+    res.render("user/cart", {
+      products,
+      totalAmount,
+      totalMRP,
+      discount,
+      isLoggedIn,
+    });
+  }
 }
-
 
 export async function addToCart(req, res) {
   const id = req.session.user.id;
 
   const proId = req.params.id;
-  
+
   await userModel.updateOne(
     { _id: id },
     {
@@ -356,7 +358,7 @@ export async function addToCart(req, res) {
       },
     }
   );
-  res.json({addedToCart:true});
+  res.json({ addedToCart: true });
   // console.log({ message: "added " + proId + " to " + id });
   // res.redirect('/')
 }
@@ -365,7 +367,7 @@ export async function deleteFromCart(req, res) {
   const id = req.session.user.id;
   const proId = req.params.id;
   await userModel.updateOne(
-    { _id:id },
+    { _id: id },
     {
       $pull: {
         cart: { id: proId },
@@ -373,7 +375,7 @@ export async function deleteFromCart(req, res) {
     }
   );
   // res.json({ message: "deleted " + proId + " from " + id });
-  res.redirect('/cart')
+  res.redirect("/cart");
 }
 export async function addQuantity(req, res) {
   const user = await userModel.updateOne(
@@ -385,7 +387,7 @@ export async function addQuantity(req, res) {
     }
   );
   // res.json({ user });
-  res.redirect('/cart')
+  res.redirect("/cart");
 }
 
 export async function minusQuantity(req, res) {
@@ -402,50 +404,74 @@ export async function minusQuantity(req, res) {
         },
       }
     );
-    res.redirect('/cart')
+    res.redirect("/cart");
     // return res.json({ user: { acknowledged: false } });
-
-  }else{
-  let user = await userModel.updateOne(
-    { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
-    {
-      $inc: {
-        "cart.$.quantity": -1,
-      },
-    }
-  );
-  // return res.json({ user });
-  res.redirect('/cart')
+  } else {
+    let user = await userModel.updateOne(
+      { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
+      {
+        $inc: {
+          "cart.$.quantity": -1,
+        },
+      }
+    );
+    // return res.json({ user });
+    res.redirect("/cart");
   }
 }
 
-// export async function couponValidation(req,res){
-//   let couponCode=await couponModel.findOne({code:req.params.code})
-//   if(!couponCode){
-//     res.json({success:true})
-//   }
-//   else{
-//     res.json({success:false})
-//   }
-// }
+export async function couponValidation(req,res){
+let coupon=await couponModel.findOne({code:req.body.code})
+req.session.coupon=coupon
+  checkout(req,res)
+}
 export async function checkout(req, res) {
-//
-const addDetails = await userModel.findOne({ _id: req.session.user.id }).select('address');
-console.log('addDetails',addDetails);
-let totalQty=0
+  //
+  // console.log(req.session.coupon);
+  let id=req.session.user.id
+  let couponValue;
+  const addDetails = await userModel
+    .findOne({ _id: id })
+    .select("address");
+  let totalQty = 0;
+  if(req.session.coupon){
 
-let addresses;
-  
-  let {totalMRP,discount,totalAmount}=req.body
+  }
+  //PENDING : edit here
+  let coupon=req.session.coupon
+  console.log('cccc',coupon);
+  if(coupon){
+    couponValue=coupon.discountValue
+  }else{
+    couponValue=0
+  }
+  console.log(couponValue,"ccc");
+  let addresses;
+
+  let { totalMRP, discount, totalAmount } = req.session.cartProducts;
   try {
     if (req.session.user) {
       isLoggedIn = true;
     } else {
       isLoggedIn = false;
     }
-
-    res.render("user/checkout", { isLoggedIn, totalMRP,discount,totalAmount,addressess:addDetails.address});
-    console.log("user/checkout", { isLoggedIn, totalMRP,discount,totalAmount,addressess:addDetails.address });
+totalAmount=totalAmount-couponValue
+    res.render("user/checkout", {
+      isLoggedIn,
+      totalMRP,
+      discount,
+      totalAmount,
+      couponValue,
+      addressess: addDetails.address,
+    });
+    // console.log("user/checkout", {
+    //   isLoggedIn,
+    //   totalMRP,
+    //   discount,
+    //   totalAmount,
+    //   addressess: addDetails.address,
+    // });
+    req.session.coupon=0
   } catch (error) {
     console.error("Error checkout:", error);
     res.status(500).send("Internal server error");
@@ -455,9 +481,9 @@ let addresses;
 export async function addToAddress(req, res) {
   console.log("addToAddress", req.body);
   const id = req.session.user.id;
-  let addresses=await userModel.findOne({_id:id},{address:1}).lean()
-  const {state,pincode,district,place,street,house} = req.body;
-  
+  let addresses = await userModel.findOne({ _id: id }, { address: 1 }).lean();
+  const { state, pincode, district, place, street, house } = req.body;
+
   await userModel.updateOne(
     { _id: id },
     {
@@ -468,120 +494,285 @@ export async function addToAddress(req, res) {
           place,
           district,
           state,
-          pincode
-
+          pincode,
         },
       },
     }
   );
-  const {products,totalAmount,totalMRP,discount}=req.session.cartProducts
-  res.render('user/checkout',{ isLoggedIn, totalMRP,discount,totalAmount,addressess:addresses.address,products})
+  const { products, totalAmount, totalMRP, discount } =
+    req.session.cartProducts;
+  res.render("user/checkout", {
+    isLoggedIn,
+    totalMRP,
+    discount,
+    totalAmount,
+    addressess: addresses.address,
+    products,
+  });
   // console.log({ message: "added " + proId + " to " + id });
   // res.redirect('/')
 }
 
-export async function proceedToPayment (req,res){
-  let userId=req.session.user.id
-  let userName=req.session.user.name
-  let products=req.session.cartProducts.products
-  let totalMRP=req.session.cartProducts.totalMRP
-  let discount=req.session.cartProducts.discount
-  // let totalAmount=req.session.cartProducts.totalAmount
-  let orderCount=await orderModel.find().count()
-  let orderId=orderCount+1000
-  let orderDetails
-  console.log("proceedToPayment",req.body);
-  const {address,totalAmount,payment}=req.body;
-  if(payment=='cod'){
-    const order=await orderModel({userId,address,paymentType:payment,amountPayable:totalAmount,total:totalAmount,product:products,orderId})
-    order.save()
-    let {_id,createdAt}=order
+// export async function proceedToPayment(req, res) {
+//   let userId = req.session.user.id;
+//   let userName = req.session.user.name;
+//   let products = req.session.cartProducts.products;
+//   let totalMRP = req.session.cartProducts.totalMRP;
+//   let discount = req.session.cartProducts.discount;
+//   // let totalAmount=req.session.cartProducts.totalAmount
+//   let orderCount = await orderModel.find().count();
+//   let orderId = orderCount + 1000;
+//   let orderDetails;
+//   console.log("proceedToPayment", req.body);
+//   const { address, totalAmount, payment } = req.body;
+//   if (payment == "cod") {
+//     const order = await orderModel({
+//       userId,
+//       address,
+//       paymentType: payment,
+//       amountPayable: totalAmount,
+//       total: totalAmount,
+//       product: products,
+//       orderId,
+//     });
+//     order.save();
+//     let { _id, createdAt } = order;
 
-    console.log('cartPrSession',order.id);
-    res.render('user/orderPlaced',{isLoggedIn,products,totalAmount,discount,totalMRP,payment,orderId,createdAt,address,userName})
-  }else{
-    res.send(address)
+//     console.log("cartPrSession", order.id);
+//     res.render("user/orderPlaced", {
+//       isLoggedIn,
+//       products,
+//       totalAmount,
+//       discount,
+//       totalMRP,
+//       payment,
+//       orderId,
+//       createdAt,
+//       address,
+//       userName,
+//     });
+//   } else {
+//     res.send(address);
+//   }
+// }
+
+export async function proceedToPayment(req, res) {
+  let userId = req.session.user.id;
+  let userName = req.session.user.name;
+  let products = req.session.cartProducts.products;
+  let totalMRP = req.session.cartProducts.totalMRP;
+  let discount = req.session.cartProducts.discount;
+  // let totalAmount=req.session.cartProducts.totalAmount
+  let orderCount = await orderModel.find().count();
+  let orderId = orderCount + 1000;
+  let orderDetails;
+  console.log("proceedToPayment", req.body);
+  const { address, totalAmount, payment } = req.body;
+  const order = await orderModel({
+    userId,
+    address,
+    paymentType: payment,
+    amountPayable: totalAmount,
+    total: totalAmount,
+    product: products,
+    orderId,
+  });
+  req.session.order=order;
+  if (payment != "cod") {
+    let orderId = "order_" + createId();
+      const options = {
+          method: "POST",
+          url: "https://sandbox.cashfree.com/pg/orders",
+          headers: {
+              accept: "application/json",
+              "x-api-version": "2022-09-01",  
+              "x-client-id": 'TEST345428d48bc6c70de376570427824543',
+              "x-client-secret": 'TESTd0dc46b65581a42b3adb8750070e064b1d020f25',
+              "content-type": "application/json",
+          },
+          data: {
+              order_id: orderId,
+              order_amount: req.body.totalAmount,
+              order_currency: "INR",
+              customer_details: {
+                  customer_id:userId,
+                  customer_email: 'mohsinub123@gmail.com',
+                  customer_phone: '9633975885',
+              },
+              order_meta: {
+                  return_url: "http://localhost:5000/verifyPayment?order_id={order_id}",
+              },
+          },
+      };
+
+      await axios
+          .request(options)
+          .then(function (response) {
+
+              return res.render("user/paymentTemp", {
+                  orderId,
+                  sessionId: response.data.payment_session_id,
+              });
+          })
+          .catch(function (error) {
+              console.error(error);
+          });
+    
+  
+  } else {
+    order.save();
+    // let { _id, createdAt } = order;
+console.log("hi");
+    // console.log("cartPrSession", order.id);
+    await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
+    for (let i = 0; i < products.length; i++) {
+      await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -req.session.order.product[i].quantity } });
+    }
+    res.render("user/orderPlaced");
+   
   }
 }
 
-export async function shop (req,res){
+
+//
+export async function getUserPayment (req, res){
+  const userId = req.session.user.id;
+  const user = await userModel.findById(userId).lean();
+
+  const cart = user.cart;
+  const cartList = cart.map((item) => {
+    return item.id;
+  });     
+  const products = await productModel.find({ _id: { $in: cartList } }).lean();
+
+  const order_id = req.query.order_id;
+
+  const options = {
+    method: "GET",
+    url: "https://sandbox.cashfree.com/pg/orders/" + order_id,
+    headers: { 
+      accept: "application/json",
+      "x-api-version": "2022-09-01",
+      "x-client-id": "TEST345428d48bc6c70de376570427824543",
+      "x-client-secret": "TESTd0dc46b65581a42b3adb8750070e064b1d020f25",
+      "content-type": "application/json",
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    if (response.data.order_status === "PAID") {
+      await orderModel.create(req.session.order);
+      console.log("hhhhhh",req.session.order);
+      for (let i = 0; i < products.length; i++) {
+        await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -req.session.order.product[i].quantity } });
+      }
+      await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
+      res.render("user/orderPlaced");
+    } else {
+      res.redirect("/cart");
+    }
+  } catch (error) {
+    console.error(error);
+    res.redirect("/cart");
+  }
+};
+//
+
+
+
+
+
+
+export async function shop(req, res) {
   // let category={}
   const categoryData = await categoryModel.find().lean();
   const category = req.query.category ?? "";
   const search = req.query.search ?? "";
   const filter = req.query.filter ?? "";
   const page = req.query.page ?? 0;
-  console.log(category, search)
+  console.log(category, search);
   let count = 0;
   let productData = [];
 
   if (filter == 0) {
-    if(category.length!=24){
+    if (category.length != 24) {
       productData = await productModel
         .find({
-          title: new RegExp(search, "i")
+          title: new RegExp(search, "i"),
         })
         .sort({ uploadedAt: -1 })
         .skip(page * 9)
         .limit(9)
         .lean();
       count = productData.length;
-    }else{
-   productData = await productModel
-      .find({
-        title: new RegExp(search, "i"),
-        category: category 
-      })
-      .sort({ uploadedAt: -1 })
-      .skip(page * 9)
-      .limit(9)
-      .lean();
-    count = productData.length;
+    } else {
+      productData = await productModel
+        .find({
+          title: new RegExp(search, "i"),
+          category: category,
+        })
+        .sort({ uploadedAt: -1 })
+        .skip(page * 9)
+        .limit(9)
+        .lean();
+      count = productData.length;
     }
   } else {
-    if(category.length!=24){
+    if (category.length != 24) {
       productData = await productModel
         .find({
-          title: new RegExp(search, "i")
+          title: new RegExp(search, "i"),
         })
         .sort({ uploadedAt: -1 })
         .skip(page * 9)
         .limit(9)
         .lean();
       count = productData.length;
-    }else{
-    productData = await productModel
-      .find({
-        title: new RegExp(search, "i"),
-        category: category,
-      })
-      .sort({ price: filter })
-      .skip(page * 9)
-      .limit(9)
-      .lean();
-    count = productData.length;
+    } else {
+      productData = await productModel
+        .find({
+          title: new RegExp(search, "i"),
+          category: category,
+        })
+        .sort({ price: filter })
+        .skip(page * 9)
+        .limit(9)
+        .lean();
+      count = productData.length;
     }
   }
-let pageCount = Math.floor(count / 9);
-return res.render("user/pagination", {
-  productData,
-  categoryData,
-  search,
-  category,
-  filter,
-  pageCount,
-  page,
-  isLoggedIn
-});
+  let pageCount = Math.ceil(count / 9) + 1;
+  let pagesCount = [];
+  for (let i = 0; i < pageCount; i++) {
+    pagesCount.push(i);
+  }
+  console.log(pagesCount);
+  return res.render("user/pagination", {
+    productData,
+    categoryData,
+    search,
+    category,
+    filter,
+    pagesCount,
+    page,
+    isLoggedIn,
+  });
 
   // res.render('user/pagination',{productData,categoryData})
 }
 
 export async function getOrderHistory(req, res) {
-  let userId=req.session.user.id
-  let productQty=0
-  let orders=await orderModel.find({userId:userId}).sort({createdAt:-1}).lean()
-  let qqq=await orderModel.findOne({userId:userId},{product:1}).sort({createdAt:-1}).lean()
+  let userId = req.session.user.id;
+  let productQty = 0;
+  let orders = await orderModel
+    .find({ userId: userId })
+    .sort({ createdAt: -1 })
+    .lean();
+  let qqq = await orderModel
+    .findOne({ userId: userId }, { product: 1 })
+    .sort({ createdAt: -1 })
+    .lean();
   // const sumOfQuantity = orders.product.reduce((accumulator, product) => {
   //   return accumulator + product.quantity;
   // }, 0);
@@ -596,6 +787,6 @@ export async function getOrderHistory(req, res) {
     // console.log(`Order ${order._id} has ${productQty} products`);
   }
   // let oo=orders.product
-  console.log(orders,"orders",productQty);
-  res.render("user/orderHistory",{isLoggedIn,orders});
+  console.log(orders, "orders", productQty);
+  res.render("user/orderHistory", { isLoggedIn, orders });
 }

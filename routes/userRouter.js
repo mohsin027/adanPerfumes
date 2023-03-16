@@ -25,7 +25,9 @@ import {
   addToAddress,
   proceedToPayment,
   shop,
-  getOrderHistory
+  getOrderHistory,
+  couponValidation,
+  getUserPayment
 } from "../controllers/userController.js";
 import verifyUser from "../middlewares/verifyUser.js";
 const router = express.Router();
@@ -62,6 +64,8 @@ router.post("/checkout", verifyUser, checkout);
 router.post("/addAddress", verifyUser, addToAddress);
 router.post("/proceedToPayment", verifyUser, proceedToPayment);
 router.get("/shop",verifyUser, shop);
+router.post("/couponValidation", verifyUser, couponValidation);
 router.get("/orderHistory",verifyUser, getOrderHistory);
+router.get("/verifyPayment",verifyUser, getUserPayment);
 
 export default router;

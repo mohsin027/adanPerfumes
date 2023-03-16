@@ -73,6 +73,14 @@
 
 	<div class="cart-wrap">
 		<div class="container">
+			<div class="coupon-box">
+								<form action="/couponValidation" method="post" accept-charset="utf-8">
+									<div class="coupon-input">
+										<input type="text" name="code" placeholder="Coupon Code">
+										<button type="submit" class="round-black-btn">Apply Coupon</button>
+									</div>
+								</form>
+							</div>
 			<form action="/proceedToPayment" method="post">
 				<div class="row">
 					<div class="col-lg-8">
@@ -197,14 +205,7 @@
 							{{!-- address --}}
 
 
-							{{!-- <div class="coupon-box">
-								<form action="#" method="get" accept-charset="utf-8">
-									<div class="coupon-input">
-										<input type="text" name="coupon code" placeholder="Coupon Code">
-										<button type="submit" class="round-black-btn">Apply Coupon</button>
-									</div>
-								</form>
-							</div> --}}
+							
 						</div>
 						<!-- /.table-cart -->
 					</div>
@@ -224,6 +225,11 @@
 											<td>discount</td>
 
 											<td class="">{{discount}}</td>
+										</tr>
+										<tr>
+											<td>Coupon Discount</td>
+
+											<td class="">{{couponValue}}</td>
 										</tr>
 										<tr>
 											<td>Subtotal</td>
