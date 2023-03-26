@@ -101,11 +101,12 @@
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-end">
-                       <button class="btn btn-secondary"> <a href="/admin/logout" style="color: aliceblue;">logout</a></button>
+                        <button class="btn btn-secondary"> <a href="/admin/logout"
+                                style="color: aliceblue;">logout</a></button>
                     </ul>
                     <ul class="navbar-nav float-end">
-                    
-                    
+
+
                     </ul>
                 </div>
             </nav>
@@ -129,10 +130,10 @@
                                 <div class="user-pic"><img src="../../assets/images/users/1.jpg" alt="users"
                                         class="rounded-circle" width="40" /></div>
                                 <div class="user-content hide-menu m-l-10">
-                                    <a href="#" class="" id="Userdd" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <h5 class="m-b-0 user-name font-medium">Admin <i
-                                                class="fa fa-angle-down"></i></h5>
+                                    <a href="#" class="" id="Userdd" role="button" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <h5 class="m-b-0 user-name font-medium">Admin <i class="fa fa-angle-down"></i>
+                                        </h5>
                                         <span class="op-5 user-email">admin@gmail.com</span>
                                     </a>
                                     {{!-- <div class="dropdown-menu dropdown-menu-end" aria-labelledby="Userdd">
@@ -153,15 +154,15 @@
                             </div>
                             <!-- End User Profile-->
                         </li>
-                       
+
                         <!-- User Profile-->
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/index" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
-                       
+
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="/admin/productManage" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
-                                    class="hide-menu">Products</span></a></li>
+                                href="/admin/productManage" aria-expanded="false"><i
+                                    class="mdi mdi-border-all"></i><span class="hide-menu">Products</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/userManage" aria-expanded="false"><i class="mdi mdi-face"></i><span
                                     class="hide-menu">Users</span></a></li>
@@ -171,16 +172,15 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/categoryManage" aria-expanded="false"><i class="mdi mdi-folder"></i><span
                                     class="hide-menu">Category</span></a></li>
-                          <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="/admin/couponManage" aria-expanded="false"><i
                                     class="mdi mdi-ticket-percent"></i><span class="hide-menu">Coupons</span></a></li>
-                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="/admin/salesReport" aria-expanded="false"><i
-                                    class="mdi mdi-file-chart"></i><span class="hide-menu">Sales report</span></a></li>
-                        
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="/admin/salesReport" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span
+                                    class="hide-menu">Sales report</span></a></li>
+
                     </ul>
-                    
-                                  
+
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -198,8 +198,10 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
-                    <div class="col-10">
-                        <h4 class="page-title">Products by Category</h4>
+                    <div class="col-5">
+                        <a href="/admin/orderManage">
+                        <h4 class="page-title">Back to Orders Page</h4>
+                        </a>
                         <div class="d-flex align-items-center">
                             {{!-- <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -209,13 +211,11 @@
                             </nav> --}}
                         </div>
                     </div>
-                    <div class="col-2">
-                          <a href="/admin/categoryManage" class="btn btn-outline-dark">Back to Categories</a> 
+                    <div class="col-7">
+
 
                     </div>
-                    
                 </div>
-                
             </div>
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
@@ -224,171 +224,222 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-           
+
                 <!-- ============================================================== -->
                 <!-- Table -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <!-- column -->
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                            
-                            </div>
-                            <div class="table-responsive">
-                                <table id="categoryTable" class="table v-middle">
-                                     <thead>
-                                        <tr class="bg-light">
-                                            <th class="border-top-0">Title</th>
-                                            <th class="border-top-0">Description</th>
-                                            <th class="border-top-0">Image</th>
-                                            <th class="border-top-0">Stock</th>
-                                            <th class="border-top-0">Category</th>
-                                            <th class="border-top-0">Status</th>
-                                            <th class="border-top-0">Price</th>
-                                            <th class="border-top-0">Edit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each productByCategory}}
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    {{!-- <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-info text-white">EA</a>
-                                                    </div> --}}
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">{{this.title}}</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>{{this.desc}}</td>
-                                            <td><img style="width:auto;height: 7em;" src="/images/{{this.mainImage.filename}}"alt=""></td>
-                                           
-                                            <td>
-                                            {{this.stock}}
-                                            </td>
-                                              <td>{{this.category.name}}</td>
-                                            <td>{{this.unlist}}</td>
-                                            <td>
-                                                <h5 class="m-b-0">₹{{this.price}}</h5>
-                                            </td>
-                                            <td><a href="/admin/editProduct/{{this._id}}"  class="btn btn-primary">Edit</a></td>
-                                        </tr>
-                                       {{/each}}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="container-fluid">
+
+    {{#orderData}}
+    <div class="container">
+      <!-- Title -->
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order ID {{this.orderId}}</h2>
+      </div>
+
+      <!-- Main content -->
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- Details -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="mb-3 d-flex justify-content-between">
+                <div>
+
+                  <span class="me-3">{{formatDate this.createdAt "DD-MM-YYYY"}}</span>
+
+                  {{!-- <span class="me-3">#16123222</span>
+                  <span class="me-3">Visa -1234</span> --}}
+                  <span class="badge rounded-pill bg-info">{{this.orderStatus}}</span>
                 </div>
+                {{!-- <div class="d-flex">
+                  <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i class="bi bi-download"></i>
+                    <span class="text">Invoice</span></button>
+                  <div class="dropdown">
+                    <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
+                      <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit</a></li>
+                      <li><a class="dropdown-item" href="#"><i class="bi bi-printer"></i> Print</a></li>
+                    </ul>
+                  </div>
+                </div> --}}
+              </div>
+              <table class="table table-borderless">
+                <tbody>
+                  {{#each this.product}}
+                  <tr>
+                    <td>
+                      <div class="d-flex mb-2">
+                        <div class="flex-shrink-0">
+                          <img src="/images/{{this.mainImage.filename}}" alt="" width="35" class="img-fluid">
+                        </div>
+                        <div class="flex-lg-grow-1 ms-3">
+                          <h6 class="small mb-0"><a href="#" class="text-reset">{{this.title}}</a></h6>
+                          <span class="small">{{this.desc}}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{{this.quantity}}</td>
+                    <td class="text-end">₹{{this.itemprice}}</td>
+                  </tr>
+                  {{/each}}
+
+                </tbody>
+                <tfoot>
+                  {{!-- <tr>
+                    <td colspan="2">Subtotal</td>
+                    <td class="text-end">{{this.price}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">Shipping</td>
+                    <td class="text-end">$20.00</td>
+                  </tr> --}}
+
+                  <tr class="fw-bold">
+                    <td colspan="2">TOTAL</td>
+                    <td class="text-end">₹{{this.total}}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <!-- Payment -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <h3 class="h6">Payment Method</h3>
+                  <p>{{this.paymentType}}<br>
+                    Total: ₹{{this.total}}
+                    {{#if paid}}
+                    <span class="badge bg-success rounded-pill">PAID</span>
+                    {{else}}
+                    <span class="badge bg-danger rounded-pill">Not Paid</span>
+                    {{/if}}
+                  </p>
+                </div>
+                <div class="col-lg-6">
+                  <h3 class="h6">Billing address</h3>
+                  <address>
+                    <strong>{{this.name}}</strong><br>
+                    {{this.address}}
+                    {{!-- San Francisco, CA 94103<br> --}}
+                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                  </address>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{!-- <div class="col-lg-4">
+          <!-- Customer Notes -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="h6">Customer Notes</h3>
+              <p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum.
+                Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <!-- Shipping information -->
+            <div class="card-body">
+              <h3 class="h6">Shipping Information</h3>
+              <strong>FedEx</strong>
+              <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i
+                  class="bi bi-box-arrow-up-right"></i> </span>
+              <hr>
+              <h3 class="h6">Address</h3>
+              <address>
+                <strong>John Doe</strong><br>
+                1355 Market St, Suite 900<br>
+                San Francisco, CA 94103<br>
+                <abbr title="Phone">P:</abbr> (123) 456-7890
+              </address>
+            </div>
+          </div>
+        </div> --}}
+      </div>
+    </div>
+    {{/orderData}}
+  </div>
                 <!-- ============================================================== -->
                 <!-- Table -->
                 <!-- ============================================================== -->
 
-                 <!-- ============================================================== -->
-                <!-- Table -->
-                <!-- ============================================================== -->
-              
-                <!-- ============================================================== -->
-                <!-- Table -->
-                <!-- ============================================================== -->
 
 
 
-               
-                
+
+                <!-- ============================================================== -->
+                <!-- End Container fluid  -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- footer -->
+                <!-- ============================================================== -->
+                <footer class="footer text-center">
+                    All Rights Reserved by Adan Store. Designed and Developed by Mohsin
+
+                </footer>
+                <!-- ============================================================== -->
+                <!-- End footer -->
+                <!-- ============================================================== -->
+            </div>
             <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center">
-                All Rights Reserved by Adan Perfumes. Designed and Developed by Mohsin<a
-                    href="#">Adan Perfumes</a>.
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
+            <!-- End Page wrapper  -->
             <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
+        <!-- End Wrapper -->
         <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../dist/js/app-style-switcher.js"></script>
-    <!--Wave Effects -->
-    <script src="../../dist/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="../../dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="../../dist/js/custom.js"></script>
-    <!--This page JavaScript -->
-    <!--chartis chart-->
-    <script>
-$(document).ready( function () {
-    $('#categoryTable').DataTable();
-} );
-     </script>
-     {{!-- function for listing --}}
+        <!-- ============================================================== -->
+        <!-- All Jquery -->
+        <!-- ============================================================== -->
+        <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="../../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../../dist/js/app-style-switcher.js"></script>
+        <!--Wave Effects -->
+        <script src="../../dist/js/waves.js"></script>
+        <!--Menu sidebar -->
+        <script src="../../dist/js/sidebarmenu.js"></script>
+        <!--Custom JavaScript -->
+        <script src="../../dist/js/custom.js"></script>
+        <!--This page JavaScript -->
+        <!--chartis chart-->
+        <script>$(document).ready(function () {
+                $('#productTable').DataTable();
+            });
+            $(document).ready(function () {
+                $('#userTable').DataTable();
+            });
+        </script>
+        <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
-     {{!-- <script>
-        update(id){
-            $.ajax{(
-                url:"/admin/unlistCategory",
-                method:"GET",
-                data:{
-                    categoryid:id
-                }
+        <script>
+            function updateOrderStatus(id) {
+                console.log(id)
+                const id = id; // replace with the actual order ID
+                const newStatus = document.getElementById('orderStatus').value;
 
+                axios.post(`/orders/${id}`, { orderStatus: newStatus })
+                    .then(response => {
+                        console.log(response.data);
+                        // TODO: handle success case
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        // TODO: handle error case
+                    });
+            }
 
-            )}
-
-
-        }
-     </script> --}}
-
-{{!-- <script>
-  $(document).ready(function() {
-    // Listen for button clicks
-    $("button[id^='listButton'], button[id^='unlistButton']").click(function() {
-      // Get the category ID from the data-id attribute
-      const categoryId = $(this).data('id');
-      
-      // Send an AJAX request to the server
-      $.ajax({
-        type: "GET",
-        url: `/admin/${$(this).attr('id').startsWith('list') ? 'list' : 'unlist'}Category/${categoryId}`,
-        success: function(data) {
-          // Update the button text and class based on the response
-          const button = $(`#listButton${categoryId}, #unlistButton${categoryId}`);
-          button.text(data.list ? 'Listed' : 'Unlisted');
-          button.removeClass('btn-success btn-danger');
-          button.addClass(data.list ? 'btn-success' : 'btn-danger');
-        },
-        error: function(xhr, status, error) {
-          // Handle the error
-          console.log(error);
-        }
-      });
-    });
-  });
-</script> --}}
-
-
-    <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></scrip>
-    <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
-   <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+        </script>
+        <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
+        <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+        <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
+        <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

@@ -76,18 +76,15 @@
 
 
                 {{#if isLoggedIn}}
-                <a href="/orderHistory"><button class="btn btn-outline-light">Orders</button></a>
-                <form class="d-flex">
-                    <a href="/cart">
-                        <button class="btn btn-outline-light" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            {{!-- <span class="badge text-white ms-1 rounded-pill"
-                                style="background-color: #313131;">0</span> --}}
-                        </button>
-                    </a>
-                </form>
-                {{/if}}
+                <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
+        <form class="d-flex">
+            <a href="/cart" class="btn btn-outline-light">
+            <i class="bi-cart-fill me-1"></i>
+              Cart
+            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
+            </a>
+        </form>
+        {{/if}}
                 {{!-- <li class="nav-item"> --}}
                     {{#if isLoggedIn}}
                     <a class="btn btn-secondary" href="/logout">Logout</a>
@@ -130,6 +127,7 @@
                 <th>Status</th>
                 <th>Amount</th>
                 <th>Date/Time</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>
@@ -146,7 +144,8 @@
                 </td>
                 <td>{{this.orderStatus}}</td>
                 <td>₹{{this.total}}</td>
-                <td>{{this.createdAt}}</td>
+                <td>{{formatDate this.createdAt "DD-MM-YYYY"}}</td>
+                <td><a href="/orderDetails/{{this.orderId}}" class="btn btn-secondary">View details</a></td>
             </tr>
            {{/each}} 
         </tbody>

@@ -1,34 +1,474 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
+
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
-	<title>Perfumes- Adan Store</title>
-	<!-- Favicon-->
-	<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-	<!-- Bootstrap icons-->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-	<!-- Core theme CSS (includes Bootstrap)-->
-	{{!-- <link href="css/styles.css" rel="stylesheet" />
-	<link href="css/cartstyles.css" rel="stylesheet" /> --}}
-	<link rel="stylesheet" href="/css/profile.css">
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.1.96/css/materialdesignicons.min.css">
-	<!------ Include the above in your HEAD tag ---------->
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin-top: 20px;
+        }
 
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        /* User Cards */
+        .user-box {
+            width: 110px;
+            margin: auto;
+            margin-bottom: 20px;
 
+        }
+
+        .user-box img {
+            width: 100%;
+            border-radius: 50%;
+            padding: 3px;
+            background: #fff;
+            -webkit-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+            -ms-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-card-2 .card {
+            position: relative;
+        }
+
+        .profile-card-2 .card .card-body {
+            z-index: 1;
+        }
+
+        .profile-card-2 .card::before {
+            content: "";
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            left: 0px;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            height: 112px;
+            background-color: #e6e6e6;
+        }
+
+        .profile-card-2 .card.profile-primary::before {
+            background-color: #008cff;
+        }
+
+        .profile-card-2 .card.profile-success::before {
+            background-color: #15ca20;
+        }
+
+        .profile-card-2 .card.profile-danger::before {
+            background-color: #fd3550;
+        }
+
+        .profile-card-2 .card.profile-warning::before {
+            background-color: #ff9700;
+        }
+
+        .profile-card-2 .user-box {
+            margin-top: 30px;
+        }
+
+        .profile-card-3 .user-fullimage {
+            position: relative;
+        }
+
+        .profile-card-3 .user-fullimage .details {
+            position: absolute;
+            bottom: 0;
+            left: 0px;
+            width: 100%;
+        }
+
+        .profile-card-4 .user-box {
+            width: 110px;
+            margin: auto;
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .profile-card-4 .list-icon {
+            display: table-cell;
+            font-size: 30px;
+            padding-right: 20px;
+            vertical-align: middle;
+            color: #223035;
+        }
+
+        .profile-card-4 .list-details {
+            display: table-cell;
+            vertical-align: middle;
+            font-weight: 600;
+            color: #223035;
+            font-size: 15px;
+            line-height: 15px;
+        }
+
+        .profile-card-4 .list-details small {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 12px;
+            font-weight: 400;
+            color: #808080;
+        }
+
+        /*Nav Tabs & Pills */
+        .nav-tabs .nav-link {
+            color: #223035;
+            font-size: 12px;
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin: 2px;
+            margin-bottom: 0;
+            padding: 12px 20px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+
+        }
+
+        .nav-tabs .nav-link:hover {
+            border: 1px solid transparent;
+        }
+
+        .nav-tabs .nav-link i {
+            margin-right: 2px;
+            font-weight: 600;
+        }
+
+        .top-icon.nav-tabs .nav-link i {
+            margin: 0px;
+            font-weight: 500;
+            display: block;
+            font-size: 20px;
+            padding: 5px 0;
+        }
+
+        .nav-tabs-primary.nav-tabs {
+            border-bottom: 1px solid #008cff;
+        }
+
+        .nav-tabs-primary .nav-link.active,
+        .nav-tabs-primary .nav-item.show>.nav-link {
+            color: #008cff;
+            background-color: #fff;
+            border-color: #008cff #008cff #fff;
+            border-top: 3px solid #008cff;
+        }
+
+        .nav-tabs-success.nav-tabs {
+            border-bottom: 1px solid #15ca20;
+        }
+
+        .nav-tabs-success .nav-link.active,
+        .nav-tabs-success .nav-item.show>.nav-link {
+            color: #15ca20;
+            background-color: #fff;
+            border-color: #15ca20 #15ca20 #fff;
+            border-top: 3px solid #15ca20;
+        }
+
+        .nav-tabs-info.nav-tabs {
+            border-bottom: 1px solid #0dceec;
+        }
+
+        .nav-tabs-info .nav-link.active,
+        .nav-tabs-info .nav-item.show>.nav-link {
+            color: #0dceec;
+            background-color: #fff;
+            border-color: #0dceec #0dceec #fff;
+            border-top: 3px solid #0dceec;
+        }
+
+        .nav-tabs-danger.nav-tabs {
+            border-bottom: 1px solid #fd3550;
+        }
+
+        .nav-tabs-danger .nav-link.active,
+        .nav-tabs-danger .nav-item.show>.nav-link {
+            color: #fd3550;
+            background-color: #fff;
+            border-color: #fd3550 #fd3550 #fff;
+            border-top: 3px solid #fd3550;
+        }
+
+        .nav-tabs-warning.nav-tabs {
+            border-bottom: 1px solid #ff9700;
+        }
+
+        .nav-tabs-warning .nav-link.active,
+        .nav-tabs-warning .nav-item.show>.nav-link {
+            color: #ff9700;
+            background-color: #fff;
+            border-color: #ff9700 #ff9700 #fff;
+            border-top: 3px solid #ff9700;
+        }
+
+        .nav-tabs-dark.nav-tabs {
+            border-bottom: 1px solid #223035;
+        }
+
+        .nav-tabs-dark .nav-link.active,
+        .nav-tabs-dark .nav-item.show>.nav-link {
+            color: #223035;
+            background-color: #fff;
+            border-color: #223035 #223035 #fff;
+            border-top: 3px solid #223035;
+        }
+
+        .nav-tabs-secondary.nav-tabs {
+            border-bottom: 1px solid #75808a;
+        }
+
+        .nav-tabs-secondary .nav-link.active,
+        .nav-tabs-secondary .nav-item.show>.nav-link {
+            color: #75808a;
+            background-color: #fff;
+            border-color: #75808a #75808a #fff;
+            border-top: 3px solid #75808a;
+        }
+
+        .tabs-vertical .nav-tabs .nav-link {
+            color: #223035;
+            font-size: 12px;
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin: 2px;
+            margin-right: -1px;
+            padding: 12px 1px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            border-radius: 0;
+            border-top-left-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+
+        .tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical .nav-tabs .nav-link.active {
+            color: #495057;
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+            border-bottom: 1px solid #dee2e6;
+            border-right: 0;
+            border-left: 1px solid #dee2e6;
+        }
+
+        .tabs-vertical-primary.tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #008cff;
+        }
+
+        .tabs-vertical-primary.tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical-primary.tabs-vertical .nav-tabs .nav-link.active {
+            color: #008cff;
+            background-color: #fff;
+            border-color: #008cff #008cff #fff;
+            border-bottom: 1px solid #008cff;
+            border-right: 0;
+            border-left: 3px solid #008cff;
+        }
+
+        .tabs-vertical-success.tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #15ca20;
+        }
+
+        .tabs-vertical-success.tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical-success.tabs-vertical .nav-tabs .nav-link.active {
+            color: #15ca20;
+            background-color: #fff;
+            border-color: #15ca20 #15ca20 #fff;
+            border-bottom: 1px solid #15ca20;
+            border-right: 0;
+            border-left: 3px solid #15ca20;
+        }
+
+        .tabs-vertical-info.tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #0dceec;
+        }
+
+        .tabs-vertical-info.tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical-info.tabs-vertical .nav-tabs .nav-link.active {
+            color: #0dceec;
+            background-color: #fff;
+            border-color: #0dceec #0dceec #fff;
+            border-bottom: 1px solid #0dceec;
+            border-right: 0;
+            border-left: 3px solid #0dceec;
+        }
+
+        .tabs-vertical-danger.tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #fd3550;
+        }
+
+        .tabs-vertical-danger.tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical-danger.tabs-vertical .nav-tabs .nav-link.active {
+            color: #fd3550;
+            background-color: #fff;
+            border-color: #fd3550 #fd3550 #fff;
+            border-bottom: 1px solid #fd3550;
+            border-right: 0;
+            border-left: 3px solid #fd3550;
+        }
+
+        .tabs-vertical-warning.tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #ff9700;
+        }
+
+        .tabs-vertical-warning.tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical-warning.tabs-vertical .nav-tabs .nav-link.active {
+            color: #ff9700;
+            background-color: #fff;
+            border-color: #ff9700 #ff9700 #fff;
+            border-bottom: 1px solid #ff9700;
+            border-right: 0;
+            border-left: 3px solid #ff9700;
+        }
+
+        .tabs-vertical-dark.tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #223035;
+        }
+
+        .tabs-vertical-dark.tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical-dark.tabs-vertical .nav-tabs .nav-link.active {
+            color: #223035;
+            background-color: #fff;
+            border-color: #223035 #223035 #fff;
+            border-bottom: 1px solid #223035;
+            border-right: 0;
+            border-left: 3px solid #223035;
+        }
+
+        .tabs-vertical-secondary.tabs-vertical .nav-tabs {
+            border: 0;
+            border-right: 1px solid #75808a;
+        }
+
+        .tabs-vertical-secondary.tabs-vertical .nav-tabs .nav-item.show .nav-link,
+        .tabs-vertical-secondary.tabs-vertical .nav-tabs .nav-link.active {
+            color: #75808a;
+            background-color: #fff;
+            border-color: #75808a #75808a #fff;
+            border-bottom: 1px solid #75808a;
+            border-right: 0;
+            border-left: 3px solid #75808a;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: .25rem;
+            color: #223035;
+            font-size: 12px;
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin: 3px;
+            padding: 12px 20px;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+
+        }
+
+        .nav-pills .nav-link:hover {
+            background-color: #f4f5fa;
+        }
+
+        .nav-pills .nav-link i {
+            margin-right: 2px;
+            font-weight: 600;
+        }
+
+        .top-icon.nav-pills .nav-link i {
+            margin: 0px;
+            font-weight: 500;
+            display: block;
+            font-size: 20px;
+            padding: 5px 0;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            color: #fff;
+            background-color: #008cff;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(0, 140, 255, 0.5);
+        }
+
+        .nav-pills-success .nav-link.active,
+        .nav-pills-success .show>.nav-link {
+            color: #fff;
+            background-color: #15ca20;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(21, 202, 32, .5);
+        }
+
+        .nav-pills-info .nav-link.active,
+        .nav-pills-info .show>.nav-link {
+            color: #fff;
+            background-color: #0dceec;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(13, 206, 236, 0.5);
+        }
+
+        .nav-pills-danger .nav-link.active,
+        .nav-pills-danger .show>.nav-link {
+            color: #fff;
+            background-color: #fd3550;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(253, 53, 80, .5);
+        }
+
+        .nav-pills-warning .nav-link.active,
+        .nav-pills-warning .show>.nav-link {
+            color: #fff;
+            background-color: #ff9700;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(255, 151, 0, .5);
+        }
+
+        .nav-pills-dark .nav-link.active,
+        .nav-pills-dark .show>.nav-link {
+            color: #fff;
+            background-color: #223035;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(34, 48, 53, .5);
+        }
+
+        .nav-pills-secondary .nav-link.active,
+        .nav-pills-secondary .show>.nav-link {
+            color: #fff;
+            background-color: #75808a;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(117, 128, 138, .5);
+        }
+
+        .card .tab-content {
+            padding: 1rem 0 0 0;
+        }
+
+        .z-depth-3 {
+            -webkit-box-shadow: 0 11px 7px 0 rgba(0, 0, 0, 0.19), 0 13px 25px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 11px 7px 0 rgba(0, 0, 0, 0.19), 0 13px 25px 0 rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css" integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-	<!-- Navigation-->
+    <!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #313131;">
 		<div class="container px-4 px-lg-5">
 			<a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
@@ -45,19 +485,16 @@
 				</ul>
 
 
-				{{#if isLoggedIn}}
-				<a href="/orderHistory"><button class="btn btn-outline-light">Orders</button></a>
-				<form class="d-flex">
-					<a href="/cart">
-					<button class="btn btn-outline-light" type="submit">
-						<i class="bi-cart-fill me-1"></i>
-						Cart
-						{{!-- <span class="badge text-white ms-1 rounded-pill"
-							style="background-color: #313131;">0</span> --}}
-					</button>
-					</a>
-				</form>
-				{{/if}}
+				 {{#if isLoggedIn}}
+                 <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
+        <form class="d-flex">
+            <a href="/cart" class="btn btn-outline-light">
+            <i class="bi-cart-fill me-1"></i>
+              Cart
+            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
+            </a>
+        </form>
+        {{/if}}
 				{{!-- <li class="nav-item"> --}}
 					{{#if isLoggedIn}}
 					<a class="btn btn-secondary" href="/logout">Logout</a>
@@ -72,183 +509,274 @@
 			</div>
 		</div>
 	</nav>
-	{{!-- --}}
 
 
-	<div class="cart-wrap">
-		<div class="container">
-			{{!-- <div class="row">
-				<div class="col-lg-8">
-				</div>
-
-				<div class="col-lg-4">
-
-				</div>
-			</div> --}}
-
-			<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<div class="container emp-profile">
-            <form method="post">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
-                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="profile-card-4 z-depth-3">
+                    <div class="card">
+                        <div class="card-body text-center bg-primary rounded-top">
+                            <div class="user-box">
+                                <i class="fa fa-user" style="font-size:100px;"></i>
                             </div>
+                            <h5 class="mb-1 text-white">{{name}}</h5>
+                            <h6 class="text-light">{{email}}</h6>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="profile-head">
-                                    <h5>
-                                        Kshiti Ghelani
-                                    </h5>
-                                    <h6>
-                                        Web Developer and Designer
-                                    </h6>
-                                    <p class="proile-rating">RANKINGS : <span>8/10</span></p>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                        <div class="card-body">
+                            <ul class="list-group shadow-none">
+                                <li class="list-group-item">
+                                    <a href="/cart">
+                                        <div class="list-icon">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </div>
+                                        <div class="list-details">
+                                            <span>My Carts</span>
+                                        </div>
+                                    </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                                <li class="list-group-item">
+                                    <a href="/orderHistory">
+                                        <div class="list-icon">
+                                            <i class="fa fa-envelope"></i>
+
+                                        </div>
+                                        <div class="list-details">
+                                            <span>My Orders</span>
+                                        </div>
+                                    </a>
                                 </li>
+
                             </ul>
+
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-work">
-                            <p>WORK LINK</p>
-                            <a href="">Website Link</a><br/>
-                            {{!-- <a href="">Bootsnipp Profile</a><br/>
-                            <a href="">Bootply Profile</a>
-                            <p>SKILLS</p>
-                            <a href="">Web Designer</a><br/>
-                            <a href="">Web Developer</a><br/>
-                            <a href="">WordPress</a><br/>
-                            <a href="">WooCommerce</a><br/>
-                            <a href="">PHP, .Net</a><br/> --}}
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="tab-content profile-tab" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>User Id</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Kshiti123</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Name</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Kshiti Ghelani</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Email</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>kshitighelani@gmail.com</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Phone</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>123 456 7890</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Profession</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Web Developer and Designer</p>
-                                            </div>
-                                        </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card z-depth-3">
+                    <div class="card-body">
+                        <ul class="nav nav-pills nav-pills-primary nav-justified">
+                            <li class="nav-item">
+                                <a href="javascript:void();" data-target="#profile" data-toggle="pill"
+                                    class="nav-link active show"><i class="icon-user"></i> <span
+                                        class="hidden-xs">Profile</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:void();" data-target="#messages" data-toggle="pill"
+                                    class="nav-link"><i class="icon-envelope-open"></i> <span
+                                        class="hidden-xs">Address</span></a>
+                            </li>
+                            <li class="nav-item">
+                                {{!-- <a href="javascript:void();" data-target="#edit" data-toggle="pill"
+                                    class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
+                                --}}
+                            </li>
+                        </ul>
+                        <div class="tab-content p-3">
+                            <div class="tab-pane active show" id="profile">
+                                <h5 class="mb-3">User Profile</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>{{name}}</h6>
+                                        <p>
+                                            {{email}}
+                                        </p>
+
+                                    </div>
+
+                                    {{!-- <div class="col-md-12">
+                                        <h5 class="mt-2 mb-3"><span class="fa fa-clock-o ion-clock float-right"></span>
+                                            Recent Activity</h5>
+                                        <table class="table table-hover table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <strong>Abby</strong> joined ACME Project Team in
+                                                        <strong>`Collaboration`</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong>Gary</strong> deleted My Board1 in
+                                                        <strong>`Discussions`</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong>Kensington</strong> deleted MyBoard3 in
+                                                        <strong>`Discussions`</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong>John</strong> deleted My Board1 in
+                                                        <strong>`Discussions`</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong>Skell</strong> deleted his post Look at Why this is.. in
+                                                        <strong>`Discussions`</strong>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> --}}
+                                </div>
+                                <!--/row-->
                             </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Experience</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Hourly Rate</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>10$/hr</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Total Projects</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>230</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>English Level</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Availability</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>6 months</p>
-                                            </div>
-                                        </div>
+                            <div class="tab-pane" id="messages">
+                                {{!-- <div class="alert alert-info alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <div class="alert-icon">
+                                        <i class="icon-info"></i>
+                                    </div>
+                                    <div class="alert-message">
+                                        <span><strong>Info!</strong> Lorem Ipsum is simply dummy text.</span>
+                                    </div>
+                                </div> --}}
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label>Your Bio</label><br/>
-                                        <p>Your detail description</p>
+                                        <h3>Addresses</h3>
+
+                                        <ul class="list-group">
+                                            {{#each addressess}}
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <p class="text-uppercase fw-bold mb-3 text-font"></p>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <p>{{this.name}}</p>
+                                                            <p>{{this.house}}, {{this.street}}</p>
+                                                            <p>{{this.place}}, {{this.district}}</p>
+                                                            <p>{{this.state}}, {{this.pincode}}</p>
+                                                        </div>
+                                                        <div class="col-md-7"><a href="/editProfile/{{this.id}}">
+                                                            <button type="button"
+                                                                class="btn btn-outline-dark float-end button-color " 
+                                                                data-mdb-ripple-color="dark">
+                                                                 Change
+                                                                
+                                                            </button></a>
+                                                            <button type="button"
+                                                                class="btn btn-outline-dark float-end button-color "
+                                                                data-mdb-ripple-color="dark">
+                                                                  <i class="fa-solid fa-trash" onclick="deleteAddress('{{this.id}}')"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            {{/each}}
+
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
+                            <div class="tab-pane" id="edit">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" value="Mark">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" value="Jhonsan">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="email" value="mark@example.com">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Change profile</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Website</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="url" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Address</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" value="" placeholder="Street">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-6">
+                                            <input class="form-control" type="text" value="" placeholder="City">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <input class="form-control" type="text" value="" placeholder="State">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Username</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" value="jhonsanmark">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Password</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="password" value="11111122333">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Confirm
+                                            password</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="password" value="11111122333">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-9">
+                                            <input type="reset" class="btn btn-secondary" value="Cancel">
+                                            <input type="button" class="btn btn-primary" value="Save Changes">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>           
+            </div>
+
         </div>
-			<script>
+    </div>
 
-			</script>
-			<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-				integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-				crossorigin="anonymous"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-				integrity="	sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-				crossorigin="anonymous"></script>
-			{{!-- --}}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </body>
-
+<script>
+    function deleteAddress(id){
+        if(confirm("Are you sure delete this address")){
+            window.location.href="/deleteAddress/"+id
+        }
+    }
+</script>
 </html>

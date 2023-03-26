@@ -253,7 +253,9 @@
                                     <tbody>
                                         {{#each orderData}}
                                         <tr>
-                                             <td>{{this.orderId}}</td>
+                                             <td>{{this.orderId}}<br>
+<a href="/admin/orderDetails/{{this.orderId}}" class="btn btn-primary">View</a>
+                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     {{!-- <div class="m-r-10"><a
@@ -268,12 +270,12 @@
                                             <td><img style="border-radius: 10px; width:auto;height: 7em;" src="/images/{{this.product.0.mainImage.filename}}"alt=""></td>
                                            
                                             <td>
-                                            {{this.product.0.quantity}}
+                                            {{this.totalQuantity}}
                                             </td>
                                              
                                             <td>{{this.orderStatus}}</td>
                                             <td>
-                                                <h5 class="m-b-0">{{this.total}}</h5>
+                                                <h5 class="m-b-0">₹{{this.total}}</h5>
                                             </td>
                                             <td>
                                                 {{this.paymentType}}

@@ -6,7 +6,7 @@ import couponModel from "../model/couponModel.js";
 import orderModel from "../model/orderModel.js";
 import handlebars from "handlebars";
 import handlebarsHelpers from "handlebars-helpers";
-
+import moment from "moment-timezone";
 
 handlebarsHelpers({ handlebars });
 
@@ -20,6 +20,10 @@ let users = "";
 let signupError;
 let loginError;
 let otpError;
+const formatDate = function (date, format) {
+  moment.locale("en");
+  return moment(date).tz("Asia/Kolkata").format(format);
+};
 
 export async function getUserLoginPage(req, res) {
   if (req.session.user) {
@@ -61,6 +65,9 @@ export async function getUserHomePage(req, res) {
 }
 export async function getUserLogout(req, res) {
   req.session.user = null;
+  // req.session.cartProducts=null;
+  // req.session.coupon=null;
+  // req.session.order=null;
   isLoggedIn = false;
   res.redirect("/");
   console.log(req.session.user, isLoggedIn);
@@ -83,17 +90,23 @@ export async function userLogin(req, res, next) {
     isLoggedIn = true;
     console.log("user:" + user);
     if (user) {
-      if (bcrypt.compareSync(password, user.password)) {
-        req.session.user = {
-          id: user._id,
-          name: user.name,
-        };
-
-        res.redirect("/");
-      } else {
-        loginError = "Credentials not match";
-        console.log("pass error");
+      if (user?.block) {
+        loginError = "This Email is Blocked for suspicious activity";
         res.redirect("/login");
+      } else {
+        if (bcrypt.compareSync(password, user.password)) {
+          req.session.user = {
+            id: user._id,
+            name: user.name,
+            block: user.block,
+          };
+
+          res.redirect("/");
+        } else {
+          loginError = "Credentials not match";
+          console.log("pass error");
+          res.redirect("/login");
+        }
       }
     } else {
       res.redirect("/login");
@@ -297,48 +310,54 @@ export async function getProductByCategory(req, res) {
 }
 
 export async function getCartPage(req, res) {
-  if (!req.session.user) {
-    return res.redirect("/login");
-  } else {
-    // Get user and cart details
-    const user = req.session.user;
-    const cartQuantity = {};
-    const userId = user.id;
-    const cartDetails = await userModel.findOne({ _id: userId }, { cart: 1 });
-    let totalQty = 0;
-    
-    //Get cart items and quantity
-    const cartItems = cartDetails.cart.map((item) => {
-      cartQuantity[item.id] = item.quantity;
-      totalQty = totalQty + item.quantity;
-      return item.id;
-    });
-    // Get product details for cart items
-    const products = await productModel
-      .find({ _id: { $in: cartItems } })
-      .lean();
+  try {
+    if (!req.session.user) {
+      return res.redirect("/login");
+    } else {
+      // Get user and cart details
+      const user = req.session.user;
+      const cartQuantity = {};
+      const userId = user.id;
+      const cartDetails = await userModel.findOne({ _id: userId }, { cart: 1 });
+      let totalQty = 0;
 
-    //Calculate total amount and discount
-    let totalAmount = 0;
-    let quantity;
-    let totalMRP = 0;
-    products.forEach((item, index) => {
-      quantity = cartQuantity[item._id];
-      products[index].quantity = quantity;
-      totalAmount = totalAmount + item.price * cartQuantity[item._id];
-      item.itemprice = item.price * item.quantity;
-      item.itemMRP = item.MRP * item.quantity;
-      totalMRP = totalMRP + item.MRP * cartQuantity[item._id];
-    });
-    let discount = totalMRP - totalAmount;
-    req.session.cartProducts = { products, totalAmount, totalMRP, discount };
-    res.render("user/cart", {
-      products,
-      totalAmount,
-      totalMRP,
-      discount,
-      isLoggedIn,
-    });
+      //Get cart items and quantity
+      const cartItems = cartDetails.cart.map((item) => {
+        cartQuantity[item.id] = item.quantity;
+        totalQty = totalQty + item.quantity;
+        return item.id;
+      });
+      // Get product details for cart items
+      const products = await productModel
+        .find({ _id: { $in: cartItems } })
+        .lean();
+
+      //Calculate total amount and discount
+      let totalAmount = 0;
+      let quantity;
+      let totalMRP = 0;
+      products.forEach((item, index) => {
+        quantity = cartQuantity[item._id];
+        products[index].quantity = quantity;
+        totalAmount = totalAmount + item.price * cartQuantity[item._id];
+        item.itemprice = item.price * item.quantity;
+        item.itemMRP = item.MRP * item.quantity;
+        totalMRP = totalMRP + item.MRP * cartQuantity[item._id];
+      });
+      let discount = totalMRP - totalAmount;
+      req.session.cartProducts = { products, totalAmount, totalMRP, discount };
+      res.render("user/cart", {
+        products,
+        totalAmount,
+        totalMRP,
+        discount,
+        isLoggedIn,
+      });
+    }
+  } catch (error) {
+    console.error("Error getting cart page:", error);
+    res.status(500).send("Internal server error");
+    res.redirect("/");
   }
 }
 
@@ -378,7 +397,7 @@ export async function deleteFromCart(req, res) {
   res.redirect("/cart");
 }
 export async function addQuantity(req, res) {
-  const user = await userModel.updateOne(
+  const userCart = await userModel.updateOne(
     { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
     {
       $inc: {
@@ -387,7 +406,48 @@ export async function addQuantity(req, res) {
     }
   );
   // res.json({ user });
-  res.redirect("/cart");
+  // res.redirect("/cart");
+  const user = req.session.user;
+  const cartQuantity = {};
+  const userId = user.id;
+  const cartDetails = await userModel.findOne({ _id: userId }, { cart: 1 });
+  let totalQty = 0;
+
+  //Get cart items and quantity
+  const cartItems = cartDetails.cart.map((item) => {
+    cartQuantity[item.id] = item.quantity;
+    totalQty = totalQty + item.quantity;
+    return item.id;
+  });
+  // Get product details for cart items
+  const products = await productModel.find({ _id: { $in: cartItems } }).lean();
+
+  //Calculate total amount and discount
+  let totalAmount = 0;
+  let quantity;
+  let totalMRP = 0;
+  products.forEach((item, index) => {
+    quantity = cartQuantity[item._id];
+    products[index].quantity = quantity;
+    totalAmount = totalAmount + item.price * cartQuantity[item._id];
+    item.itemprice = item.price * item.quantity;
+    item.itemMRP = item.MRP * item.quantity;
+    totalMRP = totalMRP + item.MRP * cartQuantity[item._id];
+  });
+  let { cart } = await userModel.findOne(
+    { "cart.id": req.params.id },
+    { _id: 0, cart: { $elemMatch: { id: req.params.id } } }
+  );
+  let Qty = cart[0].quantity;
+  let discount = totalMRP - totalAmount;
+  req.session.cartProducts = {
+    products,
+    totalAmount,
+    totalMRP,
+    discount,
+    totalQty,
+  };
+  res.json({ totalAmount, totalMRP, discount, products, Qty });
 }
 
 export async function minusQuantity(req, res) {
@@ -395,6 +455,7 @@ export async function minusQuantity(req, res) {
     { "cart.id": req.params.id },
     { _id: 0, cart: { $elemMatch: { id: req.params.id } } }
   );
+  let Qty = cart[0].quantity;
   if (cart[0].quantity <= 1) {
     let user = await userModel.updateOne(
       { _id: req.session.user.id },
@@ -407,7 +468,7 @@ export async function minusQuantity(req, res) {
     res.redirect("/cart");
     // return res.json({ user: { acknowledged: false } });
   } else {
-    let user = await userModel.updateOne(
+    let userCart = await userModel.updateOne(
       { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
       {
         $inc: {
@@ -416,36 +477,77 @@ export async function minusQuantity(req, res) {
       }
     );
     // return res.json({ user });
-    res.redirect("/cart");
+    // res.redirect("/cart");
+    const user = req.session.user;
+    const cartQuantity = {};
+    const userId = user.id;
+    const cartDetails = await userModel.findOne({ _id: userId }, { cart: 1 });
+    let totalQty = 0;
+
+    //Get cart items and quantity
+    const cartItems = cartDetails.cart.map((item) => {
+      cartQuantity[item.id] = item.quantity;
+      totalQty = totalQty + item.quantity;
+      return item.id;
+    });
+    // Get product details for cart items
+    const products = await productModel
+      .find({ _id: { $in: cartItems } })
+      .lean();
+
+    //Calculate total amount and discount
+    let totalAmount = 0;
+    let quantity;
+    let totalMRP = 0;
+    products.forEach((item, index) => {
+      quantity = cartQuantity[item._id];
+      products[index].quantity = quantity;
+      totalAmount = totalAmount + item.price * cartQuantity[item._id];
+      item.itemprice = item.price * item.quantity;
+      item.itemMRP = item.MRP * item.quantity;
+      totalMRP = totalMRP + item.MRP * cartQuantity[item._id];
+    });
+    let { cart } = await userModel.findOne(
+      { "cart.id": req.params.id },
+      { _id: 0, cart: { $elemMatch: { id: req.params.id } } }
+    );
+    let Qty = cart[0].quantity;
+    let discount = totalMRP - totalAmount;
+    req.session.cartProducts = {
+      products,
+      totalAmount,
+      totalMRP,
+      discount,
+      totalQty,
+    };
+    console.log(totalQty,"TQ");
+    res.json({ totalAmount, totalMRP, discount, products, Qty });
   }
 }
 
-export async function couponValidation(req,res){
-let coupon=await couponModel.findOne({code:req.body.code})
-req.session.coupon=coupon
-  checkout(req,res)
+export async function couponValidation(req, res) {
+  let coupon = await couponModel.findOne({ code: req.body.code });
+  req.session.coupon = coupon;
+  checkout(req, res);
 }
 export async function checkout(req, res) {
   //
   // console.log(req.session.coupon);
-  let id=req.session.user.id
+  let id = req.session.user.id;
   let couponValue;
-  const addDetails = await userModel
-    .findOne({ _id: id })
-    .select("address");
+  const addDetails = await userModel.findOne({ _id: id }).select("address");
   let totalQty = 0;
-  if(req.session.coupon){
-
+  if (req.session.coupon) {
   }
   //PENDING : edit here
-  let coupon=req.session.coupon
-  console.log('cccc',coupon);
-  if(coupon){
-    couponValue=coupon.discountValue
-  }else{
-    couponValue=0
+  let coupon = req.session.coupon;
+  console.log("cccc", coupon);
+  if (coupon) {
+    couponValue = coupon.discountValue;
+  } else {
+    couponValue = 0;
   }
-  console.log(couponValue,"ccc");
+  console.log(couponValue, "ccc");
   let addresses;
 
   let { totalMRP, discount, totalAmount } = req.session.cartProducts;
@@ -455,7 +557,7 @@ export async function checkout(req, res) {
     } else {
       isLoggedIn = false;
     }
-totalAmount=totalAmount-couponValue
+    totalAmount = totalAmount - couponValue;
     res.render("user/checkout", {
       isLoggedIn,
       totalMRP,
@@ -464,53 +566,55 @@ totalAmount=totalAmount-couponValue
       couponValue,
       addressess: addDetails.address,
     });
-    // console.log("user/checkout", {
-    //   isLoggedIn,
-    //   totalMRP,
-    //   discount,
-    //   totalAmount,
-    //   addressess: addDetails.address,
-    // });
-    req.session.coupon=0
+
+    req.session.coupon = 0;
   } catch (error) {
     console.error("Error checkout:", error);
     res.status(500).send("Internal server error");
+    res.redirect("/cart");
   }
 }
 
 export async function addToAddress(req, res) {
-  console.log("addToAddress", req.body);
-  const id = req.session.user.id;
-  let addresses = await userModel.findOne({ _id: id }, { address: 1 }).lean();
-  const { state, pincode, district, place, street, house } = req.body;
+  try {
+    const id = req.session.user.id;
+    const {name, state, pincode, district, place, street, house } = req.body;
 
-  await userModel.updateOne(
-    { _id: id },
-    {
-      $push: {
-        address: {
-          house,
-          street,
-          place,
-          district,
-          state,
-          pincode,
+    await userModel.updateOne(
+      { _id: id },
+      {
+        $push: {
+          address: {
+            name,
+            house,
+            street,
+            place,
+            district,
+            state,
+            pincode,
+            id: createId(),
+          },
         },
-      },
-    }
-  );
-  const { products, totalAmount, totalMRP, discount } =
-    req.session.cartProducts;
-  res.render("user/checkout", {
-    isLoggedIn,
-    totalMRP,
-    discount,
-    totalAmount,
-    addressess: addresses.address,
-    products,
-  });
-  // console.log({ message: "added " + proId + " to " + id });
-  // res.redirect('/')
+      }
+    );
+    let addresses = await userModel.findOne({ _id: id }, { address: 1 }).lean();
+    const { products, totalAmount, totalMRP, discount } =
+      req.session.cartProducts;
+    // res.render("user/checkout", {
+    //   isLoggedIn,
+    //   totalMRP,
+    //   discount,
+    //   totalAmount,
+    //   addressess: addresses.address,
+    //   products,
+    // });
+    // console.log({ message: "added " + proId + " to " + id });
+    res.redirect("/checkout");
+  } catch (error) {
+    console.error("Error while submiting address:", error);
+    res.status(500).send("Internal server error");
+    res.redirect("/cart");
+  }
 }
 
 // export async function proceedToPayment(req, res) {
@@ -557,92 +661,112 @@ export async function addToAddress(req, res) {
 // }
 
 export async function proceedToPayment(req, res) {
-  let userId = req.session.user.id;
-  let userName = req.session.user.name;
-  let products = req.session.cartProducts.products;
-  let totalMRP = req.session.cartProducts.totalMRP;
-  let discount = req.session.cartProducts.discount;
-  // let totalAmount=req.session.cartProducts.totalAmount
-  let orderCount = await orderModel.find().count();
-  let orderId = orderCount + 1000;
-  let orderDetails;
-  console.log("proceedToPayment", req.body);
-  const { address, totalAmount, payment } = req.body;
-  const order = await orderModel({
-    userId,
-    address,
-    paymentType: payment,
-    amountPayable: totalAmount,
-    total: totalAmount,
-    product: products,
-    orderId,
-  });
-  req.session.order=order;
-  if (payment != "cod") {
-    let orderId = "order_" + createId();
+  try {
+    let userId = req.session.user.id;
+    let userName = req.session.user.name;
+    let products = req.session.cartProducts.products;
+    let totalMRP = req.session.cartProducts.totalMRP;
+    let discount = req.session.cartProducts.discount;
+    let totalQty = req.session.cartProducts.totalQty;
+    // let totalAmount=req.session.cartProducts.totalAmount
+    let orderCount = await orderModel.find().count();
+    let orderId = orderCount + 1000;
+    let orderDetails;
+    console.log("proceedToPayment", totalQty);
+    const { address, totalAmount, payment } = req.body;
+    const order = await orderModel({
+      userId,
+      address,
+      paymentType: payment,
+      amountPayable: totalAmount,
+      total: totalAmount,
+      product: products,
+      orderId,
+      totalQuantity:totalQty
+    });
+    req.session.order = order;
+    if (payment != "cod") {
+      let orderId = "order_" + createId();
       const options = {
-          method: "POST",
-          url: "https://sandbox.cashfree.com/pg/orders",
-          headers: {
-              accept: "application/json",
-              "x-api-version": "2022-09-01",  
-              "x-client-id": 'TEST345428d48bc6c70de376570427824543',
-              "x-client-secret": 'TESTd0dc46b65581a42b3adb8750070e064b1d020f25',
-              "content-type": "application/json",
+        method: "POST",
+        url: "https://sandbox.cashfree.com/pg/orders",
+        headers: {
+          accept: "application/json",
+          "x-api-version": "2022-09-01",
+          "x-client-id": "TEST345428d48bc6c70de376570427824543",
+          "x-client-secret": "TESTd0dc46b65581a42b3adb8750070e064b1d020f25",
+          "content-type": "application/json",
+        },
+        data: {
+          order_id: orderId,
+          order_amount: req.body.totalAmount,
+          order_currency: "INR",
+          customer_details: {
+            customer_id: userId,
+            customer_email: "mohsinub123@gmail.com",
+            customer_phone: "9633975885",
           },
-          data: {
-              order_id: orderId,
-              order_amount: req.body.totalAmount,
-              order_currency: "INR",
-              customer_details: {
-                  customer_id:userId,
-                  customer_email: 'mohsinub123@gmail.com',
-                  customer_phone: '9633975885',
-              },
-              order_meta: {
-                  return_url: "http://localhost:5000/verifyPayment?order_id={order_id}",
-              },
+          order_meta: {
+            return_url:
+              "http://localhost:5000/verifyPayment?order_id={order_id}",
           },
+        },
       };
 
       await axios
-          .request(options)
-          .then(function (response) {
-
-              return res.render("user/paymentTemp", {
-                  orderId,
-                  sessionId: response.data.payment_session_id,
-              });
-          })
-          .catch(function (error) {
-              console.error(error);
+        .request(options)
+        .then(function (response) {
+          return res.render("user/paymentTemp", {
+            orderId,
+            sessionId: response.data.payment_session_id,
           });
-    
-  
-  } else {
-    order.save();
-    // let { _id, createdAt } = order;
-console.log("hi");
-    // console.log("cartPrSession", order.id);
-    await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
-    for (let i = 0; i < products.length; i++) {
-      await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -req.session.order.product[i].quantity } });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    } else {
+      order.save();
+      // let { _id, createdAt } = order;
+      console.log("hi");
+      // console.log("cartPrSession", order.id);
+      await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
+      for (let i = 0; i < products.length; i++) {
+        await productModel.updateOne(
+          { _id: products[i]._id },
+          { $inc: { stock: -req.session.order.product[i].quantity } }
+        );
+      }
+      res.render("user/orderPlaced", {
+        isLoggedIn,
+        userName,
+        payment,
+        address,
+        products,
+        totalMRP,
+        totalAmount,
+        discount,
+      });
+
+      req.session.order = null;
+      req.session.coupon = null;
+      req.session.cartProducts = null;
     }
-    res.render("user/orderPlaced");
-   
+  } catch (error) {
+    console.error("Error while getting payment page:", error);
+    res.status(500).send("Internal server error");
+    res.redirect("/cart");
   }
 }
 
-
 //
-export async function getUserPayment (req, res){
+export async function getUserPayment(req, res) {
   const userId = req.session.user.id;
   const user = await userModel.findById(userId).lean();
 
   const cart = user.cart;
   const cartList = cart.map((item) => {
     return item.id;
-  });     
+  });
   const products = await productModel.find({ _id: { $in: cartList } }).lean();
 
   const order_id = req.query.order_id;
@@ -650,7 +774,7 @@ export async function getUserPayment (req, res){
   const options = {
     method: "GET",
     url: "https://sandbox.cashfree.com/pg/orders/" + order_id,
-    headers: { 
+    headers: {
       accept: "application/json",
       "x-api-version": "2022-09-01",
       "x-client-id": "TEST345428d48bc6c70de376570427824543",
@@ -663,9 +787,12 @@ export async function getUserPayment (req, res){
     const response = await axios.request(options);
     if (response.data.order_status === "PAID") {
       await orderModel.create(req.session.order);
-      console.log("hhhhhh",req.session.order);
+      console.log("hhhhhh", req.session.order);
       for (let i = 0; i < products.length; i++) {
-        await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -req.session.order.product[i].quantity } });
+        await productModel.updateOne(
+          { _id: products[i]._id },
+          { $inc: { stock: -req.session.order.product[i].quantity } }
+        );
       }
       await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
       res.render("user/orderPlaced");
@@ -676,117 +803,446 @@ export async function getUserPayment (req, res){
     console.error(error);
     res.redirect("/cart");
   }
-};
+}
 //
 
+// export async function shop(req, res) {
+//   // let category={}
+//   const categoryData = await categoryModel.find().lean();
+//   const category = req.query.category ?? "";
+//   const search = req.query.search ?? "";
+//   const filter = req.query.filter ?? "";
+//   const page = req.query.page ?? 0;
+//   console.log(category, search);
+//   let count = 0;
+//   let productData = [];
 
-
-
-
+//   if (filter == 0) {
+//     if (category.length != 24) {
+//       productData = await productModel
+//         .find({
+//           title: new RegExp(search, "i"),
+//         })
+//         .sort({ uploadedAt: -1 })
+//         .skip(page * 9)
+//         .limit(9)
+//         .lean();
+//       count = productData.length;
+//     } else {
+//       productData = await productModel
+//         .find({
+//           title: new RegExp(search, "i"),
+//           category: category,
+//         })
+//         .sort({ uploadedAt: -1 })
+//         .skip(page * 9)
+//         .limit(9)
+//         .lean();
+//       count = productData.length;
+//     }
+//   } else {
+//     if (category.length != 24) {
+//       productData = await productModel
+//         .find({
+//           title: new RegExp(search, "i"),
+//         })
+//         .sort({ uploadedAt: -1 })
+//         .skip(page * 9)
+//         .limit(9)
+//         .lean();
+//       count = productData.length;
+//     } else {
+//       productData = await productModel
+//         .find({
+//           title: new RegExp(search, "i"),
+//           category: category,
+//         })
+//         .sort({ price: filter })
+//         .skip(page * 9)
+//         .limit(9)
+//         .lean();
+//       count = productData.length;
+//     }
+//   }
+//   let pageCount = Math.ceil(count / 9) + 1;
+//   let pagesCount = [];
+//   for (let i = 0; i < pageCount; i++) {
+//     pagesCount.push(i);
+//   }
+//   console.log("cat",category,'cdata',categoryData,"cccccccccc");
+//   console.log(pagesCount);
+//   return res.render("user/pagination", {
+//     productData,
+//     categoryData,
+//     search,
+//     category,
+//     filter,
+//     pagesCount,
+//     page,
+//     isLoggedIn,
+//   });
+//   // res.render('user/pagination',{productData,categoryData})
+// }
 
 export async function shop(req, res) {
-  // let category={}
-  const categoryData = await categoryModel.find().lean();
-  const category = req.query.category ?? "";
-  const search = req.query.search ?? "";
-  const filter = req.query.filter ?? "";
-  const page = req.query.page ?? 0;
-  console.log(category, search);
-  let count = 0;
-  let productData = [];
-
-  if (filter == 0) {
-    if (category.length != 24) {
-      productData = await productModel
-        .find({
-          title: new RegExp(search, "i"),
-        })
-        .sort({ uploadedAt: -1 })
-        .skip(page * 9)
-        .limit(9)
-        .lean();
-      count = productData.length;
-    } else {
-      productData = await productModel
-        .find({
-          title: new RegExp(search, "i"),
-          category: category,
-        })
-        .sort({ uploadedAt: -1 })
-        .skip(page * 9)
-        .limit(9)
-        .lean();
-      count = productData.length;
-    }
-  } else {
-    if (category.length != 24) {
-      productData = await productModel
-        .find({
-          title: new RegExp(search, "i"),
-        })
-        .sort({ uploadedAt: -1 })
-        .skip(page * 9)
-        .limit(9)
-        .lean();
-      count = productData.length;
-    } else {
-      productData = await productModel
-        .find({
-          title: new RegExp(search, "i"),
-          category: category,
-        })
-        .sort({ price: filter })
-        .skip(page * 9)
-        .limit(9)
-        .lean();
-      count = productData.length;
-    }
+  let count;
+  let search = req.query.search ?? "";
+  let category = req.query.category ?? "";
+  let sort = req.query.filter ?? "";
+  let page = Number(req.query.page ?? 0);
+  page = Math.max(page, 0);
+  let categoryFilter;
+  // try {
+  let categoryName = "all";
+  if (category) {
+    let [{ name }] = await categoryModel.find(
+      { _id: category },
+      { name: 1, _id: 0 }
+    );
+     categoryName = name;
   }
-  let pageCount = Math.ceil(count / 9) + 1;
+  if (category) {
+    categoryFilter = await categoryModel
+      .find({
+        list: true,
+        _id: category,
+      })
+      .lean();
+  } else {
+    categoryFilter = await categoryModel
+      .find({
+        list: true,
+      })
+      .lean();
+  }
+  console.log(categoryFilter, "category");
+  let categoryArray = categoryFilter.map((category) => category._id);
+
+  const findConditions = {
+    list: true,
+    category: { $in: categoryArray },
+    title: new RegExp(search, "i"),
+  };
+  const productData = await productModel
+    .find(findConditions)
+    .sort(sort == "0" ? { uploadedAt: 1 } : { price: sort })
+    .skip(page * 9)
+    .limit(9)
+    .lean();
+  const productCount = await productModel.find(findConditions).lean().count();
+  console.log(sort,'sort');
+  let categoryData = await categoryModel.find({ list: true }).lean();
+  let pageCount = Math.ceil(productCount / 9);
   let pagesCount = [];
   for (let i = 0; i < pageCount; i++) {
-    pagesCount.push(i);
+  pagesCount.push(i);
   }
-  console.log(pagesCount);
-  return res.render("user/pagination", {
+  res.render("user/shop", {
+    // user,
     productData,
     categoryData,
-    search,
+    categoryName,
     category,
-    filter,
-    pagesCount,
+    search,
+    sort,
     page,
+    pagesCount,
     isLoggedIn,
   });
+  // }
+  //  catch (err) {
+  //   res.send(err);
+  // }
 
-  // res.render('user/pagination',{productData,categoryData})
+  // try{
+  // console.log(req.query.category,'852452');
+  //   const categoryData = await categoryModel.find().lean();
+  //   const category = req.query.category ?? "";
+  //   req.session.findCat=category?category:req.session.findCat??""
+  //   console.log(req.session.findCat,'12345798');
+  //   const search = req.query.search ?? "";
+  //   const filter = req.query.filter ?? "";
+  //   const page = req.query.page ?? 0;
+  //   let count = 0;
+  //   let productData = [];
+  // if (req.session.findCat.length!=24) {
+  //   productData=await productModel.find()
+  // }
+  //  else {
+  //    productData=await productModel.find({category:req.session.findCat})
+  //    console.log(productData,'proooooooooooooooooooooooooooo');
+  // }
+  // if (filter == 0) {
+  //   if (category.length != 24) {
+  //     productData = await productModel
+  //       .find({
+  //         title: new RegExp(search, "i"),
+  //       })
+  //       .sort({ uploadedAt: -1 })
+  //       .skip(page * 9)
+  //       .limit(9)
+  //       .lean();
+  //     count = productData.length;
+  //   } else {
+  //     productData = await productModel
+  //       .find({
+  //         title: new RegExp(search, "i"),
+  //         category: category,
+  //       })
+  //       .sort({ uploadedAt: -1 })
+  //       .skip(page * 9)
+  //       .limit(9)
+  //       .lean();
+  //     count = productData.length;
+  //   }
+  // } else {
+  //   if (category.length != 24) {
+  //     productData = await productModel
+  //       .find({
+  //         title: new RegExp(search, "i"),
+  //       })
+  //       .sort({ uploadedAt: -1 })
+  //       .skip(page * 9)
+  //       .limit(9)
+  //       .lean();
+  //     count = productData.length;
+  //   } else {
+  //     productData = await productModel
+  //       .find({
+  //         title: new RegExp(search, "i"),
+  //         category: category,
+  //       })
+  //       .sort({ price: filter })
+  //       .skip(page * 9)
+  //       .limit(9)
+  //       .lean();
+  //     count = productData.length;
+  //   }
+  // // }
+  // let pageCount = Math.ceil(count / 9) + 1;
+  // let pagesCount = [];
+  // for (let i = 0; i < pageCount; i++) {
+  //   pagesCount.push(i);
+  // }
+  // for(let i=0;i<categoryData.length;i++){
+  //   if(categoryData[i]._id==category){
+  //     category=categoryData[i]
+  //   }
+  // }
+  // let selectedCategory = category; // Store the selected category ID in a variable
+  // let cid = categoryData._id;
+  // console.log("cid: ", cid, "category", category);
+  // return res.render("user/pagination", {
+  //   productData,
+  //   categoryData,
+  //   search,
+  //   category, // Pass the selected category ID to the template
+  //   filter,
+  //   pagesCount,
+  //   page,
+  //   isLoggedIn,
+  // });
+  // }
+  // catch (error) {
+  //   console.error("Error getting shopping page:", error);
+  //   res.status(500).send("Internal server error");
+  // }
 }
 
 export async function getOrderHistory(req, res) {
-  let userId = req.session.user.id;
-  let productQty = 0;
-  let orders = await orderModel
-    .find({ userId: userId })
-    .sort({ createdAt: -1 })
-    .lean();
-  let qqq = await orderModel
-    .findOne({ userId: userId }, { product: 1 })
-    .sort({ createdAt: -1 })
-    .lean();
-  // const sumOfQuantity = orders.product.reduce((accumulator, product) => {
-  //   return accumulator + product.quantity;
-  // }, 0);
-  // qqq.product.map((item)=>{
-  //   tQty=tQty+item.quantity
-  // })
-  for (let order of orders) {
-    // let productQty = 0;
-    for (let product of order.product) {
-      productQty += product.quantity;
+  try {
+    let userId = req.session.user.id;
+    let productQty = 0;
+    let orders = await orderModel
+      .find({ userId: userId })
+      .sort({ createdAt: -1 })
+      .lean();
+    let qqq = await orderModel
+      .findOne({ userId: userId }, { product: 1 })
+      .sort({ createdAt: -1 })
+      .lean();
+    // const sumOfQuantity = orders.product.reduce((accumulator, product) => {
+    //   return accumulator + product.quantity;
+    // }, 0);
+    // qqq.product.map((item)=>{
+    //   tQty=tQty+item.quantity
+    // })
+    for (let order of orders) {
+      // let productQty = 0;
+      for (let product of order.product) {
+        productQty += product.quantity;
+      }
+      // console.log(`Order ${order._id} has ${productQty} products`);
     }
-    // console.log(`Order ${order._id} has ${productQty} products`);
+    // let oo=orders.product
+    console.log(orders, "orders", productQty);
+    res.render("user/orderHistory", { isLoggedIn, orders, formatDate });
+  } catch (error) {
+    console.error("Error getting order list page:", error);
+    res.status(500).send("Internal server error");
   }
-  // let oo=orders.product
-  console.log(orders, "orders", productQty);
-  res.render("user/orderHistory", { isLoggedIn, orders });
+}
+
+export async function getProfile(req, res) {
+  try {
+    const id = req.session.user.id;
+    const user = await userModel.findOne({ _id: id });
+    let name =(user.name).toUpperCase();
+    let email = user.email;
+    const addDetails = await userModel.findOne({ _id: id }).select("address");
+    let addressess = addDetails.address;
+    console.log(user);
+    let addresses = await userModel.findOne({ _id: id }, { address: 1 }).lean();
+
+    res.render("user/profile", { isLoggedIn, name, email, addressess });
+  } catch (error) {
+    console.error("Error while getting profile:", error);
+    res.status(500).send("Internal server error");
+  }
+}
+export async function getEditAddress(req,res){
+  try {
+    let { address } = await userModel.findOne(
+      { "address.id": req.params.id },
+      { _id: 0, address: { $elemMatch: { id: req.params.id } } }
+    );
+  
+    console.log(address,"addagagh");
+    res.render('user/editProfile',{address})
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function editAddress(req, res) {
+  console.log('gfhdgdggdn');
+  try {
+    await userModel.updateOne(
+      { _id: req.session.user.id, address: { $elemMatch: { id: req.body.id } } },
+      {
+        $set: {
+          "address.$": req.body,
+        },
+      }
+    );
+    res.redirect("/profile");
+  } catch (error) {
+    console.error("Error while submiting address:", error);
+    res.status(500).send("Internal server error");
+    res.redirect("/profile");
+  }
+}
+
+export async function deleteAddress(req, res) {
+  await userModel.updateOne(
+    {
+      _id: req.session.user.id,
+      address: { $elemMatch: { id: req.params.id } },
+    },
+    {
+      $pull: {
+        address: {
+          id: req.params.id,
+        },
+      },
+    }
+  );
+  res.redirect("/profile");
+}
+
+// export async function editProfile(req,res){
+//   const id = req.session.user.id;
+//   const {name,email}=req.body
+
+//   let Profile = await userModel.findByIdAndUpdate(
+//     id,
+//     { name,
+//     email
+//    },
+//     {
+//       new: true,
+//     })
+// }
+
+export async function getOrderDetails(req, res) {
+  try {
+    const userId = req.session.user.id;
+    const orderId = req.params.orderId;
+
+    let order = await orderModel
+      .find({ userId: userId, orderId: orderId })
+      .lean();
+    console.log("order d", order);
+    res.render("user/orderDetails", { order, isLoggedIn });
+  } catch (error) {
+    console.error("Error while getting product details:", error);
+    res.status(500).send("Internal server error");
+  }
+}
+export async function sample(req,res){
+  let count;
+  let search = req.query.search ?? "";
+  let category = req.query.category ?? "";
+  let sort = req.query.filter ?? "";
+  let page = Number(req.query.page ?? 0);
+  page = Math.max(page, 0);
+  let categoryFilter;
+  // try {
+  let categoryName = "all";
+  if (category) {
+    let [{ name }] = await categoryModel.find(
+      { _id: category },
+      { name: 1, _id: 0 }
+    );
+     categoryName = name;
+  }
+  if (category) {
+    categoryFilter = await categoryModel
+      .find({
+        list: true,
+        _id: category,
+      })
+      .lean();
+  } else {
+    categoryFilter = await categoryModel
+      .find({
+        list: true,
+      })
+      .lean();
+  }
+  console.log(categoryFilter, "category");
+  let categoryArray = categoryFilter.map((category) => category._id);
+
+  const findConditions = {
+    list: true,
+    category: { $in: categoryArray },
+    title: new RegExp(search, "i"),
+  };
+  const productData = await productModel
+    .find(findConditions)
+    .sort(sort == "0" ? { uploadedAt: 1 } : { price: sort })
+    .skip(page * 9)
+    .limit(9)
+    .lean();
+  const productCount = await productModel.find(findConditions).lean().count();
+  console.log(sort,'sort');
+  let categoryData = await categoryModel.find({ list: true }).lean();
+  let pageCount = Math.ceil(productCount / 9);
+  let pagesCount = [];
+  for (let i = 0; i < pageCount; i++) {
+  pagesCount.push(i);
+  }
+  res.render("user/sample", {
+    // user,
+    productData,
+    categoryData,
+    categoryName,
+    category,
+    search,
+    sort,
+    page,
+    pagesCount,
+    isLoggedIn,
+  });
 }

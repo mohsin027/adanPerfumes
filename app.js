@@ -9,12 +9,13 @@ import dotenv from 'dotenv'
 dotenv.config()
 import pageNotFound from "./middlewares/pageNotFound.js"
 
-import {engine} from 'express-handlebars';
 import verifyUser from "./middlewares/verifyUser.js"
+import {engine} from 'express-handlebars';
 import logger from "morgan"
 import path from 'path'
 import hbs from 'handlebars'
 import moment from "moment-timezone"
+import cors from 'cors'
 
 
 const app=express()
@@ -29,7 +30,7 @@ app.set('view engine','hbs')
 app.use(express.static(__dirname+"/public"))
 app.use(logger('dev'))
 
-
+app.use(cors())
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
@@ -53,6 +54,8 @@ app.use('/admin',adminRouter)
 app.use('/', userRouter)
 
 app.use(pageNotFound)
+
+
 
 hbs.registerHelper("inc",function(value,options){
     return parseInt(value)+1;

@@ -267,8 +267,8 @@
                                             </td>
                                             </td>
                                             <td>{{this.code}}</td>
-                                            <td>{{this.discountValue}}</td>
-                                            <td>{{this.minSaleValue}}</td>
+                                            <td>₹{{this.discountValue}}</td>
+                                            <td>₹{{this.minSaleValue}}</td>
 
                                             <td>{{formatDate this.expiryDate "DD-MM-YYYY"}}</td>
 
@@ -395,7 +395,7 @@
                 axios.get('/admin/unlistCoupon/' + id).then((result) => {
                     if (result.data.unlist) {
                         document.getElementById(id).innerHTML = `<button  onclick="list('${id}')"  class="btn btn-danger">UnListed</button>`
-                    }quantity
+                    }
                 })
             }
             function list(id) {

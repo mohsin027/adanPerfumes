@@ -17,7 +17,7 @@
          <!------ Include the above in your HEAD tag ---------->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css" integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	
@@ -36,17 +36,16 @@
                     </ul>
 
                     
-                        {{#if isLoggedIn}}
-                    <form class="d-flex">
-                        <button class="btn btn-outline-light" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            <a href="/cart">
-                            Cart
-                            </a>
-                            <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span>
-                        </button>
-                    </form>
-                    {{/if}}
+                      {{#if isLoggedIn}}
+                      <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
+        <form class="d-flex">
+            <a href="/cart" class="btn btn-outline-light">
+            <i class="bi-cart-fill me-1"></i>
+              Cart
+            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
+            </a>
+        </form>
+        {{/if}}
                         {{!-- <li class="nav-item"> --}}
                             {{#if isLoggedIn}}
                         <a class="btn btn-secondary" href="/logout">Logout</a>

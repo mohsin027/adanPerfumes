@@ -13,9 +13,11 @@ import {
   getDashboard,
   getEditCoupon,
   getHome,
+  getOrderDetails,
   getOrderManage,
   getProductByCategory,
   getProductManage,
+  getSalesReport,
   getUserManage,
   listCategory,
   listCoupon,
@@ -66,6 +68,7 @@ router.post("/addCategory",verifyAdmin, postAddCategory);
 
 router.post("/addCoupon", verifyAdmin,postAddCoupon);
 router.get("/couponManage",verifyAdmin, getCouponManage);
+router.get("/salesReport",verifyAdmin, getSalesReport);
 router.get("/unlistCoupon/:id", verifyAdmin,unlistCoupon);
 router.get("/listCoupon/:id", verifyAdmin,listCoupon);
 router.get("/editCoupon/:id",verifyAdmin, getEditCoupon);
@@ -91,6 +94,7 @@ router.post(
   );
   router.delete("/deleteProduct/:id", verifyAdmin,deleteProduct);
   router.get("/orderManage", verifyAdmin,getOrderManage);
+  router.get("/orderDetails/:id", verifyAdmin,getOrderDetails);
   router.post('/orders/:id',verifyAdmin,orderStatus)
   
   router.get("/sideImageDel/:filename", verifyAdmin,sideImagesDel);

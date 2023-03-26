@@ -14,8 +14,8 @@
   <!-- Core theme CSS (includes Bootstrap)-->
   <link href="css/styles.css" rel="stylesheet" />
   <link href="css/cartstyles.css" rel="stylesheet" />
-  <link rel="stylesheet" href="css/pstyle.css">
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.1.96/css/materialdesignicons.min.css">
   <!------ Include the above in your HEAD tag ---------->
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -29,7 +29,7 @@
 
 <body>
   <!-- Navigation-->
-  <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #313131;">
+  <nav class="navbar navbar-expand-lg navbar-dark mb-0" style="background-color: #313131;">
     <div class="container px-4 px-lg-5">
       <a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -45,14 +45,13 @@
 
 
         {{#if isLoggedIn}}
+        <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
         <form class="d-flex">
-          <button class="btn btn-outline-light" type="submit">
+          <a href="/cart" class="btn btn-outline-light">
             <i class="bi-cart-fill me-1"></i>
-            <a href="/cart">
-              Cart
-            </a>
+            Cart
             {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
-          </button>
+          </a>
         </form>
         {{/if}}
         {{!-- <li class="nav-item"> --}}
@@ -76,53 +75,45 @@
     </div>
   </header> --}}
 
-  <form class="primary">
-    <div class="container-fluid">
-      <div class="row">
+  <form class="primary  ">
+    <div class="container-fluid pt-0  ">
+      <div class="row ">
 
 
         <!-- -------------------------------------------------- -->
 
-        <div class="col-xs-3">
-          <h2>Tablet/Mobile</h2>
-          <div class="filter-menu mobile">
+        <div class="col-xs-3 bg-secondary" style="border: 2px solid black;">
+          <h2>Perfumes & Attars</h2>
+          <div class="filter-menu mobile ">
             <div>
-              <div class="panel panel-mobile">
-                <div class="panel-heading" role="tab" id="headingFiltersMobile">
-                  <a class="panel-title accordion-toggle" role="button" data-toggle="collapse"
-                    href="#collapseFiltersMobile" aria-expanded="false" aria-controls="collapseFiltersMobile">
-                    Filter
-                  </a>
-                  <div class="panel-body">
-                    <hr />
-                    {{!-- <button class="btn btn-primary" type="submit">Apply Filters</button> --}}
-                    <a class="btn btn-sm btn-link pull-right" href="#">Clear Selections</a>
-                  </div><!-- /.panel-body -->
+              <div class="panel panel-mobile bg-secondary mt-4">
 
-                </div><!-- /.panel-heading -->
-                <div>
+                <div class="mt-4">
                   {{!-- <form id="search-form" action="" method="get" enctype="multipart/form-data"> --}}
-                    <div class="form-group col-xs-9">
-                      <input class="form-control" value="{{search}}" type="text" onchange="this.form.submit()" name="search" placeholder="Search" />
+                    <div class="form-group col-xs-9 ">
+                      <input class="form-control" value="{{search}}" type="text" oninput="this.form.submit()"
+                        name="search" placeholder="Search" />
                     </div>
                     <div class="form-group col-xs-3">
-                      {{!-- <button type="submit" class="btn btn-block btn-primary">Search</button> --}}
+                      <button type="submit" class="btn btn-block btn-primary">Search</button>
                     </div>
-                  {{!-- </form> --}}
+                    <a class="btn btn-link pull-right text-white" href="/shop">Clear Selections</a>
+                    {{!--
+                  </form> --}}
                 </div>
-                <div id="collapseFiltersMobile" class="panel-collapse collapse in" role="tabpanel"
+                <div id="collapseFiltersMobile " class="panel-collapse collapse in bg-secondary" role="tabpanel"
                   aria-labelledby="headingFiltersMobile">
                   <div class="panel-body">
                     <div class="panel-group" id="filter-menu-mobile" role="tablist" aria-multiselectable="true">
-                    
-               
-
-                   
 
 
-                      
+
+
+
+
+
                       {{!-- .... --}}
-                      <div class="panel panel-mobile">
+                      <div class="panel panel-mobile mt-5" style="background-color: #d5cece">
                         <div class="panel-heading" role="tab" id="headingFiveMobile">
                           <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse"
                             data-parent="#filter-menu-mobile" href="#collapseFiveMobile" aria-expanded="false"
@@ -134,13 +125,21 @@
                           aria-labelledby="headingFiveMobile"> --}}
                           <div class="panel-body">
                             {{#each categoryData}}
-                            <div class="checkbox" ><label><input type="radio" onchange="this.form.submit()"  name="category"
-                                  value="{{this._id}}" >{{this.name}}</label></div>
+                            {{!-- {{#if category}}
+                            <div class="checkbox"><label><input type="checkbox" onchange="this.form.submit()"
+                                  name="category" value="{{category._id}}" checked>{{category.name}}</label></div>
+                            {{esle}} --}}
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()"
+                                  name="category" value="{{this._id}}" {{#ifEqual this.name ../categoryName }} checked
+                                  {{/ifEqual}}>{{this.name}}</label></div>
+                            {{!-- {{/if}} --}}
                             {{/each}}
+
                           </div><!-- /.panel-body -->
-                        {{!-- </div><!-- /.panel-collapse --> --}}
+                          {{!--
+                        </div><!-- /.panel-collapse --> --}}
                       </div><!-- /.panel -->
-                      <div class="panel panel-mobile">
+                      <div class="panel panel-mobile" style="background-color: #d5cece">
                         <div class="panel-heading" role="tab" id="headingFiveMobile">
                           <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse"
                             data-parent="#filter-menu-mobile" href="#collapseFiveMobile" aria-expanded="false"
@@ -151,50 +150,58 @@
                         {{!-- <div id="collapseFiveMobile" class="panel-collapse collapse" role="tabpanel"
                           aria-labelledby="headingFiveMobile"> --}}
                           <div class="panel-body">
-                            <div class="checkbox"><label><input type="radio" checked onchange="this.form.submit()"  name="filter"
-                                  value="0"  onchange="this.form.submit()">New Launches</label></div>
-                            <div class="checkbox"><label><input type="radio"  onchange="this.form.submit()"  name="filter"
-                                  value="1"  onchange="this.form.submit()">Low to High</label></div>
-                            <div class="checkbox"><label><input type="radio"  onchange="this.form.submit()"  name="filter"
-                                  value="-1" onchange="this.form.submit()">High to Low</label></div>
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                                  value="0" {{#ifEqual sort "0" }} checked {{/ifEqual}}>New Launches</label></div>
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                                  value="1" onchange="this.form.submit()" {{#ifEqual sort "1" }} checked
+                                  {{/ifEqual}}>Low to High</label></div>
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                                  value="-1" onchange="this.form.submit()" {{#ifEqual sort "-1" }} checked
+                                  {{/ifEqual}}>High to Low</label></div>
                           </div><!-- /.panel-body -->
-                        {{!-- </div><!-- /.panel-collapse --> --}}
+                          {{!--
+                        </div><!-- /.panel-collapse --> --}}
                       </div><!-- /.panel -->
                       {{!-- .... --}}
                     </div><!-- /.panel-group -->
                   </div><!-- /.panel-body -->
                 </div><!-- /.panel-collapse -->
               </div><!-- /.panel -->
-            <div class="container">
-<ul class="pagination"  >
-              <li class="disabled"><a href="#">«</a></li>
-              {{!-- <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">4</a></li> --}}
-              {{#each pagesCount}}
-              <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()" style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{this}}</label></span></li>
-             {{/each}}
-
-              <li><a href="#">»</a></li>
-            </ul>
-</div>
+              <div class="container">
+                <ul class="pagination">
+                  <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{page}}">&lt;</a>
+                  </li>
+                  {{#each pagesCount}}
+                  {{!-- <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()"
+                        style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{inc @key}}</label></span>
+                    --}}
+                    <a class="btn btn-light"
+                      href="/shop?search={{../search}}&category={{../category}}&filter={{../sort}}&page={{this}}"
+                      {{#ifEqual ../page this}}active{{/ifEqual}}>{{inc @key}}</a>
+                  </li>
+                  {{/each}}
+                  <li><a
+                      href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{@key}}{{page}}">&gt;</a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div><!-- /.filter-menu -->
         </div>
-        <div class="col-xs-9">
+        <div class="col-xs-9 bg-secondary">
           {{!-- products --}}
           <!-- Portfolio Grid-->
-          <section class="page-section bg-light" id="productsMain">
-            <div class="container">
+          <section class="page-section bg-secondary pt-2" id="productsMain">
+            <div class="container ">
               <div class="text-center">
-                <h2 class="section-heading text-uppercase">Products</h2>
+                <h2 class="section-heading text-uppercase ">Products</h2>
                 <h3 class="section-subheading text-muted">Personalise your Perfumes</h3>
               </div>
               <div class="row d-flex">
                 {{#each productData}}
-                <div class="col-lg-4 col-sm-6 mb-4 d-flex "
-                  style="justify-content:center;background-color: #fefefe;height: 20em;">
-                  <label for="" hidden>{{this._id}}</label>
+                <label for="" hidden>{{this._id}}</label>
+                <div class="col-lg-4 col-sm-6 mb-1 d-flex "
+                  style="justify-content:center;background-color: #d5cece;height: 27em; border-radius: 10px;">
                   <!-- Portfolio item 1-->
                   <div class="portfolio-item text-center ">
                     <a class="portfolio-link" href="/productPage/{{this._id}}">
@@ -213,11 +220,11 @@
                     </div>
                     <div class="text-center mt-2">
                       <div id="{{this._id}}">
-                        <button onclick="addToCart('{{this._id}}')" id="changeBtn" class="btn btn-success">Add
+                        <button type="button" onclick="addToCart('{{this._id}}')" id="changeBtn" class="btn btn-success">Add
                           To Cart</button>
 
 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        <div class="modal fade" id="cartButtonModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                           aria-hidden="true">
                           <div class="modal-dialog">
                             <div class="modal-content">
@@ -239,18 +246,43 @@
 
 
                       </div>
-                      {{!-- <a href="/addToCart/{{this._id}}" class="btn btn-outline-dark mt-auto"
-                        onclick="addToCart({{this._id}})" id="cartBtnId">Add To Cart</a> --}}
+                     
                     </div>
                   </div>
                 </div>
                 {{/each}}
+                {{!-- {{#each productData}}
+                <div class="card m-5" style="width: 18rem;">
+                  <img class="card-img-top" src="..." alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                      card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+                {{/each}} --}}
 
               </div>
             </div>
-            
+
           </section>
           {{!-- products --}}
+          <div class="container d-flex justify-content-center">
+            <ul class="pagination ">
+              <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{page}}">&lt;</a></li>
+              {{#each pagesCount}}
+              {{!-- <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()"
+                    style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{inc @key}}</label></span> --}}
+                <a class="btn btn-light"
+                  href="/shop?search={{../search}}&category={{../category}}&filter={{../sort}}&page={{this}}" {{#ifEqual
+                  ../page this}}active{{/ifEqual}}>{{inc @key}}</a>
+              </li>
+              {{/each}}
+              <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{@key}}{{page}}">&gt;</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -258,9 +290,9 @@
   </form><!-- /.primary -->
 
 
-  <footer class="footer">
+  <footer class="footer bg-secondary">
     <div class="container">
-      <p class="small">Created with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> by Savanah</p>
+      <p class="small">Created with <span class="" aria-hidden="true"></span> by Mohsin</p>
     </div>
   </footer>
   {{!--body --}}
@@ -279,27 +311,32 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Core theme JS-->
   <script src="/js/scripts.js"></script>
-   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{{!-- <script>
+  swal("Are you sure you want to do this?", {
+  buttons: ["Oh noez!", "Aww yiss!"],
+});
+</script> --}}
+  <script>
+    function addToCart(id) {
+      axios.get('/addToCart/' + id).then((result) => {
 
-    <script>
-        function addToCart(id) {
-            axios.get('/addToCart/' + id).then((result) => {
+        if (result.data.addedToCart) {
+          console.log(result.data.addedToCart)
 
-                if (result.data.addedToCart) {
-                    console.log(result.data.addedToCart)
+          $("#cartButtonModal").modal('show');
 
-                    $("#exampleModal").modal('show');
-
-                }
-            })
         }
+      })
+    }
 
-    </script>
+  </script>
 
 
 
 
-  
+
 </body>
 
 </html>

@@ -207,7 +207,7 @@
                         <h2 class="text-center">Edit Products</h2>
                         <form action="/admin/editProduct/{{product._id}}" method="post" enctype="multipart/form-data">
                             <label for="">Title</label>
-                            <input name="title" class="form-control" type="text" value="{{product.title}}">
+                            <input name="title" class="form-control" onkeypress="return event.charCode != 32" type="text" value="{{product.title}}" required>
 
                             <label for="">Desc</label>
                             <input name="desc" class="form-control" type="text" value="{{product.desc}}">
@@ -227,13 +227,13 @@
                             <br>
 
                             <label for="">MRP</label>
-                            <input name="MRP" class="form-control" type="number" value="{{product.MRP}}">
+                            <input name="MRP" class="form-control" min="1" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="number" value="{{product.MRP}}">
 
                             <label for="">Price</label>
-                            <input name="price" class="form-control" type="number" value="{{product.price}}">
+                            <input name="price" class="form-control" min="1" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="number" value="{{product.price}}">
 
                             <label for="">Stock</label>
-                            <input name="stock" class="form-control" type="number" value="{{product.stock}}">
+                            <input name="stock" class="form-control" min="1" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="number" value="{{product.stock}}">
                             <div>
                                 <label class="col-sm-2" for="mainImage">Main Image:</label>
                                 <input type="file" onchange="viewImage(event)" id="mainImage" name="mainImage"

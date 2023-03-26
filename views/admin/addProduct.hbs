@@ -202,12 +202,12 @@
             <h2 class="text-center">Add Products</h2>
            <form action="/admin/addProduct" method="POST" enctype="multipart/form-data">
   <div>
-    <label class="col-sm-2" for="title">title:</label>
+    <label class="col-sm-2" for="title">Title:</label>
     <input  type="text" id="name" name="title" required>
   </div>
   <div>
     <label class="col-sm-2"  for="stock">Stock</label>
-    <input type="text" id="stock" name="stock" required>
+    <input type="text" id="stock" min="1" oninput="validity.valid||(value='');" name="stock" required>
   </div>
   <div>
     {{!-- <label class="col-sm-2"  for="category">category</label>
@@ -224,11 +224,11 @@
   </div>
   <div>
     <label class="col-sm-2"  for="price">MRP:</label>
-    <input type="text" id="MRP" name="MRP">
+    <input type="text" id="MRP"  min="1"  name="MRP">
   </div>
   <div>
     <label class="col-sm-2"  for="price">Price:</label>
-    <input type="text" id="price" name="price" required>
+    <input type="text" id="price"  min="1" name="price" required>
   </div>
   <div>
     <label class="col-sm-2"  for="desc">Description:</label>
