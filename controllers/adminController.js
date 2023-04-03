@@ -7,7 +7,6 @@ import upload from "../middlewares/multer.js";
 import bcrypt from "bcryptjs";
 import orderModel from "../model/orderModel.js";
 import { Chart } from "chart.js";
-import fs from 'fs'
 
 
 let isLoggedInAdmin;
@@ -32,10 +31,7 @@ export async function adminLogin(req, res) {
   }
 }
 
-// export async function adminProfile(req,res){
-//     // res.json({message:"admin loginPage"})
-//     res.render('admin/pagesProfile')
-// }
+
 
 export async function postAdminLogin(req, res, next) {
   try {
@@ -78,6 +74,8 @@ export async function getHome(req, res) {
       let totalOrders = orders.length;
       let totalRevenue = 0;
       let totalPending = 0;
+      let totalCash = 0;
+      let totalOnlinePayment = 0;
       let deliveredOrders = orders.filter((item) => {
         if (item.orderStatus == "pending" || item.orderStatus == 'shipped') {
           totalPending++;
@@ -85,10 +83,17 @@ export async function getHome(req, res) {
         if(item.orderStatus == "delivered"){
             totalRevenue = totalRevenue + item.total;
         }
+        if(item.paymentType == "cod"){
+            totalCash = totalCash + item.total;
+        }
+        if(item.paymentType == "onlinePayment"){
+          totalOnlinePayment = totalOnlinePayment + item.total;
+        }
         return item.orderStatus=='delivered';
       });
+      console.log("dos",deliveredOrders);
       let totalDispatch = deliveredOrders.length;
-      let 
+      let
       monthlyDataObject={}
       monthlyDataArray.map(item=>{
         monthlyDataObject[item._id]=item.sum
@@ -97,11 +102,41 @@ export async function getHome(req, res) {
       for(let i=1; i<=12; i++){
           monthlyData[i-1]= monthlyDataObject[i] ?? 0
         }
-    
-     
+    // Payment Type chart data
+    const online = await orderModel
+    .find({ paymentType: "onlinePayment" })
+    .countDocuments()
+    .lean();
+  const cod = await orderModel
+    .find({ paymentType: "cod" })
+    .countDocuments()
+    .lean();
+    // end payment type chart data
+     let categoryWiseOrder;
+     let categoryWiseSale;
       //
-      res.render("admin/index", { userData, productData,monthlyData, totalOrders,totalRevenue,totalPending,totalDispatch});
-      console.log(monthlyData,'mdta');
+      categoryWiseOrder= await orderModel.aggregate([{$unwind:"$product"},{$group:{_id:"$product.category",totalItemPrice:{$sum:"$product.itemprice"}}}])
+      categoryWiseSale= await orderModel.aggregate([{$match:{}},{$unwind:"$product"},{$group:{_id:"$product.category",totalItemPrice:{$sum:"$product.itemprice"}}}])
+      let categoryData=await categoryModel.find().lean()
+      const categoryWiseSaleWithName = categoryWiseSale.map(sale => {
+        const category = categoryData.find(cat => cat._id.toString() === sale._id.toString());
+        return {
+          name: category ? category.name : "Unknown",
+          totalItemPrice: sale.totalItemPrice
+        };
+      });
+      
+      console.log(categoryWiseSaleWithName,"cname");
+      const chartData = {
+        series: categoryWiseSaleWithName.map(sale => sale.totalItemPrice),
+        labels: categoryWiseSaleWithName.map(sale => sale.name)
+      };
+let categoryName=chartData.labels      // 
+let categorySales=chartData.series      // 
+      res.render("admin/index", { userData, productData,monthlyData, totalOrders,totalRevenue,totalPending,totalDispatch,online,cod,totalOnlinePayment,totalCash,categoryWiseSale,categoryData,categoryName,categorySales})
+      console.log(categoryWiseOrder,'mdor');
+      console.log(categoryWiseSale,'mdta');
+      console.log(categoryName,'categoryName');
     } else {
       res.redirect("/admin");
     }
@@ -112,11 +147,17 @@ export async function getHome(req, res) {
 }
 
 export async function getDashboard(req, res) {
+  try{
   res.redirect("/admin/home");
+} catch (error) {
+  console.error("Error getting dashboard", error);
+  res.status(500).send("Internal server error");
+}
 }
 
 //salesReport
 export async function getSalesReport(req, res) {
+  try{
 
   let startDate = new Date(new Date().setDate(new Date().getDate() - 8))
   let endDate = new Date()
@@ -191,32 +232,25 @@ res.render("admin/salesReport", {
   
   filter
 });
+} catch (error) {
+  console.error("Error getting sales report:", error);
+  res.status(500).send("Internal server error");
+}
 }
 //
 
 export async function adminLogout(req, res) {
+  try{
   req.session.admin = null;
-  // res.json({message:"admin loginOut"})
   res.redirect("/admin");
+} catch (error) {
+  console.error("Error logging out admin", error);
+  res.status(500).send("Internal server error");
+}
 }
 
 //user management
 
-// export async function getAddUser(req,res){
-//     res.json({message:"Add User page"})
-// }
-
-// export async function postAddUser(req,res){
-//     const {name,email,password}=req.body
-//     const exiUser=await userModel.findOne({email})
-//     if(!exiUser){
-//         const user=new userModel({name,email,password})
-//         user.save()
-//         res.json({message:'user added redirecting to dashboard'})
-//     }else{
-//         res.json({message:"user already exists"})
-//     }
-// }
 
 export async function getUserManage(req, res) {
   try {
@@ -228,50 +262,65 @@ export async function getUserManage(req, res) {
   }
 }
 export async function blockUser(req, res) {
+  try{
   const { id } = req.params;
   await userModel.findByIdAndUpdate(id, { $set: { block: true } });
   res.redirect("/admin/userManage");
-  //    console.log(productData);
+} catch (error) {
+  console.error("Error while blocking user", error);
+  res.status(500).send("Internal server error");
+}
 }
 export async function unblockUser(req, res) {
+  try{
   const { id } = req.params;
   await userModel.findByIdAndUpdate(id, { $set: { block: false } });
   res.redirect("/admin/userManage");
-  //    console.log(productData);
+} catch (error) {
+  console.error("Error while unblocking user", error);
+  res.status(500).send("Internal server error");
+}
 }
 
 export async function getAllUser(req, res) {
+  try{
   let userData = await userModel.find();
+} catch (error) {
+  console.error("Error while getting all user", error);
+  res.status(500).send("Internal server error");
+}
 }
 
-// export async function postEditUser(req,res){
-//     const {id}=req.params
-//     const user =await userModel.findOne({id})
-//     const updateduser = await userModel.updateOne({id},req.body)
-//     // res.json(updateduser)
-// }
 
-// export async function deleteUser(req,res){
-//     const deletedUser= await userModel.findOneAndDelete({_id:req.params.id})
-//     res.json(deletedUser)
-// }
-
-//product management
 
 export async function getProductManage(req, res) {
+  try{
   let productData = await productModel.find().populate('category').lean()
   // const categoryData=await categoryModel.find().lean()
   res.render("admin/productManage", { productData });
+} catch (error) {
+  console.error("Error while getting product manage page", error);
+  res.status(500).send("Internal server error");
+}
 }
 
 export async function getAllProducts(req, res) {
+  try{
   let productData = await productModel.find().lean();
-  //    console.log(productData);
+} catch (error) {
+  console.error("Error while getting all products", error);
+  res.status(500).send("Internal server error");
+}
 }
 
 export async function getAddProduct(req, res) {
-  let categoryData = await categoryModel.find().lean();
+  try{
+  let categoryData = await categoryModel.find({list:true}).lean();
   res.render("admin/addProduct", { categoryData });
+} catch (error) {
+  console.error("Error while adding product", error);
+  res.status(500).send("Internal server error");
+}
 }
 
 export async function postAddProduct(req, res) {
@@ -397,10 +446,15 @@ export async function editProduct(req, res) {
 }
 
 export async function deleteProduct(req, res) {
+  try{
   const deletedProduct = await productModel.findOneAndDelete({
     _id: req.params.id,
   });
   res.json(deletedProduct);
+} catch (error) {
+  console.error("Error while deleting", error);
+  res.status(500).send("Internal server error");
+}
 }
 
 //category
@@ -487,9 +541,14 @@ export async function getCouponManage(req, res) {
 
 export async function postAddCoupon(req, res) {
   try {
-    let couponExist = await couponModel.findOne({ name: req.body.name });
+    let couponExist = await couponModel.findOne({$or:[ {name: req.body.name},{code:req.body.code}]});
     // Handle form submission and create new product object
-    const coupon = new couponModel({
+    if(req.body.minSaleValue<req.body.discountValue){
+couponExistError="Discount value higher than min sale value!!!"
+res.redirect("/admin/CouponManage");
+    }else{
+
+      const coupon = new couponModel({
       name: req.body.name,
       code: req.body.code,
       discountValue: req.body.discountValue,
@@ -510,6 +569,7 @@ export async function postAddCoupon(req, res) {
       couponExistError = "Coupon Exists";
       res.redirect("/admin/CouponManage");
     }
+    }
   } catch (error) {
     console.error("Error submitting coupon:", error);
     res.status(500).send("Internal server error");
@@ -517,15 +577,25 @@ export async function postAddCoupon(req, res) {
 }
 
 export async function unlistCoupon(req, res) {
+  try{
   const { id } = req.params;
   await couponModel.findByIdAndUpdate(id, { $set: { list: false } });
   res.json({ unlist: true });
+} catch (error) {
+  console.error("Error while unlisting coupon", error);
+  res.status(500).send("Internal server error");
+}
   //
 }
 export async function listCoupon(req, res) {
+  try{
   const { id } = req.params;
   await couponModel.findByIdAndUpdate(id, { $set: { list: true } });
   res.json({ list: true }); //
+} catch (error) {
+  console.error("Error while listing coupon", error);
+  res.status(500).send("Internal server error");
+}
 }
 export async function getEditCoupon(req, res) {
   try {
@@ -555,10 +625,14 @@ export async function postEditCoupon(req, res) {
 }
 
 export async function getOrderManage(req, res) {
+  try{
   let orderData = await orderModel.find().lean()
   // const categoryData=await categoryModel.find().lean()
   res.render("admin/orderManage", { orderData });
-
+} catch (error) {
+  console.error("Error while getting order manage page:", error);
+  res.status(500).send("Internal server error");
+}
 }
 export async function getOrderDetails(req, res) {
   try {

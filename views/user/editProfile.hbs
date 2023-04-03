@@ -30,23 +30,24 @@
 
 <body>
   <!-- Navigation-->
-  <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #313131;">
+  <nav class="navbar navbar-expand-lg navbar-dark " style="background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(31,37,41,1) 19%, rgba(3,119,143,1) 92%);">
     <div class="container px-4 px-lg-5">
-      <a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
+      <a class="navbar-brand" href="/"><h2
+										style="text-transform: capitalize; font-size: 1.25rem; font-weight: bold;color:white">
+										adan perfumes</h2></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
           class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-          <li class="nav-item"><a class="nav-link" href="/getProductByCategory/6402e75511e9188650151bac">Perfumes</a>
+          <li class="nav-item"><a class="nav-link" href="/shop?category=6402e75511e9188650151bac">Perfumes</a>
           </li>
-          <li class="nav-item"><a class="nav-link" href="/getProductByCategory/6405ddd4c6781ca379e9f7a1">Attars</a></li>
+          <li class="nav-item"><a class="nav-link" href="/shop?category=6405ddd4c6781ca379e9f7a1">Attars</a></li>
 
         </ul>
 
 
         {{#if isLoggedIn}}
-        <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
         <form class="d-flex">
           <a href="/cart" class="btn btn-outline-light">
             <i class="bi-cart-fill me-1"></i>
@@ -63,9 +64,6 @@
           <a class="btn btn-secondary" href="/login">Login</a>
           {{/if}}
 
-          {{!-- <a class="nav-link" href="/login">Login</a> --}}
-          {{!--
-        </li> --}}
       </div>
     </div>
   </nav>
@@ -84,18 +82,7 @@
             </div>
           </div>
 
-          {{!-- <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Email</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="email" value="mark@example.com">
-            </div>
-          </div> --}}
-          {{!-- <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Change profile</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="file">
-            </div>
-          </div> --}}
+    
 
           <div class="form-group row">
             <label class="col-lg-3 col-form-label form-control-label">Address</label>
@@ -132,29 +119,11 @@
           </div>
 
 
-          {{!-- <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Username</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="text" value="jhonsanmark">
-            </div>
-          </div> --}}
-          {{!-- <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Password</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="password" value="11111122333">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Confirm
-              password</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="password" value="11111122333">
-            </div>
-          </div> --}}
+ 
           <div class="form-group row">
             <label class="col-lg-3 col-form-label form-control-label"></label>
             <div class="col-lg-9">
-              <input type="reset" class="btn btn-secondary" value="Cancel">
+              <a href="/profile" class="btn btn-secondary">Cancel</a>
               <input class="btn btn-primary" type="submit" value="Save Changes">
             </div>
           </div>

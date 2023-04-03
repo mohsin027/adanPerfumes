@@ -33,7 +33,7 @@ import {
   deleteAddress,
   getEditAddress,
   editAddress,
-  sample
+  // getCheckout,
 } from "../controllers/userController.js";
 import checkUser from "../middlewares/checkUser.js";
 import verifyUser from "../middlewares/verifyUser.js";
@@ -69,7 +69,7 @@ router.get("/deleteFromCart/:id", verifyUser, deleteFromCart);
 router.get("/addQuantity/:id",verifyUser, addQuantity);
 router.get("/minusQuantity/:id",verifyUser,minusQuantity);
 router.get("/checkout", verifyUser, checkout);
-router.post("/checkout", verifyUser, checkout);
+// router.post("/checkout", verifyUser, checkout);
 router.post("/addAddress", verifyUser, addToAddress);
 router.post("/proceedToPayment", verifyUser, proceedToPayment);
 router.post("/couponValidation", verifyUser, couponValidation);
@@ -80,7 +80,6 @@ router.get("/profile",verifyUser, getProfile);
 router.get("/editProfile/:id",verifyUser, getEditAddress);
 router.post("/editProfile/:id",verifyUser, editAddress);
 router.get("/deleteAddress/:id",verifyUser, deleteAddress);
-router.get("/sample",verifyUser, sample);
 
 
 export default router;

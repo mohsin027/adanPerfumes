@@ -1,72 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
 
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
-	<title>Perfumes- Adan Store</title>
-	<!-- Favicon-->
-	<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-	<!-- Bootstrap icons-->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-	<!-- Core theme CSS (includes Bootstrap)-->
-	<link href="css/styles.css" rel="stylesheet" />
-	<link href="css/cartstyles.css" rel="stylesheet" />
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.1.96/css/materialdesignicons.min.css">
-	<!------ Include the above in your HEAD tag ---------->
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- belle/home3-boxed.html   11 Nov 2019 12:24:28 GMT -->
 
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Adan Perfumes</title>
+<meta name="description" content="description">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Favicon -->
+<link rel="shortcut icon" href="assets/images/favicon.png" />
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="assets/css/plugins.css">
+<!-- Bootstap CSS -->
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<!-- Main Style CSS -->
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+
 
 </head>
 
 <body>
 	<!-- Navigation-->
-	<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #313131;">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-					<li class="nav-item"><a class="nav-link"
-							href="/getProductByCategory/6402e75511e9188650151bac">Perfumes</a></li>
-					<li class="nav-item"><a class="nav-link"
-							href="/getProductByCategory/6405ddd4c6781ca379e9f7a1">Attars</a></li>
+	<div class="top-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-10 col-sm-8 col-md-5 col-lg-4">
+            
+          </div>
+          <div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block">
+         
+          </div>
+          <div class="col-2 col-sm-4 col-md-3 col-lg-4 text-right">
+            <span class="user-menu d-block d-lg-none"><i class="anm anm-user-al" aria-hidden="true"></i></span>
+            <ul class="customer-links list-inline">
+              {{#if isLoggedIn}}
 
-				</ul>
+              <li><a href="/profile"><i class="fas fa-user-circle"></i>{{userName}}</a></li>
+              <li><a href="/logout">Logout</a></li>
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/signup">Create Account</a></li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+        <!--End Top Header-->
+        <!--Header-->
+        <div class="header-wrap animated d-flex">
+            <div class="container-fluid">        
+                <div class="row align-items-center">
+                    <!--Desktop Logo-->
+                    <div class="logo col-md-2 col-lg-2 d-none d-lg-block">
+                        <a href="/">
+                          <h2 style="text-transform: capitalize; font-size: 20px; font-weight: bold;color: rgb(81, 35, 2);">adan perfumes</h2>
+                        </a>
+                    </div>
+                    <!--End Desktop Logo-->
+                    <div class="col-2 col-sm-3 col-md-3 col-lg-8">
+                        <div class="d-block d-lg-none">
+                            <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
+                                <i class="icon anm anm-times-l"></i>
+                                <i class="anm anm-bars-r"></i>
+                            </button>
+                        </div>
+                        <!--Desktop Menu-->
+                        <nav class="grid__item" id="AccessibleNav"><!-- for mobile -->
+                            <ul id="siteNav" class="site-nav medium center hidearrow">
+                                <li class="lvl1 parent megamenu"><a href="#">Home <i class="anm anm-angle-down-l"></i></a>
+                                    
+                                </li>
+                                <li class="lvl1 parent megamenu"><a href="/shop">Shop <i class="anm anm-angle-down-l"></i></a>
+                               
+                                </li>
+                            <li class="lvl1 parent megamenu"><a href="/shop">Product <i class="anm anm-angle-down-l"></i></a>
+                               
+                            </li>
+                            <li class="lvl1 parent dropdown"><a href="/shop">Perfumes <i class="anm anm-angle-down-l"></i></a>
+                            
+                            </li>
+                            
+                          </ul>
+                        </nav>
+                        <!--End Desktop Menu-->
+                    </div>
+                    <!--Mobile Logo-->
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
+                        <div class="logo">
+                            <a href="/">
+                                <h2>adan perfumes</h2>
+                            </a>
+                        </div>
+                    </div>
+                    <!--Mobile Logo-->
+                    <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+                        <div class="site-cart">
+                            <a href="/cart"  title="Cart">
+                               <i class="icon anm anm-bag-l" style="font-size: 30px;"></i>
 
- {{#if isLoggedIn}}
- <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
-        <form class="d-flex">
-            <a href="/cart" class="btn btn-outline-light">
-            <i class="bi-cart-fill me-1"></i>
-              Cart
-            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
-            </a>
-        </form>
-        {{/if}}
-				{{!-- <li class="nav-item"> --}}
-					{{#if isLoggedIn}}
-					<a class="btn btn-secondary" href="/logout">Logout</a>
-
-					{{else}}
-					<a class="btn btn-secondary" href="/login">Login</a>
-					{{/if}}
-
-					{{!-- <a class="nav-link" href="/login">Login</a> --}}
-					{{!--
-				</li> --}}
-			</div>
-		</div>
-	</nav>
+                               
+                            </a>
+                            <!--Minicart Popup-->
+                            
+                            <!--End Minicart Popup-->
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Header-->
+        <!--Mobile Menu-->	
+        <div class="mobile-nav-wrapper" role="navigation">
+            <div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> Menu</div>
+            <ul id="MobileNav" class="mobile-nav">
+                <li class="lvl1 parent megamenu"><a href="/">Home <i class="anm anm-plus-l"></i></a>
+                 </li>
+                <li class="lvl1 parent megamenu"><a href="/shop">Shop <i class="anm anm-plus-l"></i></a>
+                </li>
+                
+              </ul>
+        </div>
+        <!--End Mobile Menu-->
 	{{!-- --}}
 {{!--  --}}
 
@@ -92,7 +150,7 @@
 
                             <span class="font-weight-bold d-block mt-4">Hello, {{userName}}</span>
                             <span>You order has been confirmed and will be shipped in next two days!</span>
-
+{{#if order}}
                             <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
 
                                 <table class="table table-borderless">
@@ -121,8 +179,7 @@
                                                 <div class="py-2">
 
                                                     <span class="d-block text-muted">Payment</span>
-                                                {{!-- <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span> --}}
-                                                    <label for="">{{payment}}</label>
+                                                    <label for="">{{order.paymentType}}</label>
                                                 </div>
                                             </td>
 
@@ -130,7 +187,7 @@
                                                 <div class="py-2">
 
                                                     <span class="d-block text-muted">Shiping Address</span>
-                                                <span>{{address}}</span>
+                                                <span>{{order.address}}</span>
                                                     
                                                 </div>
                                             </td>
@@ -146,14 +203,11 @@
                             </div>
 
 
-
-
                                 <div class="product border-bottom table-responsive">
-
                                     <table class="table table-borderless">
 
                                     <tbody>
-										{{#each products}}
+										{{#each order.product}}
                                         <tr>
                                             <td width="20%">
                                             
@@ -171,8 +225,8 @@
                                         </td>
                                         <td width="20%">
                                             <div class="text-right">
-                                                <span class="font-weight-bold"><del>{{this.MRP}}</del></span><br>
-                                                <span class="font-weight-bold">{{this.price}}</span>
+                                                <span class="font-weight-bold"><del>{{this.itemMRP}}</del></span><br>
+                                                <span class="font-weight-bold">{{this.itemprice}}</span>
                                             </div>
                                         </td>
                                         </tr>
@@ -201,13 +255,13 @@
                                                     <td>
                                                         <div class="text-left">
 
-                                                            <span class="text-muted">Subtotal</span>
+                                                            <span class="text-muted">MRP</span>
                                                             
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="text-right">
-                                                            <span>{{totalMRP}}</span>
+                                                            <span>{{order.MRP}}</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -241,7 +295,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-right">
-                                                            <span class="text-success">{{discount}}</span>
+                                                            <span class="text-success">{{order.discount}}</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -257,7 +311,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-right">
-                                                            <span class="font-weight-bold">{{totalAmount}}</span>
+                                                            <span class="font-weight-bold">{{order.total}}</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -271,7 +325,7 @@
 
 
                                 </div>
-
+{{/if}}
 
                                 <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
                                 <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
@@ -289,7 +343,7 @@
                         <div class="d-flex justify-content-between footer p-3">
 
                             <span>Need Help? visit our <a href="#"> help center</a></span>
-						<label for="">{{createdAt}}</label>                          
+						<label for="">{{order.createdAt}}</label>                          
                         </div>
 
 
@@ -302,7 +356,17 @@
         </div>
         
     </div>
-
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
 {{!--  --}}
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -312,6 +376,7 @@
 		integrity="	sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	{{!-- --}}
+   
 </body>
 
 </html>

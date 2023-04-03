@@ -231,7 +231,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                              <div class="ms-auto"> <a href="/admin/addProduct" class="btn btn-primary">Add Product</a></div>
+                              <div class="ms-auto"> <a href="/admin/addProduct" class="btn btn-dark btn-rounded">Add Product</a></div>
                             </div>
                            
                             <div class="table-responsive">
@@ -267,11 +267,11 @@
                                             {{this.stock}}
                                             </td>
                                               <td>{{this.category.name}}</td>
-                                            <td>{{this.unlist}}</td>
+                                            <td>{{this.list}}</td>
                                             <td>
                                                 <h5 class="m-b-0">₹{{this.price}}</h5>
                                             </td>
-                                            <td><a href="/admin/editProduct/{{this._id}}"  class="btn btn-primary">Edit</a></td>
+                                            <td><a href="/admin/editProduct/{{this._id}}"  class="btn "><i class="fa-solid fa-pen-to-square"></i></a></td>
                                         </tr>
                                        {{/each}}
                                     </tbody>

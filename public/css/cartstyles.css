@@ -1,5 +1,5 @@
 .cart-wrap {
-	padding: 40px 0;
+	padding: 0px 0;
 	font-family: 'Open Sans', sans-serif;
 }
 .main-heading {
@@ -108,11 +108,11 @@
 }
 
 .coupon-box {
-    padding: 63px 0 58px;
+    padding: 5px 0 0px;
     text-align: center;
     border: 2px dotted #e5e5e5;
     border-radius: 10px;
-    margin-top: 55px;
+    margin-top: 10px;
 }
 .coupon-box form input {
     display: inline-block;

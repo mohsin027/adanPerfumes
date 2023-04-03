@@ -240,7 +240,7 @@
   </div>
   <div>
     <label class="col-sm-2"  for="mainImage">Side Images:</label>
-    <input type="file"  name="sideImages" accept="image/*" multiple >
+    <input type="file"  name="sideImages"  multiple="" accept="image/*">
   </div>
   {{!-- <div>
     <label for="sideImages">Side Image:</label>
@@ -292,6 +292,18 @@
 $(document).ready( function () {
     $('#userTable').DataTable();
 } );
+     </script>
+     <script>
+        $.ajax({
+  url: '/upload',
+  type: 'POST',
+  data: formData,
+  processData: false,
+  contentType: false,
+  error: function(xhr, status, error) {
+    alert(xhr.responseJSON.message);
+  }
+});
      </script>
     <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>

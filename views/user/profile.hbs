@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
+
+<!-- belle/home3-boxed.html   11 Nov 2019 12:24:28 GMT -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Adan Perfumes</title>
+<meta name="description" content="description">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Favicon -->
+<link rel="shortcut icon" href="assets/images/favicon.png" />
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="assets/css/plugins.css">
+<!-- Bootstap CSS -->
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<!-- Main Style CSS -->
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
 
 
-
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+        <!--End Mobile Menu-->
     <style>
         body {
             margin-top: 20px;
@@ -468,47 +479,111 @@
 </head>
 
 <body>
+	<!-- Navigation-->
+	<div class="top-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-10 col-sm-8 col-md-5 col-lg-4">
+            
+          </div>
+          <div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block">
+         
+          </div>
+          <div class="col-2 col-sm-4 col-md-3 col-lg-4 text-right">
+            <span class="user-menu d-block d-lg-none"><i class="anm anm-user-al" aria-hidden="true"></i></span>
+            <ul class="customer-links list-inline">
+              {{#if isLoggedIn}}
+
+              <li><a href="/profile"><i class="fas fa-user-circle"></i>{{userName}}</a></li>
+              <li><a href="/logout">Logout</a></li>
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/signup">Create Account</a></li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+        <!--End Top Header-->
+        <!--Header-->
+        <div class="header-wrap animated d-flex">
+            <div class="container-fluid">        
+                <div class="row align-items-center">
+                    <!--Desktop Logo-->
+                    <div class="logo col-md-2 col-lg-2 d-none d-lg-block">
+                        <a href="/">
+                          <h2 style="text-transform: capitalize; font-size: 20px; font-weight: bold;color: rgb(81, 35, 2);">adan perfumes</h2>
+                        </a>
+                    </div>
+                    <!--End Desktop Logo-->
+                    <div class="col-2 col-sm-3 col-md-3 col-lg-8">
+                        <div class="d-block d-lg-none">
+                            <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
+                                <i class="icon anm anm-times-l"></i>
+                                <i class="anm anm-bars-r"></i>
+                            </button>
+                        </div>
+                        <!--Desktop Menu-->
+                        <nav class="grid__item" id="AccessibleNav"><!-- for mobile -->
+                            <ul id="siteNav" class="site-nav medium center hidearrow">
+                                <li class="lvl1 parent megamenu"><a href="/">Home <i class="anm anm-angle-down-l"></i></a>
+                                    
+                                </li>
+                                <li class="lvl1 parent megamenu"><a href="/shop">Shop <i class="anm anm-angle-down-l"></i></a>
+                               
+                                </li>
+                            <li class="lvl1 parent megamenu"><a href="/shop">Product <i class="anm anm-angle-down-l"></i></a>
+                               
+                            </li>
+                            <li class="lvl1 parent dropdown"><a href="/shop">Perfumes <i class="anm anm-angle-down-l"></i></a>
+                            
+                            </li>
+                            
+                          </ul>
+                        </nav>
+                        <!--End Desktop Menu-->
+                    </div>
+                    <!--Mobile Logo-->
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
+                        <div class="logo">
+                            <a href="/">
+                                <h2>adan perfumes</h2>
+                            </a>
+                        </div>
+                    </div>
+                    <!--Mobile Logo-->
+                    <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+                        <div class="site-cart">
+                            <a href="/cart"  title="Cart">
+                               <i class="icon anm anm-bag-l" style="font-size: 30px;"></i>
+
+                               
+                            </a>
+                            <!--Minicart Popup-->
+                            
+                            <!--End Minicart Popup-->
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Header-->
+        <!--Mobile Menu-->	
+        <div class="mobile-nav-wrapper" role="navigation">
+            <div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> Menu</div>
+            <ul id="MobileNav" class="mobile-nav">
+                <li class="lvl1 parent megamenu"><a href="/">Home <i class="anm anm-plus-l"></i></a>
+                 </li>
+                <li class="lvl1 parent megamenu"><a href="/shop">Shop <i class="anm anm-plus-l"></i></a>
+                </li>
+                
+              </ul>
+        </div>
+
     <!-- Navigation-->
-	<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #313131;">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-					<li class="nav-item"><a class="nav-link"
-							href="/getProductByCategory/6402e75511e9188650151bac">Perfumes</a></li>
-					<li class="nav-item"><a class="nav-link"
-							href="/getProductByCategory/6405ddd4c6781ca379e9f7a1">Attars</a></li>
-
-				</ul>
-
-
-				 {{#if isLoggedIn}}
-                 <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
-        <form class="d-flex">
-            <a href="/cart" class="btn btn-outline-light">
-            <i class="bi-cart-fill me-1"></i>
-              Cart
-            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
-            </a>
-        </form>
-        {{/if}}
-				{{!-- <li class="nav-item"> --}}
-					{{#if isLoggedIn}}
-					<a class="btn btn-secondary" href="/logout">Logout</a>
-
-					{{else}}
-					<a class="btn btn-secondary" href="/login">Login</a>
-					{{/if}}
-
-					{{!-- <a class="nav-link" href="/login">Login</a> --}}
-					{{!--
-				</li> --}}
-			</div>
-		</div>
-	</nav>
+	
 
 
     <div class="container">
@@ -586,44 +661,7 @@
 
                                     </div>
 
-                                    {{!-- <div class="col-md-12">
-                                        <h5 class="mt-2 mb-3"><span class="fa fa-clock-o ion-clock float-right"></span>
-                                            Recent Activity</h5>
-                                        <table class="table table-hover table-striped">
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <strong>Abby</strong> joined ACME Project Team in
-                                                        <strong>`Collaboration`</strong>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <strong>Gary</strong> deleted My Board1 in
-                                                        <strong>`Discussions`</strong>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <strong>Kensington</strong> deleted MyBoard3 in
-                                                        <strong>`Discussions`</strong>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <strong>John</strong> deleted My Board1 in
-                                                        <strong>`Discussions`</strong>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <strong>Skell</strong> deleted his post Look at Why this is.. in
-                                                        <strong>`Discussions`</strong>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div> --}}
+                                    
                                 </div>
                                 <!--/row-->
                             </div>
@@ -660,10 +698,10 @@
                                                                  Change
                                                                 
                                                             </button></a>
-                                                            <button type="button"
+                                                            <button type="button" onclick="deleteAddress('{{this.id}}')"
                                                                 class="btn btn-outline-dark float-end button-color "
                                                                 data-mdb-ripple-color="dark">
-                                                                  <i class="fa-solid fa-trash" onclick="deleteAddress('{{this.id}}')"></i>
+                                                                  <i class="fa-solid fa-trash" ></i>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -677,82 +715,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="edit">
-                                <form>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="text" value="Mark">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="text" value="Jhonsan">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="email" value="mark@example.com">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Change profile</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="file">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Website</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="url" value="">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Address</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="text" value="" placeholder="Street">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label"></label>
-                                        <div class="col-lg-6">
-                                            <input class="form-control" type="text" value="" placeholder="City">
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input class="form-control" type="text" value="" placeholder="State">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Username</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="text" value="jhonsanmark">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Password</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="password" value="11111122333">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label">Confirm
-                                            password</label>
-                                        <div class="col-lg-9">
-                                            <input class="form-control" type="password" value="11111122333">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label form-control-label"></label>
-                                        <div class="col-lg-9">
-                                            <input type="reset" class="btn btn-secondary" value="Cancel">
-                                            <input type="button" class="btn btn-primary" value="Save Changes">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                            {{!--  --}}
                         </div>
                     </div>
                 </div>
@@ -760,7 +723,17 @@
 
         </div>
     </div>
-
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -234,6 +234,8 @@
 
                             <label for="">Stock</label>
                             <input name="stock" class="form-control" min="1" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="number" value="{{product.stock}}">
+                            {{!-- <label for="">Listing</label>
+                            <input name="stock" class="form-control" min="1"  type="text" value="{{product.list}}"> --}}
                             <div>
                                 <label class="col-sm-2" for="mainImage">Main Image:</label>
                                 <input type="file" onchange="viewImage(event)" id="mainImage" name="mainImage"
@@ -385,6 +387,18 @@ let value;
             document.getElementById("imageview").src = URL.createObjectURL(event.target.files[0])
             document.getElementById("allImageview").src = URL.createObjectURL(event.target.files[0, 1])
         }
+    </script>
+    <script>
+        $.ajax({
+  url: '/admin/editProduct/{{product._id}}',
+  type: 'POST',
+  data: formData,
+  processData: false,
+  contentType: false,
+  error: function(xhr, status, error) {
+    alert(xhr.responseJSON.message);
+  }
+});
     </script>
 
     <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>

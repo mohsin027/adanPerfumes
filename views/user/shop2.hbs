@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Perfumes- Adan Store</title>
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <!-- Bootstrap icons-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="css/styles.css" rel="stylesheet" />
+  <link href="css/cartstyles.css" rel="stylesheet" />
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.1.96/css/materialdesignicons.min.css">
+  <!------ Include the above in your HEAD tag ---------->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark mb-0" style="background-color: #313131;">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+          class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link" href="/getProductByCategory/6402e75511e9188650151bac">Perfumes</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/getProductByCategory/6405ddd4c6781ca379e9f7a1">Attars</a></li>
+
+        </ul>
+
+
+        {{#if isLoggedIn}}
+        <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
+        <form class="d-flex">
+          <a href="/cart" class="btn btn-outline-light">
+            <i class="bi-cart-fill me-1"></i>
+            Cart
+            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
+          </a>
+        </form>
+        {{/if}}
+        {{!-- <li class="nav-item"> --}}
+          {{#if isLoggedIn}}
+          <a class="btn btn-secondary" href="/logout">Logout</a>
+
+          {{else}}
+          <a class="btn btn-secondary" href="/login">Login</a>
+          {{/if}}
+
+          
+      </div>
+    </div>
+  </nav>
+  {{!--body --}}
+
+
+  <form class="primary  ">
+    <div class="container-fluid pt-0  ">
+      <div class="row ">
+
+
+        <!-- -------------------------------------------------- -->
+
+        <div class="col-xs-3 bg-secondary" style="border: 2px solid black;">
+          <h2>Perfumes & Attars</h2>
+          <div class="filter-menu mobile ">
+            <div>
+              <div class="panel panel-mobile bg-secondary mt-4">
+
+                <div class="mt-4">
+                  {{!-- <form id="search-form" action="" method="get" enctype="multipart/form-data"> --}}
+                    <div class="form-group col-xs-9 ">
+                      <input class="form-control" value="{{search}}" type="text" oninput="this.form.submit()"
+                        name="search" placeholder="Search" />
+                    </div>
+                    <div class="form-group col-xs-3">
+                      <button type="submit" class="btn btn-block btn-primary">Search</button>
+                    </div>
+                    <a class="btn btn-link pull-right text-white" href="/shop">Clear Selections</a>
+                    {{!--
+                  </form> --}}
+                </div>
+                <div id="collapseFiltersMobile " class="panel-collapse collapse in bg-secondary" role="tabpanel"
+                  aria-labelledby="headingFiltersMobile">
+                  <div class="panel-body">
+                    <div class="panel-group" id="filter-menu-mobile" role="tablist" aria-multiselectable="true">
+
+
+
+
+
+
+
+                      {{!-- .... --}}
+                      <div class="panel panel-mobile mt-5" style="background-color: #d5cece">
+                        <div class="panel-heading" role="tab" id="headingFiveMobile">
+                          <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse"
+                            data-parent="#filter-menu-mobile" href="#collapseFiveMobile" aria-expanded="false"
+                            aria-controls="collapseFiveMobile">
+                            Category
+                          </a><!-- /.panel-title -->
+                        </div><!-- /.panel-heading -->
+                   
+                          <div class="panel-body">
+                            {{#each categoryData}}
+                            
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()"
+                                  name="category" value="{{this._id}}" {{#ifEqual this.name ../categoryName }} checked
+                                  {{/ifEqual}}>{{this.name}}</label></div>
+                    
+                            {{/each}}
+
+                          </div><!-- /.panel-body -->
+                          {{!--
+                        </div><!-- /.panel-collapse --> --}}
+                      </div><!-- /.panel -->
+                      <div class="panel panel-mobile" style="background-color: #d5cece">
+                        <div class="panel-heading" role="tab" id="headingFiveMobile">
+                          <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse"
+                            data-parent="#filter-menu-mobile" href="#collapseFiveMobile" aria-expanded="false"
+                            aria-controls="collapseFiveMobile">
+                            Sort
+                          </a><!-- /.panel-title -->
+                        </div><!-- /.panel-heading -->
+                        {{!-- <div id="collapseFiveMobile" class="panel-collapse collapse" role="tabpanel"
+                          aria-labelledby="headingFiveMobile"> --}}
+                          <div class="panel-body">
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                                  value="0" {{#ifEqual sort "0" }} checked {{/ifEqual}}>New Launches</label></div>
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                                  value="1" onchange="this.form.submit()" {{#ifEqual sort "1" }} checked
+                                  {{/ifEqual}}>Low to High</label></div>
+                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                                  value="-1" onchange="this.form.submit()" {{#ifEqual sort "-1" }} checked
+                                  {{/ifEqual}}>High to Low</label></div>
+                          </div><!-- /.panel-body -->
+                          {{!--
+                        </div><!-- /.panel-collapse --> --}}
+                      </div><!-- /.panel -->
+                      {{!-- .... --}}
+                    </div><!-- /.panel-group -->
+                  </div><!-- /.panel-body -->
+                </div><!-- /.panel-collapse -->
+              </div><!-- /.panel -->
+              <div class="container">
+                <ul class="pagination">
+                  {{!-- <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{page}}">&lt;</a> --}}
+                  </li>
+                  {{#each pagesCount}}
+                  {{!-- <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()"
+                        style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{inc @key}}</label></span>
+                    --}}
+                    <a class="btn btn-light"
+                      href="/shop?search={{../search}}&category={{../category}}&filter={{../sort}}&page={{this}}"
+                      {{#ifEqual ../page this}}active{{/ifEqual}}>{{inc @key}}</a>
+                  </li>
+                  {{/each}}
+                  <li>
+                    {{!-- <a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{@key}}{{page}}">&gt;</a> --}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- /.filter-menu -->
+        </div>
+        <div class="col-xs-9 bg-secondary">
+          {{!-- products --}}
+          <!-- Portfolio Grid-->
+          <section class="page-section bg-secondary pt-2" id="productsMain">
+            <div class="container ">
+              <div class="text-center">
+                <h2 class="section-heading text-uppercase ">Products</h2>
+                <h3 class="section-subheading text-muted">Personalise your Perfumes</h3>
+              </div>
+              <div class="row d-flex">
+                {{#each productData}}
+                <label for="" hidden>{{this._id}}</label>
+                <div class="col-lg-4 col-sm-6 mb-1 d-flex "
+                  style="justify-content:center;background-color: #d5cece;height: 27em; border-radius: 10px;">
+                  <!-- Portfolio item 1-->
+                  <div class="portfolio-item text-center ">
+                    <a class="portfolio-link" href="/productPage/{{this._id}}">
+                      {{!-- <div class="portfolio-hover">
+                        <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                      </div> --}}
+
+                      <img class="img-fluid mt-4 " style="width: auto; height: 150px; border-radius: 7px; "
+                        src="/images/{{this.mainImage.filename}}" alt="..." />
+                    </a>
+                    <div class="portfolio-caption mt-4 text-center">
+                      <div class="portfolio-caption-heading">{{this.title}}</div>
+                      <div class="portfolio-caption-subheading text-muted">{{this.desc}}</div>
+                      <div class="portfolio-caption-heading">{{#if
+                        this.MRP}}<del>₹{{this.MRP}}</del>&nbsp{{/if}}₹{{this.price}}</div>
+                    </div>
+                    <div class="text-center mt-2">
+                      <div id="{{this._id}}">
+                        <button type="button" onclick="addToCart('{{this._id}}')" id="changeBtn" class="btn btn-success">Add
+                          To Cart</button>
+
+
+                        <div class="modal fade" id="cartButtonModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                          aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Added To Cart</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                  aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                Product added to cart successfully
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary"><a href="/cart">Go To Cart</a></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+               
+
+              </div>
+            </div>
+
+          </section>
+          {{!-- products --}}
+          <div class="container d-flex justify-content-center">
+            <ul class="pagination ">
+              {{!-- <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{page}}">&lt;</a></li> --}}
+              {{#each pagesCount}}
+              {{!-- <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()"
+                    style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{inc @key}}</label></span> --}}
+                <a class="btn btn-light"
+                  href="/shop?search={{../search}}&category={{../category}}&filter={{../sort}}&page={{this}}" {{#ifEqual
+                  ../page this}}active{{/ifEqual}}>{{inc @key}}</a>
+              </li>
+              {{/each}}
+              {{!-- <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{@key}}{{page}}">&gt;</a> --}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+  </form><!-- /.primary -->
+
+
+  <footer class="footer bg-secondary">
+    <div class="container">
+      <p class="small">Created with <span class="" aria-hidden="true"></span> by Mohsin</p>
+    </div>
+  </footer>
+  {{!--body --}}
+  <!-- Footer-->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap core JS-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Core theme JS-->
+  <script src="/js/scripts.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{{!-- <script>
+  swal("Are you sure you want to do this?", {
+  buttons: ["Oh noez!", "Aww yiss!"],
+});
+</script> --}}
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <script>
+    function addToCart(id) {
+      axios.get('/addToCart/' + id).then((result) => {
+
+        if (result.data.addedToCart) {
+          console.log(result.data.addedToCart)
+
+          $("#cartButtonModal").modal('show');
+
+        }
+      })
+    }
+
+  </script>
+
+
+
+
+
+</body>
+
+</html>

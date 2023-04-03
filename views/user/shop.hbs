@@ -1,229 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
 
+<!-- belle/home3-boxed.html   11 Nov 2019 12:24:28 GMT -->
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>Perfumes- Adan Store</title>
-  <!-- Favicon-->
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <!-- Bootstrap icons-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="css/styles.css" rel="stylesheet" />
-  <link href="css/cartstyles.css" rel="stylesheet" />
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.1.96/css/materialdesignicons.min.css">
-  <!------ Include the above in your HEAD tag ---------->
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Products- Adan Perfumes</title>
+<meta name="description" content="description">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Favicon -->
+<link rel="shortcut icon" href="assets/images/favicon.png" />
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="assets/css/plugins.css">
+<!-- Bootstap CSS -->
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<!-- Main Style CSS -->
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
 </head>
+<body class="template-index belle home3-boxed-layout">
 
-<body>
-  <!-- Navigation-->
-  <nav class="navbar navbar-expand-lg navbar-dark mb-0" style="background-color: #313131;">
-    <div class="container px-4 px-lg-5">
-      <a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-          class="navbar-toggler-icon"></span></button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-          <li class="nav-item"><a class="nav-link" href="/getProductByCategory/6402e75511e9188650151bac">Perfumes</a>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="/getProductByCategory/6405ddd4c6781ca379e9f7a1">Attars</a></li>
+<div class="pageWrapper">
+	<div class="layout-boxed">
+   
+        <!--Top Header-->
+       <div class="top-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-10 col-sm-8 col-md-5 col-lg-4">
+            
+          </div>
+          <div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block">
+         
+          </div>
+          <div class="col-2 col-sm-4 col-md-3 col-lg-4 text-right">
+            <span class="user-menu d-block d-lg-none"><i class="anm anm-user-al" aria-hidden="true"></i></span>
+            <ul class="customer-links list-inline">
+              {{#if isLoggedIn}}
 
-        </ul>
-
-
-        {{#if isLoggedIn}}
-        <a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
-        <form class="d-flex">
-          <a href="/cart" class="btn btn-outline-light">
-            <i class="bi-cart-fill me-1"></i>
-            Cart
-            {{!-- <span class="badge text-white ms-1 rounded-pill" style="background-color: #313131;">0</span> --}}
-          </a>
-        </form>
-        {{/if}}
-        {{!-- <li class="nav-item"> --}}
-          {{#if isLoggedIn}}
-          <a class="btn btn-secondary" href="/logout">Logout</a>
-
-          {{else}}
-          <a class="btn btn-secondary" href="/login">Login</a>
-          {{/if}}
-
-          {{!-- <a class="nav-link" href="/login">Login</a> --}}
-          {{!--
-        </li> --}}
+              <li><a href="/profile"><i class="fas fa-user-circle"></i>{{userName}}</a></li>
+              <li><a href="/logout">Logout</a></li>
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/signup">Create Account</a></li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
-  {{!--body --}}
-  {{!-- <header class="header">
-    <div class="container">
-      <h1 class="page-header">Filter Panel Group</h1>
-    </div>
-  </header> --}}
-
-  <form class="primary  ">
-    <div class="container-fluid pt-0  ">
-      <div class="row ">
-
-
-        <!-- -------------------------------------------------- -->
-
-        <div class="col-xs-3 bg-secondary" style="border: 2px solid black;">
-          <h2>Perfumes & Attars</h2>
-          <div class="filter-menu mobile ">
-            <div>
-              <div class="panel panel-mobile bg-secondary mt-4">
-
-                <div class="mt-4">
-                  {{!-- <form id="search-form" action="" method="get" enctype="multipart/form-data"> --}}
-                    <div class="form-group col-xs-9 ">
-                      <input class="form-control" value="{{search}}" type="text" oninput="this.form.submit()"
-                        name="search" placeholder="Search" />
+        <!--End Top Header-->
+        <!--Header-->
+        <div class="header-wrap animated d-flex">
+            <div class="container-fluid">        
+                <div class="row align-items-center">
+                    <!--Desktop Logo-->
+                    <div class="logo col-md-2 col-lg-2 d-none d-lg-block">
+                        <a href="/">
+                          <h2 style="text-transform: capitalize; font-size: 20px; font-weight: bold;color: rgb(81, 35, 2);">adan perfumes</h2>
+                        </a>
                     </div>
-                    <div class="form-group col-xs-3">
-                      <button type="submit" class="btn btn-block btn-primary">Search</button>
+                    <!--End Desktop Logo-->
+                    <div class="col-2 col-sm-3 col-md-3 col-lg-8">
+                        <div class="d-block d-lg-none">
+                            <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
+                                <i class="icon anm anm-times-l"></i>
+                                <i class="anm anm-bars-r"></i>
+                            </button>
+                        </div>
+                        <!--Desktop Menu-->
+                        <nav class="grid__item" id="AccessibleNav"><!-- for mobile -->
+                            <ul id="siteNav" class="site-nav medium center hidearrow">
+                                <li class="lvl1 parent megamenu"><a href="/">Home <i class="anm anm-angle-down-l"></i></a>
+                                    
+                                </li>
+                                <li class="lvl1 parent megamenu"><a href="/shop">Shop <i class="anm anm-angle-down-l"></i></a>
+                               
+                                </li>
+                            <li class="lvl1 parent megamenu"><a href="/shop">Product <i class="anm anm-angle-down-l"></i></a>
+                               
+                            </li>
+                            
+                            </li>
+                            
+                          </ul>
+                        </nav>
+                        <!--End Desktop Menu-->
                     </div>
-                    <a class="btn btn-link pull-right text-white" href="/shop">Clear Selections</a>
-                    {{!--
-                  </form> --}}
+                    <!--Mobile Logo-->
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
+                        <div class="logo">
+                            <a href="/">
+                                <h2>adan perfumes</h2>
+                            </a>
+                        </div>
+                    </div>
+                    <!--Mobile Logo-->
+                    <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+                        <div class="site-cart">
+                            <a href="/cart"  title="Cart">
+                               <i class="icon anm anm-bag-l" style="font-size: 30px;"></i>
+
+                               
+                            </a>
+                            <!--Minicart Popup-->
+                            
+                            <!--End Minicart Popup-->
+                        </div>
+                      
+                    </div>
                 </div>
-                <div id="collapseFiltersMobile " class="panel-collapse collapse in bg-secondary" role="tabpanel"
-                  aria-labelledby="headingFiltersMobile">
-                  <div class="panel-body">
-                    <div class="panel-group" id="filter-menu-mobile" role="tablist" aria-multiselectable="true">
-
-
-
-
-
-
-
-                      {{!-- .... --}}
-                      <div class="panel panel-mobile mt-5" style="background-color: #d5cece">
-                        <div class="panel-heading" role="tab" id="headingFiveMobile">
-                          <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse"
-                            data-parent="#filter-menu-mobile" href="#collapseFiveMobile" aria-expanded="false"
-                            aria-controls="collapseFiveMobile">
-                            Category
-                          </a><!-- /.panel-title -->
-                        </div><!-- /.panel-heading -->
-                        {{!-- <div id="collapseFiveMobile" class="panel-collapse collapse" role="tabpanel"
-                          aria-labelledby="headingFiveMobile"> --}}
-                          <div class="panel-body">
-                            {{#each categoryData}}
-                            {{!-- {{#if category}}
-                            <div class="checkbox"><label><input type="checkbox" onchange="this.form.submit()"
-                                  name="category" value="{{category._id}}" checked>{{category.name}}</label></div>
-                            {{esle}} --}}
-                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()"
-                                  name="category" value="{{this._id}}" {{#ifEqual this.name ../categoryName }} checked
-                                  {{/ifEqual}}>{{this.name}}</label></div>
-                            {{!-- {{/if}} --}}
-                            {{/each}}
-
-                          </div><!-- /.panel-body -->
-                          {{!--
-                        </div><!-- /.panel-collapse --> --}}
-                      </div><!-- /.panel -->
-                      <div class="panel panel-mobile" style="background-color: #d5cece">
-                        <div class="panel-heading" role="tab" id="headingFiveMobile">
-                          <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse"
-                            data-parent="#filter-menu-mobile" href="#collapseFiveMobile" aria-expanded="false"
-                            aria-controls="collapseFiveMobile">
-                            Sort
-                          </a><!-- /.panel-title -->
-                        </div><!-- /.panel-heading -->
-                        {{!-- <div id="collapseFiveMobile" class="panel-collapse collapse" role="tabpanel"
-                          aria-labelledby="headingFiveMobile"> --}}
-                          <div class="panel-body">
-                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
-                                  value="0" {{#ifEqual sort "0" }} checked {{/ifEqual}}>New Launches</label></div>
-                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
-                                  value="1" onchange="this.form.submit()" {{#ifEqual sort "1" }} checked
-                                  {{/ifEqual}}>Low to High</label></div>
-                            <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
-                                  value="-1" onchange="this.form.submit()" {{#ifEqual sort "-1" }} checked
-                                  {{/ifEqual}}>High to Low</label></div>
-                          </div><!-- /.panel-body -->
-                          {{!--
-                        </div><!-- /.panel-collapse --> --}}
-                      </div><!-- /.panel -->
-                      {{!-- .... --}}
-                    </div><!-- /.panel-group -->
-                  </div><!-- /.panel-body -->
-                </div><!-- /.panel-collapse -->
-              </div><!-- /.panel -->
-              <div class="container">
-                <ul class="pagination">
-                  <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{page}}">&lt;</a>
-                  </li>
-                  {{#each pagesCount}}
-                  {{!-- <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()"
-                        style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{inc @key}}</label></span>
-                    --}}
-                    <a class="btn btn-light"
-                      href="/shop?search={{../search}}&category={{../category}}&filter={{../sort}}&page={{this}}"
-                      {{#ifEqual ../page this}}active{{/ifEqual}}>{{inc @key}}</a>
-                  </li>
-                  {{/each}}
-                  <li><a
-                      href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{@key}}{{page}}">&gt;</a>
-                  </li>
-                </ul>
-              </div>
             </div>
-          </div><!-- /.filter-menu -->
         </div>
-        <div class="col-xs-9 bg-secondary">
-          {{!-- products --}}
-          <!-- Portfolio Grid-->
-          <section class="page-section bg-secondary pt-2" id="productsMain">
-            <div class="container ">
-              <div class="text-center">
-                <h2 class="section-heading text-uppercase ">Products</h2>
-                <h3 class="section-subheading text-muted">Personalise your Perfumes</h3>
-              </div>
-              <div class="row d-flex">
-                {{#each productData}}
-                <label for="" hidden>{{this._id}}</label>
-                <div class="col-lg-4 col-sm-6 mb-1 d-flex "
-                  style="justify-content:center;background-color: #d5cece;height: 27em; border-radius: 10px;">
-                  <!-- Portfolio item 1-->
-                  <div class="portfolio-item text-center ">
-                    <a class="portfolio-link" href="/productPage/{{this._id}}">
-                      {{!-- <div class="portfolio-hover">
-                        <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                      </div> --}}
+        <!--End Header-->
+        <!--Mobile Menu-->	
+        <div class="mobile-nav-wrapper" role="navigation">
+            <div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> Menu</div>
+            <ul id="MobileNav" class="mobile-nav">
+                <li class="lvl1 parent megamenu"><a href="/">Home <i class="anm anm-plus-l"></i></a>
+                 </li>
+                <li class="lvl1 parent megamenu"><a href="/shop">Shop <i class="anm anm-plus-l"></i></a>
+                </li>
+                
+              </ul>
+        </div>
+        <!--End Mobile Menu-->
 
-                      <img class="img-fluid mt-4 " style="width: auto; height: 150px; border-radius: 7px; "
-                        src="/images/{{this.mainImage.filename}}" alt="..." />
-                    </a>
-                    <div class="portfolio-caption mt-4 text-center">
-                      <div class="portfolio-caption-heading">{{this.title}}</div>
-                      <div class="portfolio-caption-subheading text-muted">{{this.desc}}</div>
-                      <div class="portfolio-caption-heading">{{#if
-                        this.MRP}}<del>₹{{this.MRP}}</del>&nbsp{{/if}}₹{{this.price}}</div>
+
+    <!--Body Content-->
+    <div id="page-content" >
+      <!--Collection Banner-->
+      <div class="collection-header">
+        <div class="collection-hero">
+          <div class="collection-hero__image"><img class="blur-up lazyload" data-src="assets/images/cat-women2.jpg"
+              src="assets/images/cat-women2.jpg" alt="Women" title="Women" /></div>
+          {{!-- <div class="collection-hero__title-wrapper">
+            <h1 class="collection-hero__title page-width">Shop Grid 3 Column</h1>
+          </div> --}}
+        </div>
+      </div>
+      <!--End Collection Banner-->
+
+      <div class="container" style="margin-top: 30px;">
+
+        <div class="row">
+          <!--Sidebar-->
+          <div class="col-12 col-sm-12 col-md-3 col-lg-3 sidebar filterbar pt-2" style="border: 2px solid black;border-radius:10px">
+            <div class="closeFilter d-block d-md-none d-lg-none"><i class="icon icon anm anm-times-l"></i></div>
+            <div class="sidebar_tags">
+
+          <form action="">
+              {{!-- search --}}
+              <div class="sidebar_widget categories filter-widget">
+                <div class="widget-title mb-1">
+                  <h2>SEARCH</h2>
+                </div>
+                <div class="widget-content">
+                  <ul class="sidebar_categories">
+
+                    <div class="input-group">
+                      <div class="form-outline col-md-9 pl-0">
+                        <input type="search" id="form1" class="form-control" name="search" value="{{search}}" />
+                      </div>
+                      <button type="button" class="btn btn-primary" onclick="this.form.submit()">
+                        <i class="fas fa-search"></i>
+                      </button>
                     </div>
-                    <div class="text-center mt-2">
-                      <div id="{{this._id}}">
-                        <button type="button" onclick="addToCart('{{this._id}}')" id="changeBtn" class="btn btn-success">Add
-                          To Cart</button>
+                        <a href="/shopNew?search=&category=&filter=&page=">Reset Selection</a>
+
+                  </ul>
+                </div>
+              </div>
+              {{!-- search --}}
+              <!--Categories-->
+              <div class="sidebar_widget categories filter-widget">
+                <div class="widget-title">
+                  <h2>Categories</h2>
+                </div>
+                <div class="widget-content">
+                  <ul class="sidebar_categories">
+                    
+                    {{#each categoryData}}
+                    <li class="lvl-1">
+                      <div class="checkbox"><label for="radio{{this._id}}"><input type="radio" onchange="this.form.submit()" name="category"
+                            value="{{this._id}}" id="radio{{this._id}}" {{#ifEqual this.name ../categoryName }} checked
+                            {{/ifEqual}} >{{this.name}}</label></div>
+
+                      {{/each}}
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+              <!--Categories-->
+              {{!-- filter --}}
+              <div class="sidebar_widget categories filter-widget">
+                <div class="widget-title">
+                  <h2>Filter</h2>
+                </div>
+                <div class="widget-content">
+                  <ul class="sidebar_categories">
 
 
+                    <li class="lvl-1">
+                      <div class="panel-body">
+                        <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                              value="0" {{#ifEqual sort "0" }} checked {{/ifEqual}}>New Launches</label></div>
+                        <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                              value="1" onchange="this.form.submit()" {{#ifEqual sort "1" }} checked {{/ifEqual}}>Low to
+                            High</label></div>
+                        <div class="checkbox"><label><input type="radio" onchange="this.form.submit()" name="filter"
+                              value="-1" onchange="this.form.submit()" {{#ifEqual sort "-1" }} checked {{/ifEqual}}>High
+                            to Low</label></div>
+                      </div>
+
+
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+              {{!-- filter --}}
+          </form>
+
+
+
+
+
+
+
+            </div>
+          </div>
+          <!--End Sidebar-->
+          <!--Main Content-->
+          <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col pt-3"  style="border: 2px solid black;border-radius:10px">
+
+            <div class="productList">
+              <!--Toolbar-->
+              
+              <!--End Toolbar-->
+              <div class="grid-products grid--view-items">
+                <div class="row">
+                  {{#each productData}}
+                  <label for="" hidden>{{this._id}}</label>
+                  <div class="col-6 col-sm-6 col-md-4 col-lg-4 item">
+                    <!-- start product image -->
+                    <div class="product-image">
+                      <!-- start product image -->
+                      <a href="productPage/{{this._id}}">
+                        <!-- image -->
+                        <img class="primary blur-up lazyload rounded" data- src="/images/{{this.mainImage.filename}}"
+                          src="/images/{{this.mainImage.filename}}" alt="image" title="product">
+                        <!-- End image -->
+                        <!-- Hover image -->
+                        <img class="hover blur-up lazyload rounded" data- src="/images/{{this.mainImage.filename}}"
+                          src="/images/{{this.mainImage.filename}}" alt="image" title="product">
+                        <!-- End hover image -->
+                        <!-- product label -->
+                  
+                        <!-- End product label -->
+                      </a>
+                      <!-- end product image -->
+
+                      <!-- Start product button -->
+                      <div class="text-center mt-2">
+                        <div class="variants add" action="#" onclick="addToCart('{{this._id}}')" method="get">
+                          <button class="btn btn-addto-cart" type="button">Add To Cart</button>
+                        </div>
                         <div class="modal fade" id="cartButtonModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                           aria-hidden="true">
                           <div class="modal-dialog">
@@ -238,105 +281,107 @@
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary"><a href="/cart">Go To Cart</a></button>
+                               <a href="/cart"> <button type="button" class="btn btn-outline" >Go To Cart</button></a>
                               </div>
                             </div>
                           </div>
                         </div>
-
-
                       </div>
                      
-                    </div>
-                  </div>
-                </div>
-                {{/each}}
-                {{!-- {{#each productData}}
-                <div class="card m-5" style="width: 18rem;">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-                {{/each}} --}}
 
+
+
+                      <!-- end product button -->
+                    </div>
+                    <!-- end product image -->
+
+                    <!--start product details -->
+                    <div class="product-details text-center">
+                      <!-- product name -->
+                      <div class="product-name">
+                        <a href="#">{{this.title}}</a>
+                      </div>
+                      <!-- End product name -->
+                      <!-- product price -->
+                      <div class="product-price">
+                        <span class="old-price">₹{{this.MRP}}</span>
+                        <span class="price">₹{{this.price}}</span>
+                      </div>
+                  
+
+                    </div>
+                    <!-- End product details -->
+                  </div>
+
+                  {{/each}}
+                </div>
               </div>
             </div>
-
-          </section>
-          {{!-- products --}}
-          <div class="container d-flex justify-content-center">
-            <ul class="pagination ">
-              <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{page}}">&lt;</a></li>
-              {{#each pagesCount}}
-              {{!-- <li><span><input type="radio" name="page" value="{{this}}" onchange="this.form.submit()"
-                    style="visibility:hidden" id="pg{{this}}"><label for="pg{{this}}">{{inc @key}}</label></span> --}}
-                <a class="btn btn-light"
-                  href="/shop?search={{../search}}&category={{../category}}&filter={{../sort}}&page={{this}}" {{#ifEqual
-                  ../page this}}active{{/ifEqual}}>{{inc @key}}</a>
-              </li>
-              {{/each}}
-              <li><a href="/shop?search={{search}}&category={{category}}&filter={{sort}}&page={{@key}}{{page}}">&gt;</a>
-              </li>
-            </ul>
+            <hr class="clear">
+            <div class="pagination">
+              <ul>
+                {{#each pagesCount}}
+                <li class="active">
+                  <a class="btn btn-light"
+                    href="/shop?search={{../search}}&category={{../category}}&filter={{../sort}}&page={{this}}"
+                    {{#ifEqual ../page this}}active{{/ifEqual}}>{{inc @key}}</a>
+                </li>
+                {{/each}}
+              </ul>
+            </div>
           </div>
+          <!--End Main Content-->
         </div>
       </div>
 
-    </div><!-- /.container -->
-  </form><!-- /.primary -->
-
-
-  <footer class="footer bg-secondary">
-    <div class="container">
-      <p class="small">Created with <span class="" aria-hidden="true"></span> by Mohsin</p>
     </div>
-  </footer>
-  {{!--body --}}
-  <!-- Footer-->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p>
-    </div>
-  </footer>
+    <!--End Body Content-->
 
+    <!--Footer-->
+    {{!-- --}}
+    <!--End Footer-->
 
-  <!-- Bootstrap core JS-->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js"></script>
-  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- Core theme JS-->
-  <script src="/js/scripts.js"></script>
-  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-{{!-- <script>
-  swal("Are you sure you want to do this?", {
-  buttons: ["Oh noez!", "Aww yiss!"],
-});
-</script> --}}
-  <script>
-    function addToCart(id) {
-      axios.get('/addToCart/' + id).then((result) => {
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
 
-        if (result.data.addedToCart) {
-          console.log(result.data.addedToCart)
+    <!--Quick View popup-->
 
-          $("#cartButtonModal").modal('show');
+    <!--End Quick View popup-->
+    {{!-- --}}
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script>
+      function addToCart(id) {
+        axios.get('/addToCart/' + id).then((result) => {
+console.log(result,'bgd')
+          if (result.data.addedToCart) {
+            console.log(result.data.addedToCart)
 
-        }
-      })
-    }
+            $("#cartButtonModal").modal('show');
 
-  </script>
+          }else{
+            window.location.href='/login'
+          }
+        })
+      }
 
+    </script>
+    {{!-- --}}
 
-
-
-
+    <!-- Including Jquery -->
+    <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/vendor/jquery.cookie.js"></script>
+    <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="assets/js/vendor/wow.min.js"></script>
+    <!-- Including Javascript -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/lazysizes.js"></script>
+    <script src="assets/js/main.js"></script>
+  </div>
 </body>
+
+<!-- belle/shop-grid-3.html   11 Nov 2019 12:39:06 GMT -->
 
 </html>

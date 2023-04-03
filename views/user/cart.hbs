@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
+
+<!-- belle/home3-boxed.html   11 Nov 2019 12:24:28 GMT -->
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
-	<title>Perfumes- Adan Store</title>
-	<!-- Favicon-->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Cart</title>
+	<meta name="description" content="description">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="assets/images/favicon.png" />
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" href="assets/css/plugins.css">
+	<!-- Bootstap CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<!-- Main Style CSS -->
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/responsive.css">
 	<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 	<!-- Bootstrap icons-->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
@@ -23,287 +33,367 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
 </head>
 
-<body>
-	<!-- Navigation-->
-	<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #313131;">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="/"><img src="/assets/img/1234.svg" alt="..." /></a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-					<li class="nav-item"><a class="nav-link"
-							href="/getProductByCategory/6402e75511e9188650151bac">Perfumes</a></li>
-					<li class="nav-item"><a class="nav-link"
-							href="/getProductByCategory/6405ddd4c6781ca379e9f7a1">Attars</a></li>
+<body class="template-index belle home3-boxed-layout">
+
+	<div class="pageWrapper">
+		<div class="layout-boxed">
+
+			<!--Top Header-->
+			<div class="top-header">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-10 col-sm-8 col-md-5 col-lg-4">
+
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block">
+
+						</div>
+						<div class="col-2 col-sm-4 col-md-3 col-lg-4 text-right">
+							<span class="user-menu d-block d-lg-none"><i class="anm anm-user-al"
+									aria-hidden="true"></i></span>
+							<ul class="customer-links list-inline">
+								{{#if isLoggedIn}}
+
+								<li><a href="/profile"><i class="fas fa-user-circle"></i>{{userName}}</a></li>
+								<li><a href="/logout">Logout</a></li>
+								{{else}}
+								<li><a href="/login">Login</a></li>
+								<li><a href="/signup">Create Account</a></li>
+								{{/if}}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--End Top Header-->
+			<!--Header-->
+			<div class="header-wrap animated d-flex" style="background: #B7B9BD; border-radius: 10px;">
+				<div class="container-fluid">
+					<div class="row align-items-center">
+						<!--Desktop Logo-->
+						<div class="logo col-md-2 col-lg-2 d-none d-lg-block">
+							<a href="/">
+								<h2
+									style="text-transform: capitalize; font-size: 1.25rem; font-weight: bold;color: rgb(81, 35, 2);">
+									Adan perfumes</h2>
+							</a>
+						</div>
+						<!--End Desktop Logo-->
+						<div class="col-2 col-sm-3 col-md-3 col-lg-8">
+							<div class="d-block d-lg-none">
+								<button type="button"
+									class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
+									<i class="icon anm anm-times-l"></i>
+									<i class="anm anm-bars-r"></i>
+								</button>
+							</div>
+							<!--Desktop Menu-->
+							<nav class="grid__item" id="AccessibleNav"><!-- for mobile -->
+								<ul id="siteNav" class="site-nav medium center hidearrow">
+									<li class="lvl1 parent megamenu"><a href="#">Home <i
+												class="anm anm-angle-down-l"></i></a>
+
+									</li>
+									<li class="lvl1 parent megamenu"><a href="/shop">Shop <i
+												class="anm anm-angle-down-l"></i></a>
+
+									</li>
+									<li class="lvl1 parent megamenu"><a href="/shop">Product <i
+												class="anm anm-angle-down-l"></i></a>
+
+									</li>
+									<li class="lvl1 parent dropdown"><a href="/shop">Perfumes <i
+												class="anm anm-angle-down-l"></i></a>
+
+									</li>
+
+
+								</ul>
+							</nav>
+							<!--End Desktop Menu-->
+						</div>
+						<!--Mobile Logo-->
+						<div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
+							<div class="logo">
+								<a href="/">
+									<h2
+										style="text-transform: capitalize; font-size: 1.25rem; font-weight: bold;color: rgb(81, 35, 2);">
+										adan perfumes</h2>
+								</a>
+							</div>
+						</div>
+						<!--Mobile Logo-->
+						<div class="col-4 col-sm-3 col-md-3 col-lg-2">
+							<div class="site-cart">
+								<a href="/cart" title="Cart">
+									<i class="icon anm anm-bag-l" style="font-size: 30px;"></i>
+
+
+								</a>
+								<!--Minicart Popup-->
+
+								<!--End Minicart Popup-->
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--End Header-->
+			<!--Mobile Menu-->
+			<div class="mobile-nav-wrapper" role="navigation">
+				<div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> Menu</div>
+				<ul id="MobileNav" class="mobile-nav">
+					<li class="lvl1 parent megamenu"><a href="/">Home <i class="anm anm-plus-l"></i></a>
+					</li>
+					<li class="lvl1 parent megamenu"><a href="/shop">Shop <i class="anm anm-plus-l"></i></a>
+					</li>
 
 				</ul>
-
-
-				{{#if isLoggedIn}}
-				<a href="/profile" class="btn btn-secondary "><span class="mdi mdi-account"></span></a>
-				<form class="d-flex">
-					{{!-- <a href="/cart" class="btn btn-outline-light">
-						<i class="bi-cart-fill me-1"></i>
-						Cart --}}
-						{{!-- <span class="badge text-white ms-1 rounded-pill"
-							style="background-color: #313131;">0</span> --}}
-					{{!-- </a> --}}
-				</form>
-				{{/if}}
-				{{!-- <li class="nav-item"> --}}
-					{{#if isLoggedIn}}
-					<a class="btn btn-secondary" href="/logout">Logout</a>
-
-					{{else}}
-					<a class="btn btn-secondary" href="/login">Login</a>
-					{{/if}}
-
-					{{!-- <a class="nav-link" href="/login">Login</a> --}}
-					{{!--
-				</li> --}}
 			</div>
-		</div>
-	</nav>
-	{{!-- --}}
+			<!--End Mobile Menu-->
+
+			{{!-- --}}
 
 
-	<div class="cart-wrap">
-		<div class="container" style="position: relative;">
-								{{#if products}}
-			<div class="row">
-				<div class="col-lg-8">
-					<div class="main-heading">Shopping Cart</div>
-					<div class="table-cart">
-						<table>
-							<thead>
-								<tr>
-									<th>Product</th>
-									<th>Quantity</th>
-									<th>Total</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								{{#each products}}
-								<tr>
-									<td>
-										<div class="display-flex align-center">
-											<div class="img-product">
-												<img src="/images/{{this.mainImage.filename}}" alt=""
-													class="mCS_img_loaded" style="border-radius: 5px;">
-											</div>
-											<div class="name-product">
+			<div class="cart-wrap mt-4">
+				<div class="container-fluid" style="position: relative;">
+					{{#if products}}
+					<div class="row">
+						<div class="col-lg-8">
+							<div class="main-heading">Shopping Cart</div>
+							<div class="table-cart">
+								<table>
+									<thead>
+										<tr>
+											<th>Product</th>
+											<th>Quantity</th>
+											<th>Total</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										{{#each products}}
+										<tr>
 
-												<br>{{this.title}}
-											</div>
-											<div>
-												{{this.price}}
-												<br>
-												<del>{{this.MRP}}</del>
-											</div>
-										</div>
-									</td>
-									<td class="product-count">
-										<form action="#" class="count-inlineflex">
-											<div class="qtyminus">
-												{{!-- <a href="/minusQuantity/{{this._id}}">
-												-
-												</a> --}}
-												<a onclick="remQ('{{this._id}}')">
-													-
-												</a>
-												 </div>
-											<input type="text" name="quantity" id="quantity{{this._id}}" value={{this.quantity}}
-												class="qty" readonly>
-											<div class="qtyplus">
-												<a onclick="addQ('{{this._id}}')">
-													+
-												</a>
-												{{!-- <a href="/addQuantity/{{this._id}}">
-													+
-												</a> --}}
-											</div>
 
-										</form>
-									</td>
-									<td>
-										<div class="total" id="itemprice{{this._id}}">
-											{{this.itemprice}}
-										</div>
-											<del id="itemMRP{{this._id}}">{{this.itemMRP}}</del>
-									</td>
-									<td>
 
-										<a href="/deleteFromCart/{{this._id}}"
-											onclick="return confirm('Are you sure?')"><span
-												class="mdi mdi-delete-circle fs-3 text-dark"></span></a>
-										{{!-- <button type="button" class="btn" onclick="openModal('{{this._id}}')">
-											<span class="mdi mdi-delete-circle fs-3 text-dark"></span>
-										</button>
 
-										<!-- Modal -->
-										<div class="modal fade" id="exampleModal" tabindex="-1"
-											aria-labelledby="exampleModalLabel" aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-														<button type="button" class="btn-close" data-bs-dismiss="modal"
-															aria-label="Close"></button>
+
+										</tr>
+										<tr>
+											<td>
+												<div class="display-flex align-center">
+													<div class="img-product">
+														<img src="/images/{{this.mainImage.filename}}" alt=""
+															class="mCS_img_loaded" style="border-radius: 5px;">
 													</div>
-													<div class="modal-body text-center">
-														Do you want to delete this product
-														<h1 id="displayId">hai</h1>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-bs-dismiss="modal">Close</button>
-														<a href="/deleteFromCart/{{this._id}}">
+													<div class="name-product">
 
-															<button type="button"
-																class="btn btn-warning">Delete</button>
+														<br>{{this.title}}
+													</div>
+													<div>
+														{{this.price}}
+														<br>
+														<del>{{this.MRP}}</del>
+													</div>
+												</div>
+											</td>
+											<td class="product-count ">
+												<div>&nbsp</div>
+												<form action="#" class="count-inlineflex">
+													<div class="qtyminus">
+														{{!-- <a href="/minusQuantity/{{this._id}}">
+															-
+														</a> --}}
+														<a onclick="remQ('{{this._id}}')">
+															-
+														</a>
+													</div>
+													<input type="text" name="quantity" id="quantity{{this._id}}"
+														value={{this.quantity}} class="qty" readonly>
+													<div class="qtyplus">
+														<a onclick="addQ('{{this._id}}')">
+															+
 														</a>
 
 													</div>
+
+												</form>
+												<div><label for="" class="text-danger"
+														id="message{{this._id}}">&nbsp</label>
 												</div>
-											</div>
-										</div>
-										--}}
+											</td>
+											<td>
 
-										{{!-- <a href="/deleteFromCart/{{this._id}}">
-											<span class="mdi mdi-delete-circle fs-3 text-dark"></span>
-										</a> --}}
+												<div class="h4" id="itemprice{{this._id}}">
+													{{this.itemprice}}
+												</div>
+												<del id="itemMRP{{this._id}}">{{this.itemMRP}}</del>
+											</td>
+											<td>
 
-									</td>
-								</tr>
-								{{/each}}
-							</tbody>
-						</table>
-								
+												<a href="/deleteFromCart/{{this._id}}"
+													onclick="return confirm('Are you sure?')"><span
+														class="mdi mdi-delete-circle fs-3 text-dark"></span></a>
 
-					</div>
-					<!-- /.table-cart -->
-				</div>
-				<!-- /.col-lg-8 -->
-				<div class="col-lg-4 ">
-					<div class="cart-totals">
-						<h3>Cart Totals</h3>
-						<form action="/checkout" method="post" accept-charset="utf-8">
-							<table>
-								<tbody>
-									<tr>
-										<td>Total MRP</td>
 
-										<td id="totalMRP1">{{totalMRP}}</td>
-									</tr>
-									<tr>
-										<td>discount</td>
 
-										<td id="discount1">{{discount}}</td>
-									</tr>
-									<tr>
-										<td>Subtotal</td>
 
-										<td id="totalAmount1">{{totalAmount}}</td>
-									</tr>
-									<tr>
-										<td>Shipping</td>
-										<td class="free-shipping">Free Shipping</td>
-									</tr>
-									<tr class="total-row">
-										<td>Total</td>
-										<td class="price-total" id="totalPrice">{{totalAmount}}</td>
-										{{!-- <span id="hello">hello</span> --}}
-									</tr>
-								</tbody>
-							</table>
-							<div class="btn-cart-totals">
-								{{!-- <a href="#" class="update round-black-btn" title="">Update Cart</a> --}}
-								<button type="submit" class="checkout round-black-btn">Proceed to Checkout</button>
-								{{!-- <a href="/checkout" class="checkout round-black-btn" title="">Proceed to
-									Checkout</a> --}}
+											</td>
+										</tr>
+										{{/each}}
+									</tbody>
+								</table>
+
+
 							</div>
-							<!-- /.btn-cart-totals -->
-						</form>
-						<!-- /form -->
-					</div>
-					<!-- /.cart-totals -->
-				</div>
-				<!-- /.col-lg-4 -->
-			</div>
-							{{else}}
-								<div class="text-center" style="position:relative">
-									<img src="/images/cartEmpty.png" alt="Empty Cart">
-									<br>
-									<a href="/shop" class="btn btn-primary text-center" >Go to Shopping</a>
-								</div>
-								{{/if}}
+							<!-- /.table-cart -->
+						</div>
+						<!-- /.col-lg-8 -->
+						<div class="col-lg-4 ">
+							<div class="cart-totals" style="background-color: #B7B9BD; border-radius: 10px;">
+								<h3>Cart Totals</h3>
+								<form action="/checkout" method="get" accept-charset="utf-8">
+									<table>
+										<tbody>
 
-			
+											<tr>
+												<td>Total MRP</td>
+
+												<td id="totalMRP1">{{totalMRP}}</td>
+											</tr>
+											<tr>
+												<td>discount</td>
+
+												<td id="discount1">{{discount}}</td>
+											</tr>
+											<tr>
+												<td>Subtotal</td>
+
+												<td id="totalAmount1">{{totalAmount}}</td>
+											</tr>
+											<tr>
+												<td>Shipping</td>
+												<td class="free-shipping">Free Shipping</td>
+											</tr>
+											<tr class="total-row">
+												<td>Total</td>
+												<td class="h3" id="totalPrice">{{totalAmount}}</td>
+
+											</tr>
+										</tbody>
+									</table>
+									<div class="btn-cart-totals">
+
+										<button type="submit" class="checkout round-black-btn">Proceed to
+											Checkout</button>
+
+									</div>
+									<!-- /.btn-cart-totals -->
+								</form>
+								<!-- /form -->
+							</div>
+							<!-- /.cart-totals -->
+						</div>
+						<!-- /.col-lg-4 -->
+					</div>
+					{{else}}
+					<div class="text-center" style="position:relative">
+						<img src="/images/iconsAndFiles/cartEmpty.png" alt="Empty Cart">
+						<br>
+						<a href="/shop" class="btn btn-primary text-center">Go to Shopping</a>
+					</div>
+					{{/if}}
+
+
+				</div>
+			</div>
 		</div>
 	</div>
+
+	<!-- Including Jquery -->
+	<script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+	<script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+	<script src="assets/js/vendor/jquery.cookie.js"></script>
+	<script src="assets/js/vendor/wow.min.js"></script>
+	<!-- Including Javascript -->
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/plugins.js"></script>
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/lazysizes.js"></script>
+	<script src="assets/js/main.js"></script>
 	<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 	<script>
 		function addQ(id) {
 			axios.get('/addQuantity/' + id).then((result) => {
-				let totalAmount = result.data.totalAmount
-				let totalMRP = result.data.totalMRP
-				let discount = result.data.discount
-				let Qty = result.data.Qty
-				let products = result.data.products
-				let itemprice;
+				if (result.data.stockEmpty) {
+					console.log("ste", result.data.stockEmpty)
+					document.getElementById(`message${id}`).innerText = "No more stocks"
+				} else {
+					let totalAmount = result.data.totalAmount
+					let totalMRP = result.data.totalMRP
+					let discount = result.data.discount
+					let Qty = result.data.Qty
+					let products = result.data.products
+					let itemprice;
 
-				
-				console.log(totalAmount, totalMRP, discount, "ggg")
-				for (let i of products){
-					if(i._id==id){
-					 itemprice=i.itemprice
-					 itemMRP=i.itemMRP
+
+					console.log(totalAmount, totalMRP, discount, "ggg")
+					for (let i of products) {
+						if (i._id == id) {
+							itemprice = i.itemprice
+							itemMRP = i.itemMRP
+						}
 					}
+
+					document.getElementById('totalAmount1').innerText = totalAmount
+					document.getElementById('totalPrice').innerHTML = totalAmount
+					document.getElementById('totalMRP1').innerText = totalMRP
+					document.getElementById('discount1').innerText = discount
+					document.getElementById(`quantity${id}`).value = Qty
+					document.getElementById(`itemprice${id}`).innerText = itemprice
+					document.getElementById(`itemMRP${id}`).innerText = itemMRP
+					document.getElementById(`message${id}`).innerText = null
+
 				}
-
-				document.getElementById('totalAmount1').innerText = totalAmount
-				document.getElementById('totalPrice').innerHTML = totalAmount
-				document.getElementById('totalMRP1').innerText = totalMRP
-				document.getElementById('discount1').innerText = discount
-				document.getElementById(`quantity${id}`).value = Qty
-				document.getElementById(`itemprice${id}`).innerText = itemprice
-				document.getElementById(`itemMRP${id}`).innerText = itemMRP
-
-
 			})
 		}
 		function remQ(id) {
-			axios.get('/minusQuantity/' + id).then((result) => {
-				let totalAmount = result.data.totalAmount
-				let totalMRP = result.data.totalMRP
-				let discount = result.data.discount
-				let Qty = result.data.Qty
-				let products = result.data.products
-				let itemprice;
+			if (document.getElementById(`quantity${id}`).value <= 1) {
 
-				
-				console.log(totalAmount, totalMRP, discount, "ggg")
-				for (let i of products){
-					if(i._id==id){
-					 itemprice=i.itemprice
-					 itemMRP=i.itemMRP
+			} else {
+				axios.get('/minusQuantity/' + id).then((result) => {
+					let totalAmount = result.data.totalAmount
+					let totalMRP = result.data.totalMRP
+					let discount = result.data.discount
+					let Qty = result.data.Qty
+					let products = result.data.products
+					let itemprice;
+					if (!Qty) {
+						window.location.reload()
 					}
-				}
 
-				document.getElementById('totalAmount1').innerText = totalAmount
-				document.getElementById('totalPrice').innerHTML = totalAmount
-				document.getElementById('totalMRP1').innerText = totalMRP
-				document.getElementById('discount1').innerText = discount
-				document.getElementById(`quantity${id}`).value = Qty
-				document.getElementById(`itemprice${id}`).innerText = itemprice
-				document.getElementById(`itemMRP${id}`).innerText = itemMRP
-			})
+
+					console.log(Qty, totalAmount, totalMRP, discount, "ggg")
+					for (let i of products) {
+						if (i._id == id) {
+							itemprice = i.itemprice
+							itemMRP = i.itemMRP
+						}
+					}
+					document.getElementById(`message${id}`).innerText = null
+					document.getElementById('totalAmount1').innerText = totalAmount
+					document.getElementById('totalPrice').innerHTML = totalAmount
+					document.getElementById('totalMRP1').innerText = totalMRP
+					document.getElementById('discount1').innerText = discount
+					document.getElementById(`quantity${id}`).value = Qty
+					document.getElementById(`itemprice${id}`).innerText = itemprice
+					document.getElementById(`itemMRP${id}`).innerText = itemMRP
+				})
+			}
 		}
 
 	</script>

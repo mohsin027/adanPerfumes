@@ -28,7 +28,6 @@ const orderSchema= new mongoose.Schema({
     },
     totalQuantity:{
         type:Number,
-        required:false
     },
     dispatch:{
         type:Date,
@@ -46,7 +45,15 @@ const orderSchema= new mongoose.Schema({
         type:Number,
         required:true
     },
+    MRP:{
+        type:Number,
+        required:true
+    },
     amountPayable:{
+        type:Number,
+        default:0
+    },
+    discount:{
         type:Number,
         default:0
     },

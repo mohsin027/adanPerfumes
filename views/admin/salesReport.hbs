@@ -201,6 +201,7 @@
       <h3 >Sales Report</h3>
       <div>
         <button onclick="downloadPdf()" class="btn btn-dark ">Download in PDF</button>
+        <button onclick="downloadExcel()" class="btn btn-dark ">Download in Excel</button>
       </div>
     </div>
     <div class="row mt-2 p-3">
@@ -310,13 +311,11 @@
       integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
       crossorigin="anonymous"
     ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
 <script>
     let orders=[]
     {{#each orders}}
     orders.push(['{{this.orderId}}','{{this.address}}','{{this.product.[0].title}}','{{this.product.[0].price}}','{{this.products.[0].cartQuantity}}','{{this.total}}'])
-
     {{/each}}
     let totalRevenue= '{{totalRevenue}}'
     let totalOrders= '{{totalOrders}}'
@@ -347,6 +346,18 @@ function downloadPdf() {
       })
       doc.save('sales-report.pdf');
     }
+    function downloadExcel() {
+              let report = [
+                { type: "Total Sales", value: totalOrders },
+                { type: "Total Revenue", value: totalRevenue },
+        
+              ]
+              var sheet1 = XLSX.utils.json_to_sheet(report);
+              var wb = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(wb, sheet1, "Sales Report");
+              XLSX.writeFile(wb, 'sales-report.xlsx');
+            }
+
 </script>
 {{!-- main --}}
 </body>

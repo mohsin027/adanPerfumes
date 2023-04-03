@@ -44,7 +44,7 @@ app.use(session({
      resave: true,
     cookie: { maxAge: 8*60*60*1000 },
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.DB_URL })
+    // store: MongoStore.create({ mongoUrl: process.env.DB_URL })
     
 }));
 
@@ -75,6 +75,15 @@ hbs.registerHelper('ifEqual', function (a, b, opts) {
       return opts.inverse(this);
     }
   });
+  app.use(function (err, req, res, next) {
+    if (err instanceof multer.MulterError) {
+      res.status(400).send('File size should not exceed 5 MB and max image limit is 12');
+    } else {
+      next(err);
+      res.redirect('/cart')
+    }
+  });
+ 
 
 const port=process.env.PORT
 
