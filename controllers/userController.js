@@ -757,7 +757,7 @@ export async function proceedToPayment(req, res) {
           },
           order_meta: {
             return_url:
-              "http://localhost:5000/verifyPayment?order_id={order_id}",
+              "https://adanperfumes.mohsinub.online/verifyPayment?order_id={order_id}",
           },
         },
       };
