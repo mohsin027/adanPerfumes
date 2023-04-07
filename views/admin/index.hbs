@@ -20,12 +20,22 @@
   <!-- Custom CSS -->
   <link href="../../dist/css/style.min.css" rel="stylesheet">
   <link rel="stylesheet" href="//cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
 <![endif]-->
+
+<style>
+  @media(max-width:600px){
+    #chart{
+      width: 300px;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -89,13 +99,7 @@
             <!-- ============================================================== -->
             <!-- Search -->
             <!-- ============================================================== -->
-            {{!-- <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark"
-                href="javascript:void(0)"><i class="ti-search"></i></a>
-              <form class="app-search position-absolute">
-                <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i
-                    class="ti-close"></i></a>
-              </form>
-            </li> --}}
+       
           </ul>
           <!-- ============================================================== -->
           <!-- Right side toggle and nav items -->
@@ -134,19 +138,7 @@
                     <h5 class="m-b-0 user-name font-medium">Admin <i class="fa fa-angle-down"></i></h5>
                     <span class="op-5 user-email">admin@gmail.com</span>
                   </a>
-                  {{!-- <div class="dropdown-menu dropdown-menu-end" aria-labelledby="Userdd">
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My
-                      Profile</a>
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My
-                      Balance</a>
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account
-                      Setting</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-power-off m-r-5 m-l-5"></i>
-                      Logout</a>
-                  </div> --}}
+          
                 </div>
               </div>
               <!-- End User Profile-->
@@ -220,7 +212,7 @@
         <!-- Sales chart -->
         <!-- ============================================================== -->
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
             <div class="card">
               <div class="card-body">
                 <div class="d-md-flex align-items-center">
@@ -288,7 +280,7 @@
               <div class="row">
 
 
-
+              <div  class="col-md-12" style="overflow-x: scroll;">
                 <h3 class="mt-3">Sales Overview</h3>
                 <div class="row mt-2 p-3">
                   <div class="chart-container">
@@ -296,6 +288,10 @@
                   </div>
                 </div>
               </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+
               <h3 class="mt-3">Category Wise Revenue Chart</h3>
               <div class="row mt-2 p-3">
                 <div class="chart-container">
@@ -303,6 +299,7 @@
                 </div>
               </div>
             </div> 
+              <div class="col-md-6">
             <h3 class="mt-3">Payment Type Chart</h3>
               <div class="row mt-2 p-3">
                 <div class="chart-container">
@@ -310,11 +307,11 @@
                 </div>
               </div>
             </div> 
-            {{!-- <!-- column -->
-            <div class="col-lg-12">
-              <div class="campaign ct-charts"></div>
-            </div>
-            <!-- column --> --}}
+
+              </div>
+                </div>
+              </div>
+  
           </div>
         </div>
       </div>
@@ -378,7 +375,7 @@
         },
       ],
       chart: {
-        height: 350,
+        height: 250,
         type: "bar",
         events: {
           click: function (chart, w, e) {

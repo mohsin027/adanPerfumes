@@ -201,7 +201,7 @@
       <h3 >Sales Report</h3>
       <div>
         <button onclick="downloadPdf()" class="btn btn-dark ">Download in PDF</button>
-        <button onclick="downloadExcel()" class="btn btn-dark ">Download in Excel</button>
+        <button onclick="downloadExcel2()" class="btn btn-dark ">Download in Excel</button>
       </div>
     </div>
     <div class="row mt-2 p-3">
@@ -238,7 +238,7 @@
     <div class="row mt-2 p-3">
         <div class="orders-table" id="content">
           <div class="table-responsive">
-            <table class="table table-hover" id="table">
+            <table class="table table-hover" id="orderTable">
                 <thead>
                     <tr>
                       <th scope="col">No</th>
@@ -254,26 +254,22 @@
                     
                     {{#each orders}}
                     <tr>
-                      <th scope="row">
+                      <td scope="row">
                         {{this.orderId}}
-                       </th>
-                      <th scope="row">
+                       </td>
+                      <td scope="row">
                         <a href="/admin/orderDetails/{{this._id}}">
                          {{this.product.[0].title}}
                         </a>
-                       </th>
+                       </td>
                       <td>{{this.createdAt  }}</td>
                       <td>
                         {{#if this.paid}} Paid
                         {{else}} Not Paid 
                         {{/if}}
                         </td>
-                      <td class="d-flex justify-content-center align-items-center h-100">
-                        <div>
-                          <div class="del-status {{ this.orderStatus }} ">
+                      <td>
                            {{this.orderStatus }} 
-                          </div>
-                        </div>
                     </td>
                       
                     <td>{{this.totalQuantity }} </td>
@@ -315,17 +311,22 @@
 <script>
     let orders=[]
     {{#each orders}}
-    orders.push(['{{this.orderId}}','{{this.address}}','{{this.product.[0].title}}','{{this.product.[0].price}}','{{this.products.[0].cartQuantity}}','{{this.total}}'])
+    orders.push(['{{this.orderId}}','{{this.address}}','{{this.product.[0].title}}','{{this.product.[0].price}}','{{this.totalQuantity}}','{{this.total}}'])
     {{/each}}
     let totalRevenue= '{{totalRevenue}}'
     let totalOrders= '{{totalOrders}}'
     let totalDispatch= '{{totalDispatch}}'
     let totalPending= '{{totalPending}}'
+    let startDate= '{{startDate}}'
+    let endDate= '{{endDate}}'
  
  const { jsPDF } = window.jspdf;
 function downloadPdf() {
       const doc= new jsPDF();
+      doc.setFont("helvetica", "bold");
       doc.text(15, 20, "Adan Perfumes Sales Report ");
+      doc.setFont("helvetica", "italic");
+      doc.text(15, 30, `From ${startDate} to ${endDate}`);
       doc.autoTable({
         head: [['Type', 'Details']],
         body: [
@@ -340,25 +341,68 @@ function downloadPdf() {
       })
       doc.text(15, doc.lastAutoTable.finalY+20, "order info");
       doc.autoTable({
-        head: [['Order ID','Username', 'Product Name','Price','Quantity','Sub Total']],
+        head: [['Order ID','Name', 'Product Name','Price','Quantity','Sub Total']],
         body: orders,
         startY: doc.lastAutoTable.finalY + 30
       })
       doc.save('sales-report.pdf');
     }
-    function downloadExcel() {
-              let report = [
-                { type: "Total Sales", value: totalOrders },
-                { type: "Total Revenue", value: totalRevenue },
-        
-              ]
-              var sheet1 = XLSX.utils.json_to_sheet(report);
-              var wb = XLSX.utils.book_new();
-              XLSX.utils.book_append_sheet(wb, sheet1, "Sales Report");
-              XLSX.writeFile(wb, 'sales-report.xlsx');
-            }
+   
+function downloadExcel2() {
+
+  const orders = [
+    {{#each orders}}
+    ['{{this.orderId}}', '{{this.address}}', '{{this.product.[0].title}}', '{{this.product.[0].price}}', '{{this.totalQuantity}}', '{{this.total}}'],
+    {{/each}}
+  ];
+  const totalRevenue = '{{totalRevenue}}';
+  const totalOrders = '{{totalOrders}}';
+  const totalDispatch = '{{totalDispatch}}';
+  const totalPending = '{{totalPending}}';
+  const startDate = '{{startDate}}';
+  const endDate = '{{endDate}}';
+ var wb = XLSX.utils.book_new();
+  var ws = XLSX.utils.aoa_to_sheet([
+    ['Adan Perfumes'],
+    ['Sales Report'],
+    [''],
+    [`From:${startDate} to ${endDate}` ],
+    [''],
+    [`Total Orders  : ${totalOrders}`],
+    [`Total Revenue : ${totalRevenue}`],
+    [`Total Dispatch: ${totalDispatch}`],
+    [`Total Pending : ${totalPending}`],
+    [''],
+    ['Order ID', 'Customer', 'Product Name', 'Price', 'Quantity', 'Sub Total'],
+    ...orders
+  ]);
+
+  var wscols = [
+    { wch: 8 },
+    { wch: 15 },
+    { wch: 13 },
+    { wch: 8 },
+    { wch: 8 },
+    { wch: 8 }
+  ];
+  ws['!cols'] = wscols;
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
+  XLSX.writeFile(wb, 'sales-report.xlsx');
+
+
+
+
+
+}
 
 </script>
+   <script src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+   <script>$(document).ready( function () {
+    $('#orderTable').DataTable();
+} );
+
+     </script>
 {{!-- main --}}
 </body>
 

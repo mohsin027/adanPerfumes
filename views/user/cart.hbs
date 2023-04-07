@@ -162,52 +162,51 @@
 				<div class="container-fluid" style="position: relative;">
 					{{#if products}}
 					<div class="row">
-						<div class="col-lg-8">
+						
+						<div class="col-lg-8"  style="overflow-x:scroll;">
 							<div class="main-heading">Shopping Cart</div>
 							<div class="table-cart">
-								<table>
+								<table >
 									<thead>
 										<tr>
+											<th >Image</th>
 											<th>Product</th>
-											<th>Quantity</th>
-											<th>Total</th>
+											<th>price</th>
+											<th >Quantity</th>
+											<th >Total</th>
 											<th></th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody >
 										{{#each products}}
-										<tr>
-
-
-
-
-
-										</tr>
+									
 										<tr>
 											<td>
-												<div class="display-flex align-center">
 													<div class="img-product">
 														<img src="/images/{{this.mainImage.filename}}" alt=""
 															class="mCS_img_loaded" style="border-radius: 5px;">
 													</div>
+												</td>
+												<td>
+													
 													<div class="name-product">
 
 														<br>{{this.title}}
 													</div>
-													<div>
+													</td>
+													<td>
+														
+													<div >
 														{{this.price}}
 														<br>
 														<del>{{this.MRP}}</del>
 													</div>
-												</div>
 											</td>
 											<td class="product-count ">
 												<div>&nbsp</div>
 												<form action="#" class="count-inlineflex">
 													<div class="qtyminus">
-														{{!-- <a href="/minusQuantity/{{this._id}}">
-															-
-														</a> --}}
+													
 														<a onclick="remQ('{{this._id}}')">
 															-
 														</a>
@@ -250,7 +249,6 @@
 
 
 							</div>
-							<!-- /.table-cart -->
 						</div>
 						<!-- /.col-lg-8 -->
 						<div class="col-lg-4 ">

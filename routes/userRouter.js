@@ -50,7 +50,6 @@ router.get("/getResetPage", getResetPage);
 router.get("/productPage/:id", getProductPage);
 router.get("/getProductByCategory/:id", getProductByCategory);
 
-
 router.post("/signup", signup);
 router.post("/otpSubmitSignup", signupOtp);
 
@@ -58,28 +57,25 @@ router.post("/emailSubmit", emailCheckResetPassword);
 router.post("/otpSubmit", verifyOTP);
 router.post("/passwordSubmit", resetPassword);
 
-
 router.get("/shop", shop);
 
 router.use(checkUser);
 router.post("/login", userLogin);
-router.get("/cart",verifyUser, getCartPage);
+router.get("/cart", verifyUser, getCartPage);
 router.get("/addToCart/:id", verifyUser, addToCart);
 router.get("/deleteFromCart/:id", verifyUser, deleteFromCart);
-router.get("/addQuantity/:id",verifyUser, addQuantity);
-router.get("/minusQuantity/:id",verifyUser,minusQuantity);
+router.get("/addQuantity/:id", verifyUser, addQuantity);
+router.get("/minusQuantity/:id", verifyUser, minusQuantity);
 router.get("/checkout", verifyUser, checkout);
-// router.post("/checkout", verifyUser, checkout);
 router.post("/addAddress", verifyUser, addToAddress);
 router.post("/proceedToPayment", verifyUser, proceedToPayment);
 router.post("/couponValidation", verifyUser, couponValidation);
-router.get("/orderHistory",verifyUser, getOrderHistory);
-router.get("/orderDetails/:orderId",verifyUser, getOrderDetails);
-router.get("/verifyPayment",verifyUser, getUserPayment);
-router.get("/profile",verifyUser, getProfile);
-router.get("/editProfile/:id",verifyUser, getEditAddress);
-router.post("/editProfile/:id",verifyUser, editAddress);
-router.get("/deleteAddress/:id",verifyUser, deleteAddress);
-
+router.get("/orderHistory", verifyUser, getOrderHistory);
+router.get("/orderDetails/:orderId", verifyUser, getOrderDetails);
+router.get("/verifyPayment", verifyUser, getUserPayment);
+router.get("/profile", verifyUser, getProfile);
+router.get("/editProfile/:id", verifyUser, getEditAddress);
+router.post("/editProfile/:id", verifyUser, editAddress);
+router.get("/deleteAddress/:id", verifyUser, deleteAddress);
 
 export default router;
