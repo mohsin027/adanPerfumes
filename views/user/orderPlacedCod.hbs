@@ -1,49 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Perfumes- Adan Store</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-<style>
-    @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
-.track_tbl td.track_dot {
-    width: 50px;
-    position: relative;
-    padding: 0;
-    text-align: center;
-}
-.track_tbl td.track_dot:after {
-    content: "\f111";
-    font-family: FontAwesome;
-    position: absolute;
-    margin-left: -5px;
-    top: 11px;
-}
-.track_tbl td.track_dot span.track_line {
-    background: #000;
-    width: 3px;
-    min-height: 50px;
-    position: absolute;
-    height: 101%;
-}
-.track_tbl tbody tr:first-child td.track_dot span.track_line {
-    top: 30px;
-    min-height: 25px;
-}
-.track_tbl tbody tr:last-child td.track_dot span.track_line {
-    top: 0;
-    min-height: 25px;
-    height: 10%;
-}
-</style>
+<!-- belle/home3-boxed.html   11 Nov 2019 12:24:28 GMT -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Adan Perfumes</title>
+<meta name="description" content="description">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Favicon -->
+<link rel="shortcut icon" href="assets/images/favicon.png" />
 <!-- Plugins CSS -->
 <link rel="stylesheet" href="assets/css/plugins.css">
 <!-- Bootstap CSS -->
@@ -51,22 +17,13 @@
 <!-- Main Style CSS -->
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/responsive.css">
-    <link rel="stylesheet" href="/css/orderHistory.css">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.1.96/css/materialdesignicons.min.css">
-    <!------ Include the above in your HEAD tag ---------->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
 
 <body>
-    <!-- Navigation-->
-    <div class="top-header">
+	<!-- Navigation-->
+	<div class="top-header">
       <div class="container-fluid">
         <div class="row">
           <div class="col-10 col-sm-8 col-md-5 col-lg-4">
@@ -134,9 +91,7 @@
                     <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
                         <div class="logo">
                             <a href="/">
-                               <h2
-										style="text-transform: capitalize; font-size: 1.25rem; font-weight: bold;color: rgb(81, 35, 2);">
-										adan perfumes</h2>
+                                <h2>adan perfumes</h2>
                             </a>
                         </div>
                     </div>
@@ -170,64 +125,57 @@
               </ul>
         </div>
         <!--End Mobile Menu-->
-    {{!-- --}}
+	{{!-- --}}
+{{!--  --}}
+
+	<div class="container mt-5 mb-5">
+
+        <div class="row d-flex justify-content-center">
+
+            <div class="col-md-8">
+
+                <div class="card">
 
 
-    <div class="cart-wrap">
-        <div class="container">
-            {{!-- <div class="row">
-                <div class="col-lg-8">
-                </div>
+                        
+                        <div class="invoice p-5">
 
-                <div class="col-lg-4">
+                            <h5>Your order Confirmed!</h5>
 
-                </div>
-            </div> --}}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-    <div class="p-4" style="overflow-x: scroll;">
-    <h3>Order History</h3>
-    <table class="table table-bordered track_tbl" >
-        <thead>
-            <tr>
-                <th>Order No</th>
-                <th>Products</th>
-                <th>Status</th>
-                <th>Amount</th>
-                <th>Date/Time</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each orders}}
-            <tr class="active">
-               
-                <td>{{this.orderId}}</td>
-                <td>
-                {{#each this.product}}
-                    {{this.title}}<br>
-                  
-                {{/each}}
-                    
-                </td>
-                <td>{{this.orderStatus}}</td>
-                <td>₹{{this.total}}</td>
-                <td>{{formatDate this.createdAt "DD-MM-YYYY"}}</td>
-                <td><a href="/orderDetails/{{this.orderId}}" class="btn btn-secondary">View details</a></td>
-            </tr>
-           {{/each}} 
-        </tbody>
-    </table>
-    </div>
+                            <span class="font-weight-bold d-block mt-4">Hello, {{userName}}</span>
+                            <span>You order has been confirmed and will be shipped in next two days!</span>
 
 
+                                <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
+                                <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+                                <span>Adan Perfumes</span>
+                                <br>
+                               <a href="/orderHistory" class="btn round-black-btn">Goto Order Page</a>
+
+
+
+                            
+
+                        </div>
+
+
+                        <div class="d-flex justify-content-between footer p-3">
+
+                            <span>Need Help? visit our <a href="#"> help center</a></span>
+						<label for="">{{order.createdAt}}</label>                          
+                        </div>
+
+
+
+            
         </div>
-
+                
+            </div>
+            
+        </div>
+        
     </div>
-    <!-- Including Jquery -->
+     <!-- Including Jquery -->
      <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
      <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
      <script src="assets/js/vendor/jquery.cookie.js"></script>
@@ -238,14 +186,16 @@
      <script src="assets/js/popper.min.js"></script>
      <script src="assets/js/lazysizes.js"></script>
      <script src="assets/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="	sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    {{!-- --}}
+{{!--  --}}
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="	sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	{{!-- --}}
+   
 </body>
 
 </html>

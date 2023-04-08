@@ -22,6 +22,7 @@ let loginError;
 let otpError;
 let userName;
 let cartTotal;
+let addressError;
 const formatDate = function (date, format) {
   moment.locale("en");
   return moment(date).tz("Asia/Kolkata").format(format);
@@ -38,7 +39,7 @@ export async function getUserLoginPage(req, res) {
     console.log(req.session.user, isLoggedIn);
   } catch (error) {
     console.error("Error getting login page:", error);
-    res.redirect("/");
+    res.redirect("/login");
   }
 }
 export async function getUserSignupPage(req, res) {
@@ -51,7 +52,7 @@ export async function getUserSignupPage(req, res) {
     }
   } catch (error) {
     console.error("Error getting signup page:", error);
-    res.redirect("/");
+    res.redirect("/signup");
   }
 }
 export async function getSignupOtp(req, res) {
@@ -60,7 +61,7 @@ export async function getSignupOtp(req, res) {
     otpError = null;
   } catch (error) {
     console.error("Error getting signup otp:", error);
-    res.redirect("/");
+    res.redirect("/signup");
   }
 }
 export async function getUserHomePage(req, res) {
@@ -77,7 +78,7 @@ export async function getUserHomePage(req, res) {
     }
 
     let productData = await productModel.find({ list: true }).lean().limit(8);
-    res.render("user/index", { productData, userName, isLoggedIn,cartTotal });
+    res.render("user/index", { productData, userName, isLoggedIn });
   } catch (error) {
     console.error("Error getting homepage:", error);
     res.redirect("/");
@@ -90,6 +91,7 @@ export async function getUserLogout(req, res) {
     req.session.cartProducts = null;
     req.session.coupon = null;
     req.session.order = null;
+    req.session.user.cartTotal=null;
     isLoggedIn = false;
   
     res.redirect("/");
@@ -128,48 +130,51 @@ export async function userLogin(req, res, next) {
     const { email, password } = req.body;
     const cartQuantity = {};
     const user = await userModel.findOne({ email });
-    const cartDetails = await userModel.findOne({ email: email }, { cart: 1 });
+   let cartDetails;
+   let cartItems;
     let totalQty = 0;
+  
     
 
     //Get cart items and quantity
-    const cartItems = cartDetails.cart.map((item) => {
-      cartQuantity[item.id] = item.quantity;
-      totalQty = totalQty + item.quantity;
-      return item.id;
-    });
+      
     
     console.log("userCartTotal",totalQty);
     isLoggedIn = true;
     console.log("user:" + user);
     if (user) {
       if (user?.block) {
-        loginError = "This Email is Blocked for suspicious activity";
+        loginError = "This Email is Blocked";
         res.redirect("/login");
       } else {
         if (bcrypt.compareSync(password, user.password)) {
-          req.session.user = {
-            id: user._id,
-            name: user.name,
-            block: user.block,
-cartTotal:totalQty,
-          };
-
+          cartDetails = await userModel.findOne({ email: email }, { cart: 1 });
+          cartItems = cartDetails.cart.map((item) => {
+          cartQuantity[item.id] = item.quantity;
+          totalQty = totalQty + item.quantity;
+          return item.id;
+        });
+        req.session.user = {
+          id: user._id,
+          name: user.name,
+          block: user.block,
+          cartTotal:totalQty,
+        };
           res.redirect("/");
         } else {
           loginError = "Credentials not match";
-          console.log("pass error");
           res.redirect("/login");
+          
         }
       }
     } else {
-      res.redirect("/login");
-      console.log("email error");
       loginError = "Not registered. Create account";
+      res.redirect("/login");
+      
     }
   } catch (error) {
     console.error("Error while submiting Login:", error);
-    res.redirect("/");
+    res.redirect('/login')
   }
   console.log(req.session.user, isLoggedIn);
 }
@@ -424,6 +429,9 @@ export async function addToCart(req, res) {
     const id = req.session.user.id;
 
     const proId = req.params.id;
+    let cartDetails;
+    let cartItems;
+    let cartTotal
 
     await userModel.updateOne(
       { _id: id },
@@ -436,10 +444,11 @@ export async function addToCart(req, res) {
         },
       }
     );
+  
     res.json({ addedToCart: true });
   } catch (error) {
     console.error("Error adding to cart:", error);
-    res.redirect("/cart");
+    res.redirect("/shop");
   }
 }
 
@@ -665,7 +674,9 @@ export async function checkout(req, res) {
         couponValue,
         couponError,
         addressess: addDetails.address,
+        addressError,
       });
+      addressError=null;
       couponError = null;
     } catch (error) {
       console.error("Error checkout:", error);
@@ -703,23 +714,25 @@ export async function addToAddress(req, res) {
     res.redirect("/checkout");
   } catch (error) {
     console.error("Error while submiting address:", error);
-    res.redirect("/cart");
+    res.redirect("/checkout");
   }
 }
 
 export async function proceedToPayment(req, res) {
   try {
-    let userId = req.session.user.id;
-    let userName = req.session.user.name;
-    let products = req.session.cartProducts.products;
-    let totalMRP = req.session.cartProducts.totalMRP;
-    let discount = req.session.cartProducts.discount;
-    let totalQty = req.session.cartProducts.totalQty;
-    let orderCount = await orderModel.find().count();
-    let orderId = orderCount + 1001;
     let orderDetails;
-    console.log("proceedToPayment", totalMRP);
     const { address, totalAmount, paymentType, couponValue } = req.body;
+    if(address){
+      let userId = req.session.user.id;
+      let userName = req.session.user.name;
+      let products = req.session.cartProducts.products;
+      let totalMRP = req.session.cartProducts.totalMRP;
+      let discount = req.session.cartProducts.discount;
+      let totalQty = req.session.cartProducts.totalQty;
+      let orderCount = await orderModel.find().count();
+      let orderId = orderCount + 1001;
+
+    
     const order = await orderModel({
       userId,
       address,
@@ -757,6 +770,7 @@ export async function proceedToPayment(req, res) {
           },
           order_meta: {
             return_url:
+              
               "https://adanperfumes.mohsinub.online/verifyPayment?order_id={order_id}",
           },
         },
@@ -799,15 +813,21 @@ export async function proceedToPayment(req, res) {
         );
       }
       console.log(isLoggedIn, userName, order, "gghs");
-      res.render("user/orderPlaced", { isLoggedIn, userName, order });
+      res.render("user/orderPlacedCod", { isLoggedIn, userName });
 
       req.session.order = null;
       req.session.coupon = null;
       req.session.cartProducts = null;
+      req.session.user.cartTotal=null
     }
+  }else{
+    addressError="Add address"
+    res.redirect('/checkout')
+    console.log(addressError);
+  }
   } catch (error) {
     console.error("Error while getting payment page:", error);
-    res.redirect("/cart");
+    res.redirect("/checkout");
   }
 }
 
@@ -853,6 +873,7 @@ export async function getUserPayment(req, res) {
       req.session.order = null;
       req.session.coupon = null;
       req.session.cartProducts = null;
+      req.session.user.cartTotal=null;
     } else {
       res.redirect("/cart");
     }
@@ -866,6 +887,7 @@ export async function getOrderHistory(req, res) {
   try {
     let userId = req.session.user.id;
     let productQty = 0;
+    let userName = req.session.user.name;
     let orders = await orderModel
       .find({ userId: userId })
       .sort({ createdAt: -1 })
@@ -881,7 +903,7 @@ export async function getOrderHistory(req, res) {
       }
     }
 
-    res.render("user/orderHistory", { isLoggedIn, orders, formatDate });
+    res.render("user/orderHistory", { userName,isLoggedIn, orders, formatDate });
   } catch (error) {
     console.error("Error getting order list page:", error);
     res.status(500).send("Internal server error");
@@ -1044,6 +1066,7 @@ export async function shop(req, res) {
       pagesCount,
       isLoggedIn,
       userName,
+      
     });
   } catch (error) {
     console.error("Error while getting shop page:", error);

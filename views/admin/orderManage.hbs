@@ -198,7 +198,7 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-5">
-                        <h4 class="page-title">Products</h4>
+                        <h4 class="page-title">Orders</h4>
                         <div class="d-flex align-items-center">
                             {{!-- <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -230,9 +230,7 @@
                     <!-- column -->
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                              <div class="ms-auto"> <a href="/admin/addProduct" class="btn btn-primary">Add Product</a></div>
-                            </div>
+                            
                            
                             <div class="table-responsive">
                                 <table id="productTable" class="table v-middle">
@@ -240,13 +238,13 @@
                                         <tr class="bg-light">
                                             <th class="border-top-0">Order ID</th>
                                             <th class="border-top-0">Title</th>
-                                            <th class="border-top-0">Description</th>
                                             <th class="border-top-0">Image</th>
                                             <th class="border-top-0">Stock</th>
                                             <th class="border-top-0">Status</th>
                                             <th class="border-top-0">Price</th>
                                             <th class="border-top-0">Payment</th>
                                             <th class="border-top-0">Update</th>
+                                            <th class="border-top-0">View</th>
                                             
                                         </tr>
                                     </thead>
@@ -254,7 +252,7 @@
                                         {{#each orderData}}
                                         <tr>
                                              <td>{{this.orderId}}<br>
-<a href="/admin/orderDetails/{{this.orderId}}" class="btn btn-primary">View</a>
+
                                              </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -266,7 +264,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{this.product.0.desc}}</td>
                                             <td><img style="border-radius: 10px; width:auto;height: 7em;" src="/images/{{this.product.0.mainImage.filename}}"alt=""></td>
                                            
                                             <td>
@@ -281,9 +278,9 @@
                                                 {{this.paymentType}}
                                             </td>
                                             <td>
-                                                <form action="/admin/orders/{{this._id}}" method="post">
+                                                <form action="/admin/orders/{{this._id}}" method="post" >
                                                 {{!-- <label for="orderStatus">Order status:</label> --}}
-                                                <select name="orderStatus" id="orderStatus" >
+                                                <select name="orderStatus" id="orderStatus" onclick="this.form.submit()" >
                                                      {{!-- <option value={{this.orderStatus}}" selected  disabled hidden>{{this.orderStatus}}</option>
                                                     <option value="pending">Pending</option>
                                                     <option value="shipped">Shipped</option>
@@ -304,11 +301,12 @@
       <option value="delivered" selected>Delivered</option>
     {{/ifEqual}}
                                                 </select>
-                                                <button type="submit"  >Update</button>
                                                 </form>
                                             </td>
-                                            {{!-- <td></td> --}}
-                                            {{!-- <td><a href="/admin/editProduct/{{this._id}}"  class="btn btn-primary">Edit</a></td> --}}
+                                            <td>
+                                                <a href="/admin/orderDetails/{{this.orderId}}" class="btn btn-secondary"><span class="mdi mdi-eye-outline"></span>
+</a>
+                                            </td>
                                         </tr>
                                        {{/each}}
                                     </tbody>
